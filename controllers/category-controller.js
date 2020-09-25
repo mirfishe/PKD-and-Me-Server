@@ -54,9 +54,6 @@ router.post('/', function(req, res) {
         active:     category.active,
         message:    'Category successfully created.'
     }))
-    .catch((err) => res.status(500).json({ error: err }));
-        createError = (err) => res.status(500).json(err)
-    )
     .catch(err => res.status(500).json({error: err}))
 });
 
