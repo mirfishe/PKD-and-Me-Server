@@ -20,22 +20,85 @@ sequelize.authenticate()
     .catch(err => console.log(err));
 
 
-    const User = sequelize.import('./models/user');
+const User = sequelize.import('./models/user');
+const UserReview = sequelize.import('./models/userReview');
+const Title = sequelize.import('./models/title');
+const Category = sequelize.import('./models/category');
+const Media = sequelize.import('./models/media');
+const Edition = sequelize.import('./models/edition');
+const AmazonLink = sequelize.import('./models/amazonLink');
 
-    User.hasMany(List, {
-            onDelete: 'cascade',
-            hooks: true
+
+User.hasMany(UserReview, {
+    foreignKey: 'userID',
+    sourceKey: 'userID',
+    as: 'usersReviews'
+  });
+UserReview.belongsTo(User, {
+    foreignKey: 'userID',
+    sourceKey: 'userID',
+    as: 'reviewsUsers'
+  });
+
+
+  Title.hasMany(UserReview, {
+    foreignKey: 'titleID',
+    sourceKey: 'titleID',
+    as: 'titlesReviews'
     });
-    List.belongsTo(User, {
-            onDelete: 'cascade'
+UserReview.belongsTo(Title, {
+    foreignKey: 'titleID',
+    sourceKey: 'titleID',
+    as: 'reviewsTitles'
     });
 
-    List.hasMany(Item, {
-            onDelete: 'cascade',
-            hooks: true
+
+Category.hasMany(Title, {
+    foreignKey: 'categoryID',
+    sourceKey: 'categoryID',
+    as: 'categoryTitles'
     });
-    Item.belongsTo(List, {
-            onDelete: 'cascade'
+Title.belongsTo(Category, {
+    foreignKey: 'categoryID',
+    sourceKey: 'categoryID',
+    as: 'titlesCategories'
     });
+
+
+Title.hasMany(Edition, {
+    foreignKey: 'titleID',
+    sourceKey: 'titleID',
+    as: 'titlesEditions'
+  });
+  Edition.belongsTo(Title, {
+    foreignKey: 'titleID',
+    sourceKey: 'titleID',
+    as: 'editionsTitles'
+  });
+
+
+  Media.hasMany(Edition, {
+    foreignKey: 'mediaID',
+    sourceKey: 'mediaID',
+    as: 'mediaEditions'
+  });
+  Edition.belongsTo(Media, {
+    foreignKey: 'mediaID',
+    sourceKey: 'mediaID',
+    as: 'editionsMedia'
+  });
+
+
+  AmazonLink.hasMany(Edition, {
+    foreignKey: 'amazonLinkID',
+    sourceKey: 'amazonLinkID',
+    as: 'amazonLinksEditions'
+  });
+  Edition.belongsTo(AmazonLink, {
+    foreignKey: 'amazonLinkID',
+    sourceKey: 'amazonLinkID',
+    as: 'editionsAmazonLinks'
+  });
+
 
 module.exports = sequelize;

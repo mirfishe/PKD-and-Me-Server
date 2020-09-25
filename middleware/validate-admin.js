@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../db').import('../models/user');
 
-const validateSession = (req, res, next) => {
+const validateAdmin = (req, res, next) => {
 
     const token = req.headers.authorization;
 
@@ -12,6 +12,7 @@ const validateSession = (req, res, next) => {
             User.findOne({where: {
                 [Op.and]: [
                 {userID: {[Op.eq]: decoded.userID}},
+                {admin: {[Op.eq]: true}},
                 {active: {[Op.eq]: true}}
                 ]
             }})
@@ -31,4 +32,4 @@ const validateSession = (req, res, next) => {
     });
 };
 
-module.exports = validateSession;
+module.exports = validateAdmin;
