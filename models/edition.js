@@ -24,31 +24,37 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     textLinkShort: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.TEXT,
+      unique: true,
+      allowNull: true
     },
     textLinkFull: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.TEXT,
+        unique: true,
+        allowNull: true
     },
     imageLinkSmall: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.TEXT,
+        unique: true,
+        allowNull: true
     },
     imageLinkMedium: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.TEXT,
+        unique: true,
+        allowNull: true
     },
     imageLinkLarge: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.TEXT,
+        unique: true,
+        allowNull: true
     },
     textImageLink: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.TEXT,
+        unique: true,
+        allowNull: true
     },
     active: {
       type: DataTypes.BOOLEAN,
