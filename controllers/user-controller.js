@@ -8,7 +8,7 @@ const validateAdmin = require("../middleware/validate-admin");
 /* ***********************************
  *** User Registration ***************
 *********************************** */
-router.post('/register', function(req, res) {
+router.post('/register', (req, res) => {
 
     const createUser = {
         firstName:  req.body.user.firstName,
@@ -28,6 +28,7 @@ router.post('/register', function(req, res) {
                 firstName:   user.firstName,
                 lastName:   user.lastName,
                 email:   user.email,
+                updatedBy:  user.updatedBy,
                 admin:  user.admin,
                 active:  user.active,
                 message:    'User successfully created.',
@@ -42,7 +43,7 @@ router.post('/register', function(req, res) {
 /* ***********************************
  *** User Login **********************
 *********************************** */
-router.post('/login', function(req, res) {
+router.post('/login', (req, res) => {
 
     const query = {where: {
         [Op.and]: [
@@ -65,6 +66,7 @@ router.post('/login', function(req, res) {
                             firstName:   user.firstName,
                             lastName:   user.lastName,
                             email:   user.email,
+                            updatedBy:  user.updatedBy,
                             admin:  user.admin,
                             active:  user.active,
                             message:    'Successfully authenticated user.',
@@ -101,11 +103,12 @@ router.get("/admin", validateAdmin, (req, res) => {
         firstName:   user.firstName,
         lastName:   user.lastName,
         email:   user.email,
+        updatedBy:  user.updatedBy,
         admin:  user.admin,
         active:  user.active,
         message:    'Successfully retrieved user information.'
     }))
-      .catch((err) => res.status(500).json({ error: err }));
+      .catch((err) => res.status(500).json({error: err}));
 
 });
   
@@ -127,11 +130,12 @@ router.get("/", validateSession, (req, res) => {
             firstName:   user.firstName,
             lastName:   user.lastName,
             email:   user.email,
+            updatedBy:  user.updatedBy,
             admin:  user.admin,
             active:  user.active,
             message:    'Successfully retrieved user information.'
         }))
-    .catch((err) => res.status(500).json({ error: err }));
+    .catch((err) => res.status(500).json({error: err}));
 
 });
 
@@ -153,11 +157,12 @@ router.get("/:userID", validateAdmin, (req, res) => {
             firstName:   user.firstName,
             lastName:   user.lastName,
             email:   user.email,
+            updatedBy:  user.updatedBy,
             admin:  user.admin,
             active:  user.active,
             message:    'Successfully retrieved user information.'
         }))
-    .catch((err) => res.status(500).json({ error: err }));
+    .catch((err) => res.status(500).json({error: err}));
 
 });
 
@@ -173,6 +178,7 @@ router.put("/:userID", validateAdmin, (req, res) => {
         lastName:   req.body.user.lastName,
         email:      req.body.user.email,
         password:   bcrypt.hashSync(req.body.user.password),
+        updatedBy:  req.user.userID,
         active:     req.body.user.active
       };
 
@@ -188,11 +194,12 @@ router.put("/:userID", validateAdmin, (req, res) => {
         firstName:   user.firstName,
         lastName:   user.lastName,
         email:   user.email,
+        updatedBy:  user.updatedBy,
         admin:  user.admin,
         active:  user.active,
         message:    'User successfully updated.'
     }))
-    .catch((err) => res.status(500).json({ error: err }));
+    .catch((err) => res.status(500).json({error: err}));
 
   });
 
@@ -208,6 +215,7 @@ router.put("/", validateSession, (req, res) => {
         lastName:   req.body.user.lastName,
         email:      req.body.user.email,
         password:   bcrypt.hashSync(req.body.user.password),
+        updatedBy:  req.user.userID,
         active:     req.body.user.active
       };
 
@@ -226,6 +234,7 @@ router.put("/", validateSession, (req, res) => {
                 firstName:   user.firstName,
                 lastName:   user.lastName,
                 email:   user.email,
+                updatedBy:  user.updatedBy,
                 admin:  user.admin,
                 active:  user.active,
                 message:    'User successfully updated.',
@@ -241,7 +250,7 @@ router.put("/", validateSession, (req, res) => {
 /***************************
  ******* Delete User *******
  ***************************/
-// Allows an admin to delete a user
+// Allows an admin to hard delete a user
 router.delete("/:userID", validateAdmin, (req, res) => {
 
     const query = {where: {
@@ -250,7 +259,7 @@ router.delete("/:userID", validateAdmin, (req, res) => {
 
     User.destroy(query)
     .then(() => res.status(200).send("User successfully deleted."))
-    .catch((err) => res.status(500).json({ error: err }));
+    .catch((err) => res.status(500).json({error: err}));
 
   });
 

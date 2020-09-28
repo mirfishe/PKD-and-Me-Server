@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    updatedBy: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false
+    },
     titleID: {
         type: DataTypes.INTEGER,
         allowNull: false

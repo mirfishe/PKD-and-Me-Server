@@ -18,7 +18,35 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    publicationDate: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
     imageName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    textLinkShort: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    textLinkFull: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    imageLinkSmall: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    imageLinkMedium: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    imageLinkLarge: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    textImageLink: {
         type: DataTypes.STRING,
         allowNull: false
     },

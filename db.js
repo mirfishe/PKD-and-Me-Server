@@ -29,6 +29,18 @@ const Edition = sequelize.import('./models/edition');
 const AmazonLink = sequelize.import('./models/amazonLink');
 
 
+User.hasOne(User, {
+  foreignKey: 'updatedBy',
+  sourceKey: 'userID',
+  as: 'usersUpdated'
+});
+User.belongsTo(User, {
+  foreignKey: 'updatedBy',
+  sourceKey: 'userID',
+  as: 'updatedUsers'
+});
+
+
 User.hasMany(UserReview, {
     foreignKey: 'userID',
     sourceKey: 'userID',
@@ -41,6 +53,18 @@ UserReview.belongsTo(User, {
   });
 
 
+User.hasMany(UserReview, {
+    foreignKey: 'updatedBy',
+    sourceKey: 'userID',
+    as: 'usersReviewUpdated'
+  });
+UserReview.belongsTo(User, {
+    foreignKey: 'updatedBy',
+    sourceKey: 'userID',
+    as: 'reviewUpdatedUsers'
+  });
+
+  
   Title.hasMany(UserReview, {
     foreignKey: 'titleID',
     sourceKey: 'titleID',

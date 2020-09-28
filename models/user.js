@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING,
     allowNull: false
   },
+  updatedBy: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: false
+  },
   admin: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,

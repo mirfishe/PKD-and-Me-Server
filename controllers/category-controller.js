@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const Category = require('../db').import('../models/category');
+const validateSession = require("../middleware/validate-session");
+const validateAdmin = require("../middleware/validate-admin");
 
 /******************************
  ***** Get Categories *********
@@ -15,7 +17,7 @@ router.get("/", (req, res) => {
         category:   category.category,
         message:    'Successfully retrieved categories.'
     }))
-      .catch((err) => res.status(500).json({ error: err }));
+      .catch((err) => res.status(500).json({error: err}));
 
 });
   
@@ -33,7 +35,7 @@ router.get("/:categoryID", (req, res) => {
         category:   category.category,
         message:    'Successfully retrieved category information.'
         }))
-    .catch((err) => res.status(500).json({ error: err }));
+    .catch((err) => res.status(500).json({error: err}));
 
 });
 
@@ -41,7 +43,7 @@ router.get("/:categoryID", (req, res) => {
  *** Add Category ***************
 *********************************/
 // Allows an admin to add a new category
-router.post('/', function(req, res) {
+router.post('/', (req, res) => {
 
     const createCategory = {
         category:   req.body.category.category,
@@ -63,7 +65,7 @@ router.post('/', function(req, res) {
 // Allows an admin to update the category including soft delete it
 router.put("/:categoryID", validateAdmin, (req, res) => {
 
-    const updateCategory= {
+    const updateCategory = {
         category:   req.body.category.category,
         active:     req.body.category.active
       };
@@ -78,7 +80,7 @@ router.put("/:categoryID", validateAdmin, (req, res) => {
         active:     category.active,
         message:    'Category successfully updated.'
     }))
-    .catch((err) => res.status(500).json({ error: err }));
+    .catch((err) => res.status(500).json({error: err}));
 
   });
 
