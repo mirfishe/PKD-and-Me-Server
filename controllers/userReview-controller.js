@@ -18,20 +18,14 @@ router.get("/", (req, res) => {
     };
    
     UserReview.findAll(query, orderBy)
-      .then((userReviews) => res.status(200).json({
-        reviewID:   userReviews.reviewID,
-        userID:     userReviews.userID,
-        updatedBy:  userReviews.updatedBy,
-        titleID:    userReviews.titleID,
-        read:       userReviews.read,
-        dateRead:   userReviews.dateRead,
-        rating:     userReviews.rating,
-        shortReview:   userReviews.shortReview,
-        longReview:   userReviews.longReview,
-        active:     userReviews.active,
-        message:    "Successfully retrieved user reviews."
-    }))
-      .catch((err) => res.status(500).json({error: err}));
+    .then((userReviews) => {
+        // console.log("userReview-controller get / userReviews", userReviews);
+        res.status(200).json({userReviews: userReviews, message: "Successfully retrieved user reviews."});
+    })
+    .catch((err) => {
+        console.log("userReview-controller get / err", err);
+        res.status(500).json({error: err});
+    });
 
 });
 
@@ -45,20 +39,26 @@ router.get("/:reviewID", (req, res) => {
     }};
 
     UserReview.findOne(query)
-    .then((userReview) => res.status(200).json({
-        reviewID:   userReviews.reviewID,
-        userID:     userReviews.userID,
-        updatedBy:  userReviews.updatedBy,
-        titleID:    userReviews.titleID,
-        read:       userReviews.read,
-        dateRead:   userReviews.dateRead,
-        rating:     userReviews.rating,
-        shortReview:   userReviews.shortReview,
-        longReview:   userReviews.longReview,
-        active:     userReviews.active,
+    .then((userReview) => {
+        // console.log("userReview-controller get /:reviewID userReview", userReview);
+        res.status(200).json({
+        reviewID:   userReview.reviewID,
+        userID:     userReview.userID,
+        updatedBy:  userReview.updatedBy,
+        titleID:    userReview.titleID,
+        read:       userReview.read,
+        dateRead:   userReview.dateRead,
+        rating:     userReview.rating,
+        shortReview:   userReview.shortReview,
+        longReview:   userReview.longReview,
+        active:     userReview.active,
         message:    "Successfully retrieved user review information."
-        }))
-    .catch((err) => res.status(500).json({error: err}));
+        });
+    })
+    .catch((err) => {
+        console.log("userReview-controller get /:reviewID err", err);
+        res.status(500).json({error: err});
+    });
 
 });
 
@@ -68,12 +68,12 @@ router.get("/:reviewID", (req, res) => {
 // Gets the overall rating for the title
 // router.get("/rating/:titleID", (req, res) => {
 
-    // const query = {where: {
-    //     [Op.and]: [
-    //     {titleID: {[Op.eq]: req.params.titleID}},
-    //     {active: {[Op.eq]: true}}
-    //     ]
-    // }};
+//     const query = {where: {
+//         [Op.and]: [
+//         {titleID: {[Op.eq]: req.params.titleID}},
+//         {active: {[Op.eq]: true}}
+//         ]
+//     }};
 
 //     UserReview.findAll(query)
 //     .then((userReview) => res.status(200).json({
@@ -81,7 +81,10 @@ router.get("/:reviewID", (req, res) => {
 //         overallRating:     userReview.overallRating,
 //         message:    "Successfully retrieved user overall rating."
 //         }))
-//     .catch((err) => res.status(500).json({error: err}));
+//         .catch((err) => {
+//             console.log("userReview-controller get /rating/:titleID err", err);
+//             res.status(500).json({error: err});
+//         });
 
 // });
 
@@ -100,11 +103,16 @@ router.get("/count/:titleID", (req, res) => {
     }};
 
     UserReview.count(query)
-    .then((userReview) => res.status(200).json({
+    .then((userReview) => {
+        console.log("userReview-controller get /count/:titleID userReview", userReview);
+        res.status(200).json({
         userReviewCount:    userReview,
-        message:    "Successfully retrieved user review count."
-        }))
-    .catch((err) => res.status(500).json({error: err}));
+        message:    "Successfully retrieved user review count."});
+    })
+    .catch((err) => {
+        console.log("userReview-controller get /count/:titleID err", err);
+        res.status(500).json({error: err});
+    });
 
 });
 
@@ -123,11 +131,16 @@ router.get("/sum/:titleID", (req, res) => {
     }};
 
     UserReview.sum(query)
-    .then((userReview) => res.status(200).json({
+    .then((userReview) => {
+        console.log("userReview-controller get /sum/:titleID userReview", userReview);
+        res.status(200).json({
         userReviewCount:    userReview,
-        message:    "Successfully retrieved user review sum."
-        }))
-    .catch((err) => res.status(500).json({error: err}));
+        message:    "Successfully retrieved user review sum."});
+    })
+    .catch((err) => {
+        console.log("userReview-controller get /sum/:titleID err", err);
+        res.status(500).json({error: err});
+    });
 
 });
 
@@ -143,43 +156,7 @@ router.get("/title/:titleID", (req, res) => {
         [sequelize.fn("count", sequelize.col("reviewID")), "userReviewCount"],
         [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
         ]
-      };
-
-      const query = {where: {
-        [Op.and]: [
-        {titleID: {[Op.eq]: req.params.titleID}},
-        {active: {[Op.eq]: true}}
-        ]
-    }};
-
-    const orderBy = {order: 
-        [["updatedAt", "DESC"]]
     };
-
-    UserReview.findAll(attributes, query, orderBy)
-    .then((userReviews) => res.status(200).json({
-        reviewID:   userReviews.reviewID,
-        userID:     userReviews.userID,
-        updatedBy:  userReviews.updatedBy,
-        titleID:    userReviews.titleID,
-        read:       userReviews.read,
-        dateRead:   userReviews.dateRead,
-        rating:     userReviews.rating,
-        shortReview:   userReviews.shortReview,
-        longReview:   userReviews.longReview,
-        active:     userReviews.active,
-        userReviewCount:   userReviews.userReviewCount,
-        userReviewSum:     userReviews.userReviewSum,
-        message:    "Successfully retrieved user reviews."
-        }))
-    .catch((err) => res.status(500).json({error: err}));
-
-});
-  
-/**************************************
- ***** Get User Reviews By UserID *****
-***************************************/
-router.get("/user/:userID", (req, res) => {
 
     const query = {where: {
         [Op.and]: [
@@ -192,21 +169,43 @@ router.get("/user/:userID", (req, res) => {
         [["updatedAt", "DESC"]]
     };
 
+    UserReview.findAll(attributes, query, orderBy)
+    .then((userReviews) => {
+        // console.log("userReview-controller get /title/:titleID userReviews", userReviews);
+        res.status(200).json({userReviews: userReviews, message: "Successfully retrieved user reviews."});
+    })
+    .catch((err) => {
+        console.log("userReview-controller get /title/:titleID err", err);
+        res.status(500).json({error: err});
+    });
+
+});
+  
+/**************************************
+ ***** Get User Reviews By UserID *****
+***************************************/
+router.get("/user/:userID", (req, res) => {
+
+    const query = {where: {
+        [Op.and]: [
+        {userID: {[Op.eq]: req.params.userID}},
+        {active: {[Op.eq]: true}}
+        ]
+    }};
+
+    const orderBy = {order: 
+        [["updatedAt", "DESC"]]
+    };
+
     UserReview.findAll(query, orderBy)
-    .then((userReviews) => res.status(200).json({
-        reviewID:   userReviews.reviewID,
-        userID:     userReviews.userID,
-        updatedBy:  userReviews.updatedBy,
-        titleID:    userReviews.titleID,
-        read:       userReviews.read,
-        dateRead:   userReviews.dateRead,
-        rating:     userReviews.rating,
-        shortReview:   userReviews.shortReview,
-        longReview:   userReviews.longReview,
-        active:     userReviews.active,
-        message:    "Successfully retrieved user reviews."
-        }))
-    .catch((err) => res.status(500).json({error: err}));
+    .then((userReviews) => {
+        // console.log("userReview-controller get /user/:userID" userReviews", userReviews);
+        res.status(200).json({userReviews: userReviews, message: "Successfully retrieved user reviews."});
+    })
+    .catch((err) => {
+        console.log("userReview-controller get /user/:userID err", err);
+        res.status(500).json({error: err});
+    });
 
 });
 
@@ -224,25 +223,31 @@ router.post("/", validateSession, (req, res) => {
         dateRead:   req.body.userReview.dateRead,
         rating:     req.body.userReview.rating,
         shortReview:   req.body.userReview.shortReview,
-        longReview:   req.body.userReview.longReview,
-        active:     req.body.userReview.active
+        longReview:   req.body.userReview.longReview
       };
 
-      UserReview.create(createUserReview)
-    .then((userReview) => res.status(200).json({
-        reviewID:   userReviews.reviewID,
-        userID:     userReviews.userID,
-        updatedBy:  userReviews.updatedBy,
-        titleID:    userReviews.titleID,
-        read:       userReviews.read,
-        dateRead:   userReviews.dateRead,
-        rating:     userReviews.rating,
-        shortReview:   userReviews.shortReview,
-        longReview:   userReviews.longReview,
-        active:     userReviews.active,
+    UserReview.create(createUserReview)
+    .then((userReview) => {
+        // console.log("userReview-controller post / userReview", userReview);
+        res.status(200).json({
+        reviewID:   userReview.reviewID,
+        userID:     userReview.userID,
+        updatedBy:  userReview.updatedBy,
+        titleID:    userReview.titleID,
+        read:       userReview.read,
+        dateRead:   userReview.dateRead,
+        rating:     userReview.rating,
+        shortReview:   userReview.shortReview,
+        longReview:   userReview.longReview,
+        active:     userReview.active,
         message:    "User review successfully created."
-    }))
-    .catch(err => res.status(500).json({error: err}))
+        });
+    })
+    .catch((err) => {
+        console.log("userReview-controller post / err", err);
+        res.status(500).json({error: err});
+    });
+    
 });
 
 /***************************
@@ -264,24 +269,33 @@ router.put("/:reviewID", validateSession, (req, res) => {
       };
 
       const query = {where: {
-        reviewID: {[Op.eq]: req.params.reviewID}
+        [Op.and]: [
+            {reviewID: {[Op.eq]: req.params.reviewID}},
+            {userID: {[Op.eq]: req.user.userID}}
+            ]
     }};
 
     UserReview.update(updateUserReview, query)
+    // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
+    // .then((userReview) => res.status(200).json({message: userReview + " user review record(s) successfully updated."}))
     .then((userReview) => res.status(200).json({
-        reviewID:   userReviews.reviewID,
-        userID:     userReviews.userID,
-        updatedBy:  userReviews.updatedBy,
-        titleID:    userReviews.titleID,
-        read:       userReviews.read,
-        dateRead:   userReviews.dateRead,
-        rating:     userReviews.rating,
-        shortReview:   userReviews.shortReview,
-        longReview:   userReviews.longReview,
-        active:     userReviews.active,
-        message:    "User review successfully updated."
+        reviewID:     req.params.reviewID,
+        userID:     req.user.userID,
+        updatedBy:  req.user.userID,
+        titleID:    req.body.userReview.titleID,
+        read:       req.body.userReview.read,
+        dateRead:   req.body.userReview.dateRead,
+        rating:     req.body.userReview.rating,
+        shortReview:   req.body.userReview.shortReview,
+        longReview:   req.body.userReview.longReview,
+        active:     req.body.userReview.active,
+        // message:    "User review successfully updated."
+        message: userReview + " user review record(s) successfully updated."
     }))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => {
+        console.log("userReview-controller put /:reviewID err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 
@@ -308,20 +322,26 @@ router.put("/admin/:reviewID", validateAdmin, (req, res) => {
     }};
 
     UserReview.update(updateUserReview, query)
+    // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
+    // .then((userReview) => res.status(200).json({message: userReview + " user review record(s) successfully updated."}))
     .then((userReview) => res.status(200).json({
-        reviewID:   userReviews.reviewID,
-        userID:     userReviews.userID,
-        updatedBy:  userReviews.updatedBy,
-        titleID:    userReviews.titleID,
-        read:       userReviews.read,
-        dateRead:   userReviews.dateRead,
-        rating:     userReviews.rating,
-        shortReview:   userReviews.shortReview,
-        longReview:   userReviews.longReview,
-        active:     userReviews.active,
-        message:    "User review successfully updated."
+        reviewID:     req.params.reviewID,
+        userID:     req.user.userID,
+        updatedBy:  req.user.userID,
+        titleID:    req.body.userReview.titleID,
+        read:       req.body.userReview.read,
+        dateRead:   req.body.userReview.dateRead,
+        rating:     req.body.userReview.rating,
+        shortReview:   req.body.userReview.shortReview,
+        longReview:   req.body.userReview.longReview,
+        active:     req.body.userReview.active,
+        // message:    "User review successfully updated."
+        message: userReview + " user review record(s) successfully updated."
     }))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => {
+        console.log("userReview-controller put /admin/:reviewID err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 
@@ -337,7 +357,10 @@ router.delete("/:reviewID", validateAdmin, (req, res) => {
 
     UserReview.destroy(query)
     .then(() => res.status(200).send("User review successfully deleted."))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => {
+        console.log("userReview-controller delete /:reviewID err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 

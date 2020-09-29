@@ -39,12 +39,15 @@ router.get("/:mediaID", (req, res) => {
     }};
 
     Media.findOne(query)
-    .then((media) => res.status(200).json({
+    .then((media) => {
+        // console.log("media-controller get /:mediaID media", media);
+        res.status(200).json({
         media:   media.media,
         sortID:     media.sortID,
         active:     media.active,
         message:    "Successfully retrieved media information."
-        }))
+        });
+    })
         .catch((err) => {
             console.log("media-controller get /:mediaID err", err);
             res.status(500).json({error: err});
@@ -116,9 +119,9 @@ router.put("/:mediaID", validateAdmin, (req, res) => {
         media:      req.body.media.media,
         sortID:     req.body.media.sortID,
         active:     req.body.media.active
-      };
+    };
 
-      const query = {where: {
+    const query = {where: {
         mediaID: {[Op.eq]: req.params.mediaID}
     }};
 
@@ -126,6 +129,7 @@ router.put("/:mediaID", validateAdmin, (req, res) => {
     // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
     // .then((media) => res.status(200).json({message: media + " media record(s) successfully updated."}))
     .then((media) => res.status(200).json({
+        mediaID:    req.params.mediaID,
         media:      req.body.media.media,
         sortID:     req.body.media.sortID,
         active:     req.body.media.active,

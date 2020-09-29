@@ -125,7 +125,9 @@ router.get("/", validateSession, (req, res) => {
     }};
 
     User.findOne(query)
-    .then((user) => res.status(200).json({
+    .then((user) => {
+        // console.log("user-controller get /:userID user", user);
+        res.status(200).json({
             // Need to return all the properties of the user to the browser?
             // user:   user,
             userID:   user.userID,
@@ -136,7 +138,8 @@ router.get("/", validateSession, (req, res) => {
             admin:  user.admin,
             active:  user.active,
             message:    "Successfully retrieved user information."
-        }))
+        });
+    })
         .catch((err) => {
             console.log("user-controller get / err", err);
             res.status(500).json({error: err});
@@ -155,7 +158,9 @@ router.get("/:userID", validateAdmin, (req, res) => {
     }};
 
     User.findOne(query)
-    .then((user) => res.status(200).json({
+    .then((user) => {
+        // console.log("user-controller get /:userID user", user);
+        res.status(200).json({
             // Need to return all the properties of the user to the browser?
             // user:   user,
             userID:   user.userID,
@@ -166,7 +171,8 @@ router.get("/:userID", validateAdmin, (req, res) => {
             admin:  user.admin,
             active:  user.active,
             message:    "Successfully retrieved user information."
-        }))
+        });
+    })
         .catch((err) => {
             console.log("user-controller get /:userID err", err);
             res.status(500).json({error: err});

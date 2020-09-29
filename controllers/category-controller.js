@@ -45,16 +45,19 @@ router.get("/:categoryID", (req, res) => {
     }};
 
     Category.findOne(query)
-    .then((category) => res.status(200).json({
+    .then((category) => {
+        // console.log("category-controller get /:categoryID category", category);
+        res.status(200).json({
         category:   category.category,
         sortID:     category.sortID,
         active:     category.active,
         message:    "Successfully retrieved category information."
-        }))
-        .catch((err) => {
-            console.log("category-controller get /:categoryID err", err);
-            res.status(500).json({error: err});
         });
+    })
+    .catch((err) => {
+        console.log("category-controller get /:categoryID err", err);
+        res.status(500).json({error: err});
+    });
 
 });
 
@@ -121,9 +124,9 @@ router.put("/:categoryID", validateAdmin, (req, res) => {
         category:   req.body.category.category,
         sortID:   req.body.category.sortID,
         active:     req.body.category.active
-      };
+    };
 
-      const query = {where: {
+    const query = {where: {
         categoryID: {[Op.eq]: req.params.categoryID}
     }};
 
@@ -131,6 +134,7 @@ router.put("/:categoryID", validateAdmin, (req, res) => {
     // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
     // .then((category) => res.status(200).json({message: category + " category record(s) successfully updated."}))
     .then((category) => res.status(200).json({
+        categoryID:   req.params.categoryID,
         category:   category.category,
         sortID:     category.sortID,
         active:     category.active,

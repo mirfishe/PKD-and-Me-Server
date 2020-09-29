@@ -7,7 +7,16 @@ const validateAdmin = require("../middleware/validate-admin");
 /******************************
  ***** Get Titles *********
  ******************************/
+// ADD OVERALL RATING TO GET TITLE?
 router.get("/", (req, res) => {
+
+    // const attributes = {
+    //     attributes: [
+    //     "reviewID", "userID", "updatedBy", "titleID", "read", "dateRead:   userReviews.dateRead", "rating", "shortReview", "longReview", "active", 
+    //     [sequelize.fn("count", sequelize.col("reviewID")), "userReviewCount"],
+    //     [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
+    //     ]
+    // };
 
     const query = {where: {
         active: {[Op.eq]: true}
@@ -18,133 +27,113 @@ router.get("/", (req, res) => {
     };
    
     Title.findAll(query, orderBy)
-      .then((titles) => res.status(200).json({
-        titleID:   titles.titleID,
-        titleName:     titles.titleName,
-        titleSort:  titles.titleSort,
-        authorFirstName:   titles.authorFirstName,
-        authorLastName:     titles.authorLastName,
-        publicationDate:  titles.publicationDate,
-        imageName:   titles.imageName,
-        categoryID:   titles.categoryID,
-        shortDescription:     titles.shortDescription,
-        urlPKDweb:  titles.urlPKDweb,
-        active:     titles.active,
-        message:    "Successfully retrieved titles."
-    }))
-      .catch((err) => res.status(500).json({error: err}));
+      .then((titles) => {
+        // console.log("title-controller get / titles", titles);
+        res.status(200).json({titles: titles, message: "Successfully retrieved titles."});
+    })
+    .catch((err) => {
+        console.log("title-controller get / err", err);
+        res.status(500).json({error: err});
+    });
 
 });
 
 /**************************************
  ***** Get Title By TitleID *****
 ***************************************/
+// ADD OVERALL RATING TO GET TITLE?
 router.get("/:titleID", (req, res) => {
+
+    // const attributes = {
+    //     attributes: [
+    //     "reviewID", "userID", "updatedBy", "titleID", "read", "dateRead:   userReviews.dateRead", "rating", "shortReview", "longReview", "active", 
+    //     [sequelize.fn("count", sequelize.col("reviewID")), "userReviewCount"],
+    //     [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
+    //     ]
+    // };
 
     const query = {where: {
         titleID: {[Op.eq]: req.params.titleID}
     }};
 
     Title.findOne(query)
-    .then((title) => res.status(200).json({
-        titleID:   titles.titleID,
-        titleName:     titles.titleName,
-        titleSort:  titles.titleSort,
-        authorFirstName:   titles.authorFirstName,
-        authorLastName:     titles.authorLastName,
-        publicationDate:  titles.publicationDate,
-        imageName:   titles.imageName,
-        categoryID:   titles.categoryID,
-        shortDescription:     titles.shortDescription,
-        urlPKDweb:  titles.urlPKDweb,
-        active:     titles.active,
+    .then((title) => {
+        // console.log("title-controller get /:titleID title", title);
+        res.status(200).json({
+        titleID:   title.titleID,
+        titleName:     title.titleName,
+        titleSort:  title.titleSort,
+        authorFirstName:   title.authorFirstName,
+        authorLastName:     title.authorLastName,
+        publicationDate:  title.publicationDate,
+        imageName:   title.imageName,
+        categoryID:   title.categoryID,
+        shortDescription:     title.shortDescription,
+        urlPKDweb:  title.urlPKDweb,
+        active:     title.active,
         message:    "Successfully retrieved title."
-        }))
-    .catch((err) => res.status(500).json({error: err}));
+        });
+    })
+        .catch((err) => {
+            console.log("title-controller get /:titleID err", err);
+            res.status(500).json({error: err});
+        });
 
 });
 
-// ADD OVERALL RATING TO GET TITLE?
-/**************************************
- ***** Get User Reviews By TitleID *****
-***************************************/
-// Gets all user review by TitleID plus the overall rating for the title
-// router.get("/title/:titleID", (req, res) => {
-
-//     const attributes = {
-//         attributes: [
-//         "reviewID", "userID", "updatedBy", "titleID", "read", "dateRead:   userReviews.dateRead", "rating", "shortReview", "longReview", "active", 
-//         [sequelize.fn("count", sequelize.col("reviewID")), "userReviewCount"],
-//         [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
-//         ]
-//       };
-
-//     const query = {where: {
-//         titleID: {[Op.eq]: req.params.titleID}
-//     }};
-
-//     Title.findAll(attributes, query)
-//     .then((userReviews) => res.status(200).json({
-//         reviewID:   userReviews.reviewID,
-//         userID:     userReviews.userID,
-//         updatedBy:  userReviews.updatedBy,
-//         titleID:    userReviews.titleID,
-//         read:       userReviews.read,
-//         dateRead:   userReviews.dateRead,
-//         rating:     userReviews.rating,
-//         shortReview:   userReviews.shortReview,
-//         longReview:   userReviews.longReview,
-//         active:     userReviews.active,
-//         userReviewCount:   userReviews.userReviewCount,
-//         userReviewSum:     userReviews.userReviewSum,
-//         message:    "Successfully retrieved user reviews."
-//         }))
-//     .catch((err) => res.status(500).json({error: err}));
-
-// });
-  
 /**************************************
  ***** Get Titles By MediaID *****
 ***************************************/
 // Needed? Use Get Editions instead?
-router.get("/media/:mediaID", (req, res) => {
+// There is no column for mediaID in the titles table
+// Query needs to be changed to work
+// ADD OVERALL RATING TO GET TITLE?
+// router.get("/media/:mediaID", (req, res) => {
 
-    const query = {where: {
-        [Op.and]: [
-            {mediaID: {[Op.eq]: req.params.mediaID}},
-            {active: {[Op.eq]: true}}
-            ]
-    }};
+//     // const attributes = {
+//     //     attributes: [
+//     //     "reviewID", "userID", "updatedBy", "titleID", "read", "dateRead:   userReviews.dateRead", "rating", "shortReview", "longReview", "active", 
+//     //     [sequelize.fn("count", sequelize.col("reviewID")), "userReviewCount"],
+//     //     [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
+//     //     ]
+//     // };
 
-    const orderBy = {order: 
-        [["titleSort", "DESC"]]
-    };
+//     const query = {where: {
+//         [Op.and]: [
+//             {mediaID: {[Op.eq]: req.params.mediaID}},
+//             {active: {[Op.eq]: true}}
+//             ]
+//     }};
 
-    Title.findAll(query, orderBy)
-    .then((titles) => res.status(200).json({
-        titleID:   titles.titleID,
-        titleName:     titles.titleName,
-        titleSort:  titles.titleSort,
-        authorFirstName:   titles.authorFirstName,
-        authorLastName:     titles.authorLastName,
-        publicationDate:  titles.publicationDate,
-        imageName:   titles.imageName,
-        categoryID:   titles.categoryID,
-        shortDescription:     titles.shortDescription,
-        urlPKDweb:  titles.urlPKDweb,
-        active:     titles.active,
-        message:    "Successfully retrieved titles."
-        }))
-    .catch((err) => res.status(500).json({error: err}));
+//     const orderBy = {order: 
+//         [["titleSort", "DESC"]]
+//     };
 
-});
+//     Title.findAll(query, orderBy)
+//     .then((titles) => {
+//         // console.log("title-controller get /media/:mediaID" titles", titles);
+//         res.status(200).json({titles: titles, message: "Successfully retrieved titles."});
+//     })
+//         .catch((err) => {
+//             console.log("title-controller get /media/:mediaID err", err);
+//             res.status(500).json({error: err});
+//         });
+
+// });
   
 /**************************************
  ***** Get Titles By CategoryID *****
 ***************************************/
-// Needed? Use Get Editions instead?
-// Query needs to be changed to work
+// ADD OVERALL RATING TO GET TITLE?
 router.get("/category/:categoryID", (req, res) => {
+
+    // const attributes = {
+    //     attributes: [
+    //     "reviewID", "userID", "updatedBy", "titleID", "read", "dateRead:   userReviews.dateRead", "rating", "shortReview", "longReview", "active", 
+    //     [sequelize.fn("count", sequelize.col("reviewID")), "userReviewCount"],
+    //     [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
+    //     ]
+    // };
 
     const query = {where: {
         [Op.and]: [
@@ -158,21 +147,14 @@ router.get("/category/:categoryID", (req, res) => {
     };
 
     Title.findAll(query, orderBy)
-    .then((titles) => res.status(200).json({
-        titleID:   titles.titleID,
-        titleName:     titles.titleName,
-        titleSort:  titles.titleSort,
-        authorFirstName:   titles.authorFirstName,
-        authorLastName:     titles.authorLastName,
-        publicationDate:  titles.publicationDate,
-        imageName:   titles.imageName,
-        categoryID:   titles.categoryID,
-        shortDescription:     titles.shortDescription,
-        urlPKDweb:  titles.urlPKDweb,
-        active:     titles.active,
-        message:    "Successfully retrieved titles."
-        }))
-    .catch((err) => res.status(500).json({error: err}));
+    .then((titles) => {
+        // console.log("title-controller get /category/:categoryID" titles", titles);
+        res.status(200).json({titles: titles, message: "Successfully retrieved titles."});
+    })
+        .catch((err) => {
+            console.log("title-controller get /category/:categoryID err", err);
+            res.status(500).json({error: err});
+        });
 
 });
 /* ******************************
@@ -183,33 +165,39 @@ router.post("/", validateAdmin, (req, res) => {
 
     const createTitle = {
         titleName:     req.body.title.titleName,
-        titleSort:  regexp_replace(lower(req.body.title.titleName), "^(an?|the) (.*)$", "\2, \1"),
+        titleSort:      req.body.title.titleName.toLowerCase().replace(/^(an?|the) (.*)$/i, '$2, $1'),
         authorFirstName:   req.body.title.authorFirstName,
         authorLastName:     req.body.title.authorLastName,
         publicationDate:  req.body.title.publicationDate,
         imageName:   req.body.title.imageName,
         categoryID:   req.body.title.categoryID,
         shortDescription:     req.body.title.shortDescription,
-        urlPKDweb:  req.body.title.urlPKDweb,
-        active:     req.body.title.active
+        urlPKDweb:  req.body.title.urlPKDweb
       };
 
-      Title.create(createTitle)
-    .then((title) => res.status(200).json({
-        titleID:   titles.titleID,
-        titleName:     titles.titleName,
-        titleSort:  titles.titleSort,
-        authorFirstName:   titles.authorFirstName,
-        authorLastName:     titles.authorLastName,
-        publicationDate:  titles.publicationDate,
-        imageName:   titles.imageName,
-        categoryID:   titles.categoryID,
-        shortDescription:     titles.shortDescription,
-        urlPKDweb:  titles.urlPKDweb,
-        active:     titles.active,
+    Title.create(createTitle)
+    .then((title) => {
+        // console.log("title-controller post / title", title);
+        res.status(200).json({
+        titleID:   title.titleID,
+        titleName:     title.titleName,
+        titleSort:  title.titleSort,
+        authorFirstName:   title.authorFirstName,
+        authorLastName:     title.authorLastName,
+        publicationDate:  title.publicationDate,
+        imageName:   title.imageName,
+        categoryID:   title.categoryID,
+        shortDescription:     title.shortDescription,
+        urlPKDweb:  title.urlPKDweb,
+        active:     title.active,
         message:    "Title successfully created."
-    }))
-    .catch(err => res.status(500).json({error: err}))
+        });
+    })
+    .catch((err) => {
+        console.log("title-controller post / err", err);
+        res.status(500).json({error: err});
+    });
+
 });
 
 /***************************
@@ -220,7 +208,7 @@ router.put("/:titleID", validateAdmin, (req, res) => {
 
     const updateTitle = {
         titleName:     req.body.title.titleName,
-        titleSort:  regexp_replace(lower(req.body.title.titleName), "^(an?|the) (.*)$", "\2, \1"),
+        titleSort:      req.body.title.titleName.toLowerCase().replace(/^(an?|the) (.*)$/i, '$2, $1'),
         authorFirstName:   req.body.title.authorFirstName,
         authorLastName:     req.body.title.authorLastName,
         publicationDate:  req.body.title.publicationDate,
@@ -229,28 +217,34 @@ router.put("/:titleID", validateAdmin, (req, res) => {
         shortDescription:     req.body.title.shortDescription,
         urlPKDweb:  req.body.title.urlPKDweb,
         active:     req.body.title.active
-      };
+    };
 
-      const query = {where: {
+    const query = {where: {
         titleID: {[Op.eq]: req.params.titleID}
     }};
 
     Title.update(updateTitle, query)
+    // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
+    // .then((title) => res.status(200).json({message: title + " title record(s) successfully updated."}))
     .then((title) => res.status(200).json({
-        titleID:   titles.titleID,
-        titleName:     titles.titleName,
-        titleSort:  titles.titleSort,
-        authorFirstName:   titles.authorFirstName,
-        authorLastName:     titles.authorLastName,
-        publicationDate:  titles.publicationDate,
-        imageName:   titles.imageName,
-        categoryID:   titles.categoryID,
-        shortDescription:     titles.shortDescription,
-        urlPKDweb:  titles.urlPKDweb,
-        active:     titles.active,
-        message:    "Title successfully updated."
+        titleID:        req.params.titleID,
+        titleName:     req.body.title.titleName,
+        titleSort:      req.body.title.titleName.toLowerCase().replace(/^(an?|the) (.*)$/i, '$2, $1'),
+        authorFirstName:   req.body.title.authorFirstName,
+        authorLastName:     req.body.title.authorLastName,
+        publicationDate:  req.body.title.publicationDate,
+        imageName:   req.body.title.imageName,
+        categoryID:   req.body.title.categoryID,
+        shortDescription:     req.body.title.shortDescription,
+        urlPKDweb:  req.body.title.urlPKDweb,
+        active:     req.body.title.active,
+        // message:    "Title successfully updated."
+        message: title + " title record(s) successfully updated."
     }))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => {
+        console.log("title-controller put /:titleID err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 
@@ -266,7 +260,10 @@ router.delete("/:titleID", validateAdmin, (req, res) => {
 
     Title.destroy(query)
     .then(() => res.status(200).send("Title successfully deleted."))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => {
+        console.log("title-controller delete /:titleID err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 

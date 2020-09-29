@@ -18,19 +18,14 @@ router.get("/", (req, res) => {
     };
 
     AmazonLink.findAll(query, orderBy)
-      .then((links) => res.status(200).json({
-        amazonLinkID:     links.amazonLinkID,
-        ASIN:              links.ASIN,
-        textLinkShort:     links.textLinkShort,
-        textLinkFull:     links.textLinkFull,
-        imageLinkSmall:     links.imageLinkSmall,
-        imageLinkMedium:     links.imageLinkMedium,
-        imageLinkLarge:     links.imageLinkLarge,
-        textImageLink:     links.textImageLink,
-        active:     links.active,
-        message:    "Successfully retrieved Amazon links."
-    }))
-      .catch((err) => res.status(500).json({error: err}));
+    .then((links) => {
+        // console.log("amazonLink-controller get / links", links);
+        res.status(200).json({links: links, message: "Successfully retrieved Amazon links."});
+    })
+    .catch((err) => {
+        console.log("amazonLink-controller get / err", err);
+        res.status(500).json({error: err});
+    });
 
 });
 
@@ -44,9 +39,11 @@ router.get("/:amazonLinkID", (req, res) => {
     }};
 
     AmazonLink.findOne(query)
-    .then((link) => res.status(200).json({
+    .then((link) => {
+        // console.log("amazonLink-controller get /:amazonLinkID link", link);
+        res.status(200).json({
         amazonLinkID:     link.amazonLinkID,
-        ASIN:              links.ASIN,
+        ASIN:              link.ASIN,
         textLinkShort:     link.textLinkShort,
         textLinkFull:     link.textLinkFull,
         imageLinkSmall:     link.imageLinkSmall,
@@ -55,8 +52,12 @@ router.get("/:amazonLinkID", (req, res) => {
         textImageLink:     link.textImageLink,
         active:     link.active,
         message:    "Successfully retrieved Amazon link."
-        }))
-    .catch((err) => res.status(500).json({error: err}));
+        });
+    })
+    .catch((err) => {
+        console.log("amazonLink-controller get /:amazonLinkID err", err);
+        res.status(500).json({error: err});
+    });
 
 });
 
@@ -73,12 +74,13 @@ router.post("/", validateAdmin, (req, res) => {
         imageLinkSmall:     req.body.link.imageLinkSmall,
         imageLinkMedium:     req.body.link.imageLinkMedium,
         imageLinkLarge:     req.body.link.imageLinkLarge,
-        textImageLink:     req.body.link.textImageLink,
-        active:         req.body.link.active
+        textImageLink:     req.body.link.textImageLink
       };
 
       AmazonLink.create(createAmazonLink)
-      .then((link) => res.status(200).json({
+      .then((link) => {
+        // console.log("amazonLink-controller post / link", link);
+        res.status(200).json({
         amazonLinkID:     link.amazonLinkID,
         ASIN:              link.ASIN,
         textLinkShort:     link.textLinkShort,
@@ -89,8 +91,13 @@ router.post("/", validateAdmin, (req, res) => {
         textImageLink:     link.textImageLink,
         active:     link.active,
         message:    "Amazon link successfully created."
-    }))
-    .catch(err => res.status(500).json({error: err}))
+        });
+      })
+      .catch((err) => {
+        console.log("amazonLink-controller post / err", err);
+        res.status(500).json({error: err});
+    });
+
 });
 
 /***************************
@@ -115,19 +122,25 @@ router.put("/:amazonLinkID", validateAdmin, (req, res) => {
     }};
 
     AmazonLink.update(updateAmazonLink, query)
+    // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
+    // .then((link) => res.status(200).json({message: link + " Amazon link record(s) successfully updated."}))
     .then((link) => res.status(200).json({
-        amazonLinkID:     link.amazonLinkID,
-        ASIN:              link.ASIN,
-        textLinkShort:     link.textLinkShort,
-        textLinkFull:     link.textLinkFull,
-        imageLinkSmall:     link.imageLinkSmall,
-        imageLinkMedium:     link.imageLinkMedium,
-        imageLinkLarge:     link.imageLinkLarge,
-        textImageLink:     link.textImageLink,
-        active:     link.active,
-        message:    "Amazon link successfully updated."
+        amazonLinkID:     req.params.amazonLinkID,
+        ASIN:              req.body.link.ASIN,
+        textLinkShort:     req.body.link.textLinkShort,
+        textLinkFull:     req.body.link.textLinkFull,
+        imageLinkSmall:     req.body.link.imageLinkSmall,
+        imageLinkMedium:     req.body.link.imageLinkMedium,
+        imageLinkLarge:     req.body.link.imageLinkLarge,
+        textImageLink:     req.body.link.textImageLink,
+        active:         req.body.link.active,
+        // message:    "Amazon link successfully updated."
+        message: link + " Amazon link record(s) successfully updated."
     }))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => {
+        console.log("amazonLink-controller put /:amazonLinkID err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 
@@ -143,7 +156,10 @@ router.delete("/:amazonLinkID", validateAdmin, (req, res) => {
 
     AmazonLink.destroy(query)
     .then(() => res.status(200).send("Amazon link successfully deleted."))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => {
+        console.log("amazonLink-controller delete /:amazonLinkID err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 
