@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
+    ASIN: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     textLinkShort: {
         type: DataTypes.TEXT,
         unique: true,

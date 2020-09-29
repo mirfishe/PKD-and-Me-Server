@@ -1,11 +1,12 @@
 
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Novel', NOW(), NOW());
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Short Stories', NOW(), NOW());
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Non Fiction', NOW(), NOW());
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Secondary Resource', NOW(), NOW());
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Secondary Resource - Blade Runner', NOW(), NOW());
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Film', NOW(), NOW());
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Television', NOW(), NOW());
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Documentaries', NOW(), NOW());
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Music', NOW(), NOW());
-INSERT INTO categories ("category", "createdAt", "updatedAt") values ('Game', NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Novel', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Short Stories', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Non Fiction', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Secondary Resource', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Secondary Resource - Blade Runner', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Film', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Television', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Documentaries', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Radio', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Music', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
+INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Game', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());

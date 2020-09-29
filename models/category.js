@@ -9,6 +9,15 @@ module.exports = (sequelize, DataTypes) => {
     category: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    sortID: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      allowNull: false
     }
     }, {
       tableName: 'categories'

@@ -21,6 +21,7 @@ router.get("/", (req, res) => {
     AmazonLink.findAll(query, orderBy)
       .then((links) => res.status(200).json({
         amazonLinkID:     links.amazonLinkID,
+        ASIN:              links.ASIN,
         textLinkShort:     links.textLinkShort,
         textLinkFull:     links.textLinkFull,
         imageLinkSmall:     links.imageLinkSmall,
@@ -46,6 +47,7 @@ router.get("/:amazonLinkID", (req, res) => {
     AmazonLink.findOne(query)
     .then((link) => res.status(200).json({
         amazonLinkID:     link.amazonLinkID,
+        ASIN:              links.ASIN,
         textLinkShort:     link.textLinkShort,
         textLinkFull:     link.textLinkFull,
         imageLinkSmall:     link.imageLinkSmall,
@@ -66,6 +68,7 @@ router.get("/:amazonLinkID", (req, res) => {
 router.post('/', validateAdmin, (req, res) => {
 
     const createAmazonLink = {
+        ASIN:              req.body.link.ASIN,
         textLinkShort:     req.body.link.textLinkShort,
         textLinkFull:     req.body.link.textLinkFull,
         imageLinkSmall:     req.body.link.imageLinkSmall,
@@ -78,6 +81,7 @@ router.post('/', validateAdmin, (req, res) => {
       AmazonLink.create(createAmazonLink)
       .then((link) => res.status(200).json({
         amazonLinkID:     link.amazonLinkID,
+        ASIN:              link.ASIN,
         textLinkShort:     link.textLinkShort,
         textLinkFull:     link.textLinkFull,
         imageLinkSmall:     link.imageLinkSmall,
@@ -97,6 +101,7 @@ router.post('/', validateAdmin, (req, res) => {
 router.put("/:amazonLinkID", validateAdmin, (req, res) => {
 
     const updateAmazonLink = {
+        ASIN:              req.body.link.ASIN,
         textLinkShort:     req.body.link.textLinkShort,
         textLinkFull:     req.body.link.textLinkFull,
         imageLinkSmall:     req.body.link.imageLinkSmall,
@@ -113,6 +118,7 @@ router.put("/:amazonLinkID", validateAdmin, (req, res) => {
     AmazonLink.update(updateAmazonLink, query)
     .then((link) => res.status(200).json({
         amazonLinkID:     link.amazonLinkID,
+        ASIN:              link.ASIN,
         textLinkShort:     link.textLinkShort,
         textLinkFull:     link.textLinkFull,
         imageLinkSmall:     link.imageLinkSmall,

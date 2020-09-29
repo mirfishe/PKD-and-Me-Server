@@ -44,7 +44,36 @@ INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName
 INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('We Can Build You', 'titleSort', 'Philip K.', 'Dick', '01/01/1972', 'WeCanBuildYou.jpg', (SELECT "categoryID" FROM categories WHERE category = 'Novel'), '', '', NOW(), NOW());
 INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('The World Jones Made', 'titleSort', 'Philip K.', 'Dick', '01/01/1956', 'TheWorldJonesMade.jpg', (SELECT "categoryID" FROM categories WHERE category = 'Novel'), '', '', NOW(), NOW());
 INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('The Zap Gun', 'titleSort', 'Philip K.', 'Dick', '01/01/1967', 'TheZapGun.jpg', (SELECT "categoryID" FROM categories WHERE category = 'Novel'), '', '', NOW(), NOW());
-INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('The VALIS Trilogy', 'titleSort', 'Philip K.', 'Dick', '01/01/1967', '/novels/TheValisTrilogy.jpg', (SELECT "categoryID" FROM categories WHERE category = 'Novel'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('The VALIS Trilogy', 'titleSort', 'Philip K.', 'Dick', '01/01/1982', 'TheValisTrilogy.jpg', (SELECT "categoryID" FROM categories WHERE category = 'Novel'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('Blade Runner', 'titleSort', 'Philip K.', 'Dick', '01/01/1968', 'BladeRunner.jpg', (SELECT "categoryID" FROM categories WHERE category = 'Novel'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('Total Recall', 'titleSort', 'Philip K.', 'Dick', null, 'TotalRecall.jpg', (SELECT "categoryID" FROM categories WHERE category = 'Short Stories'), '', '', NOW(), NOW());
+
+
+
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('Minority Report and Other Stories', 'titleSort', 'Philip K.', 'Dick', null, null, (SELECT "categoryID" FROM categories WHERE category = 'Short Stories'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('The Unreconstructed M and Other Stories', 'titleSort', 'Philip K.', 'Dick', null, null, (SELECT "categoryID" FROM categories WHERE category = 'Short Stories'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('Volume I: The King of the Elves (The Collected Stories of Philip K. Dick)', 'titleSort', 'Philip K.', 'Dick', null, null, (SELECT "categoryID" FROM categories WHERE category = 'Short Stories'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('Volume II: Adjustment Team (The Collected Stories of Philip K. Dick)', 'titleSort', 'Philip K.', 'Dick', null, null, (SELECT "categoryID" FROM categories WHERE category = 'Short Stories'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('Volume III: Upon the Dull Earth (The Collected Stories of Philip K. Dick)', 'titleSort', 'Philip K.', 'Dick', null, null, (SELECT "categoryID" FROM categories WHERE category = 'Short Stories'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('Volume IV: The Minority Report (The Collected Stories of Philip K. Dick)', 'titleSort', 'Philip K.', 'Dick', null, null, (SELECT "categoryID" FROM categories WHERE category = 'Short Stories'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('Volume V: We Can Remember It for You Wholesale (The Collected Stories of Philip K. Dick)', 'titleSort', 'Philip K.', 'Dick', null, null, (SELECT "categoryID" FROM categories WHERE category = 'Short Stories'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('Philip K. Dick''s Electric Dreams', 'titleSort', 'Philip K.', 'Dick', '11/14/2017', null, (SELECT "categoryID" FROM categories WHERE category = 'Short Stories'), '', '', NOW(), NOW());
+
+
+
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('X Minus One: Colony', 'titleSort', 'Philip K.', 'Dick', '10/10/1956', null, (SELECT "categoryID" FROM categories WHERE category = 'Radio'), '', '', NOW(), NOW());
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('X Minus One: The Defenders', 'titleSort', 'Philip K.', 'Dick', '05/22/1956', null, (SELECT "categoryID" FROM categories WHERE category = 'Radio'), '', '', NOW(), NOW());
+
+
+
+INSERT INTO titles ("titleName", "titleSort", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", "createdAt", "updatedAt") values ('The Exegesis of Philip K. Dick', 'titleSort', 'Philip K.', 'Dick', '11/08/2011', null, (SELECT "categoryID" FROM categories WHERE category = 'Non Fiction'), '', '', NOW(), NOW());
+
+
+
+
+
+
+
 
 
 UPDATE titles SET "titleSort" = regexp_replace(lower("titleName"), '^(an?|the) (.*)$', '\2, \1');

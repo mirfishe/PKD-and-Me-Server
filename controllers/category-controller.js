@@ -8,13 +8,19 @@ const validateAdmin = require("../middleware/validate-admin");
  ******************************/
 router.get("/", (req, res) => {
 
+    const query = {where: {
+        active: {[Op.eq]: true}
+    }};
+
     const orderBy = {order: 
-        [["category", 'DESC']]
+        [["sortID", 'DESC']]
     };
     
-    Category.findAll(orderBy)
+    Category.findAll(query, orderBy)
       .then((categories) => res.status(200).json({
         category:   category.category,
+        sortID:     category.sortID,
+        active:     category.active,
         message:    'Successfully retrieved categories.'
     }))
       .catch((err) => res.status(500).json({error: err}));
@@ -33,6 +39,8 @@ router.get("/:categoryID", (req, res) => {
     Category.findOne(query)
     .then((category) => res.status(200).json({
         category:   category.category,
+        sortID:     category.sortID,
+        active:     category.active,
         message:    'Successfully retrieved category information.'
         }))
     .catch((err) => res.status(500).json({error: err}));
@@ -50,9 +58,21 @@ router.post('/', (req, res) => {
         active:     req.body.category.active
       };
 
-    Category.create(createCategory)
+    Category.max('sortID')
+    .then((maxSortID) => {
+        // console.log("maxSortID", maxSortID);
+        if (isNaN(maxSortID)) {
+            return 1;
+        } else {
+            return maxSortID + 1;
+        };
+    })
+    .then(newSortID => {
+        Category.create(createCategory)
+    })
     .then((category) => res.status(200).json({
         category:   category.category,
+        sortID:     newSortID,
         active:     category.active,
         message:    'Category successfully created.'
     }))
@@ -67,6 +87,7 @@ router.put("/:categoryID", validateAdmin, (req, res) => {
 
     const updateCategory = {
         category:   req.body.category.category,
+        sortID:   req.body.category.sortID,
         active:     req.body.category.active
       };
 
@@ -77,9 +98,26 @@ router.put("/:categoryID", validateAdmin, (req, res) => {
     Category.update(updateCategory, query)
     .then((category) => res.status(200).json({
         category:   category.category,
+        sortID:     category.sortID,
         active:     category.active,
         message:    'Category successfully updated.'
     }))
+    .catch((err) => res.status(500).json({error: err}));
+
+  });
+
+/***************************
+ ******* Delete Category *******
+ ***************************/
+// Allows an admin to hard delete a category
+router.delete("/:categoryID", validateAdmin, (req, res) => {
+
+    const query = {where: {
+        categoryID: {[Op.eq]: req.params.categoryID}
+    }};
+
+    Category.destroy(query)
+    .then(() => res.status(200).send("Category successfully deleted."))
     .catch((err) => res.status(500).json({error: err}));
 
   });

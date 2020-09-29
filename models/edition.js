@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
     },
+    ASIN: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     textLinkShort: {
       type: DataTypes.TEXT,
       unique: true,
