@@ -1,5 +1,6 @@
-const router = require('express').Router();
-const Title = require('../db').import('../models/title');
+const router = require("express").Router();
+const Title = require("../db").import("../models/title");
+const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
 
@@ -13,7 +14,7 @@ router.get("/", (req, res) => {
     }};
 
     const orderBy = {order: 
-        [["titleSort", 'DESC']]
+        [["titleSort", "DESC"]]
     };
    
     Title.findAll(query, orderBy)
@@ -29,7 +30,7 @@ router.get("/", (req, res) => {
         shortDescription:     titles.shortDescription,
         urlPKDweb:  titles.urlPKDweb,
         active:     titles.active,
-        message:    'Successfully retrieved titles.'
+        message:    "Successfully retrieved titles."
     }))
       .catch((err) => res.status(500).json({error: err}));
 
@@ -57,7 +58,7 @@ router.get("/:titleID", (req, res) => {
         shortDescription:     titles.shortDescription,
         urlPKDweb:  titles.urlPKDweb,
         active:     titles.active,
-        message:    'Successfully retrieved title.'
+        message:    "Successfully retrieved title."
         }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -96,7 +97,7 @@ router.get("/:titleID", (req, res) => {
 //         active:     userReviews.active,
 //         userReviewCount:   userReviews.userReviewCount,
 //         userReviewSum:     userReviews.userReviewSum,
-//         message:    'Successfully retrieved user reviews.'
+//         message:    "Successfully retrieved user reviews."
 //         }))
 //     .catch((err) => res.status(500).json({error: err}));
 
@@ -116,7 +117,7 @@ router.get("/media/:mediaID", (req, res) => {
     }};
 
     const orderBy = {order: 
-        [["titleSort", 'DESC']]
+        [["titleSort", "DESC"]]
     };
 
     Title.findAll(query, orderBy)
@@ -132,7 +133,7 @@ router.get("/media/:mediaID", (req, res) => {
         shortDescription:     titles.shortDescription,
         urlPKDweb:  titles.urlPKDweb,
         active:     titles.active,
-        message:    'Successfully retrieved titles.'
+        message:    "Successfully retrieved titles."
         }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -153,7 +154,7 @@ router.get("/category/:categoryID", (req, res) => {
     }};
 
     const orderBy = {order: 
-        [["titleSort", 'DESC']]
+        [["titleSort", "DESC"]]
     };
 
     Title.findAll(query, orderBy)
@@ -169,7 +170,7 @@ router.get("/category/:categoryID", (req, res) => {
         shortDescription:     titles.shortDescription,
         urlPKDweb:  titles.urlPKDweb,
         active:     titles.active,
-        message:    'Successfully retrieved titles.'
+        message:    "Successfully retrieved titles."
         }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -178,11 +179,11 @@ router.get("/category/:categoryID", (req, res) => {
  *** Add Title ***************
 *********************************/
 // Allows an admin to add a new title
-router.post('/', validateAdmin, (req, res) => {
+router.post("/", validateAdmin, (req, res) => {
 
     const createTitle = {
         titleName:     req.body.title.titleName,
-        titleSort:  regexp_replace(lower(req.body.title.titleName), '^(an?|the) (.*)$', '\2, \1'),
+        titleSort:  regexp_replace(lower(req.body.title.titleName), "^(an?|the) (.*)$", "\2, \1"),
         authorFirstName:   req.body.title.authorFirstName,
         authorLastName:     req.body.title.authorLastName,
         publicationDate:  req.body.title.publicationDate,
@@ -206,7 +207,7 @@ router.post('/', validateAdmin, (req, res) => {
         shortDescription:     titles.shortDescription,
         urlPKDweb:  titles.urlPKDweb,
         active:     titles.active,
-        message:    'Title successfully created.'
+        message:    "Title successfully created."
     }))
     .catch(err => res.status(500).json({error: err}))
 });
@@ -219,7 +220,7 @@ router.put("/:titleID", validateAdmin, (req, res) => {
 
     const updateTitle = {
         titleName:     req.body.title.titleName,
-        titleSort:  regexp_replace(lower(req.body.title.titleName), '^(an?|the) (.*)$', '\2, \1'),
+        titleSort:  regexp_replace(lower(req.body.title.titleName), "^(an?|the) (.*)$", "\2, \1"),
         authorFirstName:   req.body.title.authorFirstName,
         authorLastName:     req.body.title.authorLastName,
         publicationDate:  req.body.title.publicationDate,
@@ -247,7 +248,7 @@ router.put("/:titleID", validateAdmin, (req, res) => {
         shortDescription:     titles.shortDescription,
         urlPKDweb:  titles.urlPKDweb,
         active:     titles.active,
-        message:    'Title successfully updated.'
+        message:    "Title successfully updated."
     }))
     .catch((err) => res.status(500).json({error: err}));
 

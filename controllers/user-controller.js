@@ -1,14 +1,15 @@
-const router = require('express').Router();
-const User = require('../db').import('../models/user');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const router = require("express").Router();
+const User = require("../db").import("../models/user");
+const {Op} = require("sequelize");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
 
 /* ***********************************
  *** User Registration ***************
 *********************************** */
-router.post('/register', (req, res) => {
+router.post("/register", (req, res) => {
 
     const createUser = {
         firstName:  req.body.user.firstName,
@@ -20,7 +21,7 @@ router.post('/register', (req, res) => {
     User.create(createUser)
     .then(
         createSuccess = (user) => {
-            let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: '1d'});
+            let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
             res.json({
                 // Need to return all the properties of the user to the browser?
                 // user:   user,
@@ -31,19 +32,22 @@ router.post('/register', (req, res) => {
                 updatedBy:  user.updatedBy,
                 admin:  user.admin,
                 active:  user.active,
-                message:    'User successfully created.',
+                message:    "User successfully created.",
                 sessionToken:   token
             });
         },
         createError = (err) => res.status(500).json(err)
     )
-    .catch(err => res.status(500).json({error: err}))
+    .catch(err => {
+        console.log("user-controller post /register err", err);
+        res.status(500).json({error: err});
+    })
 });
 
 /* ***********************************
  *** User Login **********************
 *********************************** */
-router.post('/login', (req, res) => {
+router.post("/login", (req, res) => {
 
     const query = {where: {
         [Op.and]: [
@@ -58,7 +62,7 @@ router.post('/login', (req, res) => {
             if (user) {
                 bcrypt.compare(req.body.user.password, user.password, (err, matches) => {
                     if (matches) {
-                        let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: '1d'});
+                        let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
                         res.status(200).json({
                             // Need to return all the properties of the user to the browser?
                             // user:   user,
@@ -69,46 +73,44 @@ router.post('/login', (req, res) => {
                             updatedBy:  user.updatedBy,
                             admin:  user.admin,
                             active:  user.active,
-                            message:    'Successfully authenticated user.',
+                            message:    "Successfully authenticated user.",
                             sessionToken:   token
                         });
                     } else {
-                        res.status(401).json({error: 'Login failed.'});
+                        res.status(401).json({error: "Login failed."});
                     };
                 })
             } else {
-                res.status(401).json({error: 'Failed to authenticate.'});
+                res.status(401).json({error: "Failed to authenticate."});
             };
         },
-        err => res.status(501).send({error: 'Failed to process.'})
+        err => res.status(501).send({error: "Failed to process."})
     )
-    .catch(err => res.status(500).json({error: err}))
+    .catch(err => {
+        console.log("user-controller post /login err", err);
+        res.status(500).json({error: err});
+    })
 });
 
 /******************************
  ***** Get Users *****
  ******************************/
-// Allows an admin to view all the users' data
+// Allows an admin to view all the users
 router.get("/admin", validateAdmin, (req, res) => {
 
     const orderBy = {order: 
-        [["lastName", 'DESC'], ["firstName", 'DESC']]
+        [["lastName", "DESC"], ["firstName", "DESC"]]
     };
     
     User.findAll(orderBy)
-      .then((users) => res.status(200).json({
-        // Need to return all the properties of the user to the browser?
-        // user:   user,
-        userID:   user.userID,
-        firstName:   user.firstName,
-        lastName:   user.lastName,
-        email:   user.email,
-        updatedBy:  user.updatedBy,
-        admin:  user.admin,
-        active:  user.active,
-        message:    'Successfully retrieved user information.'
-    }))
-      .catch((err) => res.status(500).json({error: err}));
+      .then((users) => {
+        // console.log("user-controller get /admin users", users);
+        res.status(200).json({users: users, message: "Successfully retrieved users."});
+    })
+      .catch((err) => {
+        console.log("user-controller get /admin err", err);
+        res.status(500).json({error: err});
+    });
 
 });
   
@@ -133,9 +135,12 @@ router.get("/", validateSession, (req, res) => {
             updatedBy:  user.updatedBy,
             admin:  user.admin,
             active:  user.active,
-            message:    'Successfully retrieved user information.'
+            message:    "Successfully retrieved user information."
         }))
-    .catch((err) => res.status(500).json({error: err}));
+        .catch((err) => {
+            console.log("user-controller get / err", err);
+            res.status(500).json({error: err});
+        });
 
 });
 
@@ -160,9 +165,12 @@ router.get("/:userID", validateAdmin, (req, res) => {
             updatedBy:  user.updatedBy,
             admin:  user.admin,
             active:  user.active,
-            message:    'Successfully retrieved user information.'
+            message:    "Successfully retrieved user information."
         }))
-    .catch((err) => res.status(500).json({error: err}));
+        .catch((err) => {
+            console.log("user-controller get /:userID err", err);
+            res.status(500).json({error: err});
+        });
 
 });
 
@@ -187,6 +195,7 @@ router.put("/:userID", validateAdmin, (req, res) => {
     }};
 
     User.update(updateUser, query)
+    // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
     .then((user) => res.status(200).json({
         // Need to return all the properties of the user to the browser?
         // user:   user,
@@ -197,9 +206,12 @@ router.put("/:userID", validateAdmin, (req, res) => {
         updatedBy:  user.updatedBy,
         admin:  user.admin,
         active:  user.active,
-        message:    'User successfully updated.'
+        message:    "User successfully updated."
     }))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => {
+        console.log("user-controller put /:userID err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 
@@ -226,7 +238,7 @@ router.put("/", validateSession, (req, res) => {
     User.update(updateUser, query)
     .then(
         createSuccess = (user) => {
-            let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: '1d'});
+            let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
             res.json({
                 // Need to return all the properties of the user to the browser?
                 // user:   user,
@@ -237,13 +249,16 @@ router.put("/", validateSession, (req, res) => {
                 updatedBy:  user.updatedBy,
                 admin:  user.admin,
                 active:  user.active,
-                message:    'User successfully updated.',
+                message:    "User successfully updated.",
                 sessionToken:   token
             });
         },
         createError = (err) => res.status(500).json(err)
     )
-    .catch(err => res.status(500).json({error: err}))
+    .catch((err) => {
+        console.log("user-controller put err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 
@@ -259,7 +274,10 @@ router.delete("/:userID", validateAdmin, (req, res) => {
 
     User.destroy(query)
     .then(() => res.status(200).send("User successfully deleted."))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => {
+        console.log("user-controller delete /:userID err", err);
+        res.status(500).json({error: err});
+    });
 
   });
 

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Edition = require('../db').import('../models/edition');
 const AmazonLink = require('../db').import('../models/amazonLink');
+const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
 

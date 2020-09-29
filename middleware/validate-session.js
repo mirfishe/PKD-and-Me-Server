@@ -1,13 +1,14 @@
-const jwt = require('jsonwebtoken');
-const User = require('../db').import('../models/user');
+const jwt = require("jsonwebtoken");
+const User = require("../db").import("../models/user");
+const {Op} = require("sequelize");
 
 const validateSession = (req, res, next) => {
 
     const token = req.headers.authorization;
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        // console.log('token: ', token);
-        // console.log('decoded: ', decoded);
+        // console.log("validateSession token: ", token);
+        // console.log("validateSession decoded: ", decoded);
         if (!err && decoded) {
             User.findOne({where: {
                 [Op.and]: [
@@ -16,7 +17,7 @@ const validateSession = (req, res, next) => {
                 ]
             }})
             .then(user => {
-                if(!user) throw 'err';
+                if (!user) throw "Unauthorized."; // "err";
                 // Need to return all the properties of the user?
                 // req.user = user;
                 req.user = {userID: user.userID};
@@ -25,7 +26,7 @@ const validateSession = (req, res, next) => {
             .catch(err => next(err))
         } else {
             req.errors = err;
-            return res.status(401).send('Unauthorized')
+            return res.status(401).send("Unauthorized.")
         };
 
     });

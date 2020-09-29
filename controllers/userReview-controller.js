@@ -1,5 +1,6 @@
-const router = require('express').Router();
-const UserReview = require('../db').import('../models/userReview');
+const router = require("express").Router();
+const UserReview = require("../db").import("../models/userReview");
+const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
 
@@ -13,7 +14,7 @@ router.get("/", (req, res) => {
     }};
 
     const orderBy = {order: 
-        [["updatedAt", 'DESC']]
+        [["updatedAt", "DESC"]]
     };
    
     UserReview.findAll(query, orderBy)
@@ -28,7 +29,7 @@ router.get("/", (req, res) => {
         shortReview:   userReviews.shortReview,
         longReview:   userReviews.longReview,
         active:     userReviews.active,
-        message:    'Successfully retrieved user reviews.'
+        message:    "Successfully retrieved user reviews."
     }))
       .catch((err) => res.status(500).json({error: err}));
 
@@ -55,7 +56,7 @@ router.get("/:reviewID", (req, res) => {
         shortReview:   userReviews.shortReview,
         longReview:   userReviews.longReview,
         active:     userReviews.active,
-        message:    'Successfully retrieved user review information.'
+        message:    "Successfully retrieved user review information."
         }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -78,7 +79,7 @@ router.get("/:reviewID", (req, res) => {
 //     .then((userReview) => res.status(200).json({
 //         titleID:    userReview.titleID,
 //         overallRating:     userReview.overallRating,
-//         message:    'Successfully retrieved user overall rating.'
+//         message:    "Successfully retrieved user overall rating."
 //         }))
 //     .catch((err) => res.status(500).json({error: err}));
 
@@ -101,7 +102,7 @@ router.get("/count/:titleID", (req, res) => {
     UserReview.count(query)
     .then((userReview) => res.status(200).json({
         userReviewCount:    userReview,
-        message:    'Successfully retrieved user review count.'
+        message:    "Successfully retrieved user review count."
         }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -124,7 +125,7 @@ router.get("/sum/:titleID", (req, res) => {
     UserReview.sum(query)
     .then((userReview) => res.status(200).json({
         userReviewCount:    userReview,
-        message:    'Successfully retrieved user review sum.'
+        message:    "Successfully retrieved user review sum."
         }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -152,7 +153,7 @@ router.get("/title/:titleID", (req, res) => {
     }};
 
     const orderBy = {order: 
-        [["updatedAt", 'DESC']]
+        [["updatedAt", "DESC"]]
     };
 
     UserReview.findAll(attributes, query, orderBy)
@@ -169,7 +170,7 @@ router.get("/title/:titleID", (req, res) => {
         active:     userReviews.active,
         userReviewCount:   userReviews.userReviewCount,
         userReviewSum:     userReviews.userReviewSum,
-        message:    'Successfully retrieved user reviews.'
+        message:    "Successfully retrieved user reviews."
         }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -188,7 +189,7 @@ router.get("/user/:userID", (req, res) => {
     }};
 
     const orderBy = {order: 
-        [["updatedAt", 'DESC']]
+        [["updatedAt", "DESC"]]
     };
 
     UserReview.findAll(query, orderBy)
@@ -203,7 +204,7 @@ router.get("/user/:userID", (req, res) => {
         shortReview:   userReviews.shortReview,
         longReview:   userReviews.longReview,
         active:     userReviews.active,
-        message:    'Successfully retrieved user reviews.'
+        message:    "Successfully retrieved user reviews."
         }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -213,7 +214,7 @@ router.get("/user/:userID", (req, res) => {
  *** Add User Review  ***************
 *********************************/
 // Allows a user to add a new user review
-router.post('/', validateSession, (req, res) => {
+router.post("/", validateSession, (req, res) => {
 
     const createUserReview = {
         userID:     req.user.userID,
@@ -239,7 +240,7 @@ router.post('/', validateSession, (req, res) => {
         shortReview:   userReviews.shortReview,
         longReview:   userReviews.longReview,
         active:     userReviews.active,
-        message:    'User review successfully created.'
+        message:    "User review successfully created."
     }))
     .catch(err => res.status(500).json({error: err}))
 });
@@ -278,7 +279,7 @@ router.put("/:reviewID", validateSession, (req, res) => {
         shortReview:   userReviews.shortReview,
         longReview:   userReviews.longReview,
         active:     userReviews.active,
-        message:    'User review successfully updated.'
+        message:    "User review successfully updated."
     }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -318,7 +319,7 @@ router.put("/admin/:reviewID", validateAdmin, (req, res) => {
         shortReview:   userReviews.shortReview,
         longReview:   userReviews.longReview,
         active:     userReviews.active,
-        message:    'User review successfully updated.'
+        message:    "User review successfully updated."
     }))
     .catch((err) => res.status(500).json({error: err}));
 

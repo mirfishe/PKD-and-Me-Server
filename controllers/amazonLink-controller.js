@@ -1,9 +1,8 @@
-const router = require('express').Router();
-const AmazonLink = require('../db').import('../models/amazonLink');
+const router = require("express").Router();
+const AmazonLink = require("../db").import("../models/amazonLink");
+const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
-
-
 
 /******************************
  ***** Get Amazon Links *********
@@ -15,7 +14,7 @@ router.get("/", (req, res) => {
     }};
   
     const orderBy = {order: 
-        [["updatedAt", 'DESC']]
+        [["updatedAt", "DESC"]]
     };
 
     AmazonLink.findAll(query, orderBy)
@@ -29,7 +28,7 @@ router.get("/", (req, res) => {
         imageLinkLarge:     links.imageLinkLarge,
         textImageLink:     links.textImageLink,
         active:     links.active,
-        message:    'Successfully retrieved Amazon links.'
+        message:    "Successfully retrieved Amazon links."
     }))
       .catch((err) => res.status(500).json({error: err}));
 
@@ -55,7 +54,7 @@ router.get("/:amazonLinkID", (req, res) => {
         imageLinkLarge:     link.imageLinkLarge,
         textImageLink:     link.textImageLink,
         active:     link.active,
-        message:    'Successfully retrieved Amazon link.'
+        message:    "Successfully retrieved Amazon link."
         }))
     .catch((err) => res.status(500).json({error: err}));
 
@@ -65,7 +64,7 @@ router.get("/:amazonLinkID", (req, res) => {
  *** Add Amazon Link ***************
 *********************************/
 // Allows an admin to add a new Amazon link
-router.post('/', validateAdmin, (req, res) => {
+router.post("/", validateAdmin, (req, res) => {
 
     const createAmazonLink = {
         ASIN:              req.body.link.ASIN,
@@ -89,7 +88,7 @@ router.post('/', validateAdmin, (req, res) => {
         imageLinkLarge:     link.imageLinkLarge,
         textImageLink:     link.textImageLink,
         active:     link.active,
-        message:    'Amazon link successfully created.'
+        message:    "Amazon link successfully created."
     }))
     .catch(err => res.status(500).json({error: err}))
 });
@@ -126,7 +125,7 @@ router.put("/:amazonLinkID", validateAdmin, (req, res) => {
         imageLinkLarge:     link.imageLinkLarge,
         textImageLink:     link.textImageLink,
         active:     link.active,
-        message:    'Amazon link successfully updated.'
+        message:    "Amazon link successfully updated."
     }))
     .catch((err) => res.status(500).json({error: err}));
 
