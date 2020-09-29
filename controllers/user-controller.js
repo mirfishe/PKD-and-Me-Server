@@ -1,65 +1,74 @@
 const router = require('express').Router();
 const User = require('../db').import('../models/user');
-const List = require('../db').import('../models/list');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const validateSession = require("../middleware/validate-session");
+const validateAdmin = require("../middleware/validate-admin");
 
 /* ***********************************
- *** User Registration ***
+ *** User Registration ***************
 *********************************** */
-router.post('/register', function(req, res) {
+router.post('/register', (req, res) => {
 
-    let userID = 0;
-
-    const createDefaultList = (userID) => List.create({
-        listName: 'Bookmarks',
-        userId: userID
-    });
-
-    User.create({
-        email:   req.body.user.email,
+    const createUser = {
+        firstName:  req.body.user.firstName,
+        lastName:   req.body.user.lastName,
+        email:      req.body.user.email,
         password:   bcrypt.hashSync(req.body.user.password)
-    })
+      };
+
+    User.create(createUser)
     .then(
         createSuccess = (user) => {
-            let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
-            userID = user.id;
-            // Create a default list for the user upon successfully creating user with the userID
-            if (userID !== 0) {
-                createDefaultList(userID);
-            };
-            
+            let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: '1d'});
             res.json({
                 // Need to return all the properties of the user to the browser?
                 // user:   user,
-                id:   user.id,
+                userID:   user.userID,
+                firstName:   user.firstName,
+                lastName:   user.lastName,
+                email:   user.email,
+                updatedBy:  user.updatedBy,
+                admin:  user.admin,
+                active:  user.active,
                 message:    'User successfully created.',
                 sessionToken:   token
             });
         },
         createError = (err) => res.status(500).json(err)
     )
-
     .catch(err => res.status(500).json({error: err}))
-
 });
 
 /* ***********************************
- *** User Login ***
+ *** User Login **********************
 *********************************** */
-router.post('/login', function(req, res) {
+router.post('/login', (req, res) => {
 
-    User.findOne({where: {email: req.body.user.email}})
+    const query = {where: {
+        [Op.and]: [
+        {email: {[Op.eq]: req.body.user.email}},
+        {active: {[Op.eq]: true}}
+        ]
+    }};
+
+    User.findOne(query)
     .then(
         loginSuccess = (user) => {
             if (user) {
                 bcrypt.compare(req.body.user.password, user.password, (err, matches) => {
                     if (matches) {
-                        let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
+                        let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: '1d'});
                         res.status(200).json({
                             // Need to return all the properties of the user to the browser?
                             // user:   user,
-                            id:   user.id,
+                            userID:   user.userID,
+                            firstName:   user.firstName,
+                            lastName:   user.lastName,
+                            email:   user.email,
+                            updatedBy:  user.updatedBy,
+                            admin:  user.admin,
+                            active:  user.active,
                             message:    'Successfully authenticated user.',
                             sessionToken:   token
                         });
@@ -75,5 +84,183 @@ router.post('/login', function(req, res) {
     )
     .catch(err => res.status(500).json({error: err}))
 });
+
+/******************************
+ ***** Get Users *****
+ ******************************/
+// Allows an admin to view all the users' data
+router.get("/admin", validateAdmin, (req, res) => {
+
+    const orderBy = {order: 
+        [["lastName", 'DESC'], ["firstName", 'DESC']]
+    };
+    
+    User.findAll(orderBy)
+      .then((users) => res.status(200).json({
+        // Need to return all the properties of the user to the browser?
+        // user:   user,
+        userID:   user.userID,
+        firstName:   user.firstName,
+        lastName:   user.lastName,
+        email:   user.email,
+        updatedBy:  user.updatedBy,
+        admin:  user.admin,
+        active:  user.active,
+        message:    'Successfully retrieved user information.'
+    }))
+      .catch((err) => res.status(500).json({error: err}));
+
+});
+  
+/********************************
+ ***** Get User By UserID *******
+*******************************/
+// Returns User information for the logged in user
+router.get("/", validateSession, (req, res) => {
+
+    const query = {where: {
+        userID: {[Op.eq]: req.user.userID}
+    }};
+
+    User.findOne(query)
+    .then((user) => res.status(200).json({
+            // Need to return all the properties of the user to the browser?
+            // user:   user,
+            userID:   user.userID,
+            firstName:   user.firstName,
+            lastName:   user.lastName,
+            email:   user.email,
+            updatedBy:  user.updatedBy,
+            admin:  user.admin,
+            active:  user.active,
+            message:    'Successfully retrieved user information.'
+        }))
+    .catch((err) => res.status(500).json({error: err}));
+
+});
+
+/********************************
+ ***** Get User By UserID *******
+*******************************/
+// Returns User information for the admin
+router.get("/:userID", validateAdmin, (req, res) => {
+
+    const query = {where: {
+        userID: {[Op.eq]: req.params.userID}
+    }};
+
+    User.findOne(query)
+    .then((user) => res.status(200).json({
+            // Need to return all the properties of the user to the browser?
+            // user:   user,
+            userID:   user.userID,
+            firstName:   user.firstName,
+            lastName:   user.lastName,
+            email:   user.email,
+            updatedBy:  user.updatedBy,
+            admin:  user.admin,
+            active:  user.active,
+            message:    'Successfully retrieved user information.'
+        }))
+    .catch((err) => res.status(500).json({error: err}));
+
+});
+
+/***************************
+ ******* Update User *******
+ ***************************/
+// Allows an admin to update the user data including soft delete it
+// The admin column is not included here as an extra security feature
+router.put("/:userID", validateAdmin, (req, res) => {
+
+    const updateUser = {
+        firstName:  req.body.user.firstName,
+        lastName:   req.body.user.lastName,
+        email:      req.body.user.email,
+        password:   bcrypt.hashSync(req.body.user.password),
+        updatedBy:  req.user.userID,
+        active:     req.body.user.active
+      };
+
+    const query = {where: {
+        userID: {[Op.eq]: req.params.userID}
+    }};
+
+    User.update(updateUser, query)
+    .then((user) => res.status(200).json({
+        // Need to return all the properties of the user to the browser?
+        // user:   user,
+        userID:   user.userID,
+        firstName:   user.firstName,
+        lastName:   user.lastName,
+        email:   user.email,
+        updatedBy:  user.updatedBy,
+        admin:  user.admin,
+        active:  user.active,
+        message:    'User successfully updated.'
+    }))
+    .catch((err) => res.status(500).json({error: err}));
+
+  });
+
+/***************************
+ ******* Update User *******
+ ***************************/
+// Allows a user to update their own record including soft delete it
+// The admin column is not included here as an extra security feature
+router.put("/", validateSession, (req, res) => {
+
+    const updateUser = {
+        firstName:  req.body.user.firstName,
+        lastName:   req.body.user.lastName,
+        email:      req.body.user.email,
+        password:   bcrypt.hashSync(req.body.user.password),
+        updatedBy:  req.user.userID,
+        active:     req.body.user.active
+      };
+
+    const query = {where: {
+        userID: {[Op.eq]: req.user.userID}
+    }};
+
+    User.update(updateUser, query)
+    .then(
+        createSuccess = (user) => {
+            let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: '1d'});
+            res.json({
+                // Need to return all the properties of the user to the browser?
+                // user:   user,
+                userID:   user.userID,
+                firstName:   user.firstName,
+                lastName:   user.lastName,
+                email:   user.email,
+                updatedBy:  user.updatedBy,
+                admin:  user.admin,
+                active:  user.active,
+                message:    'User successfully updated.',
+                sessionToken:   token
+            });
+        },
+        createError = (err) => res.status(500).json(err)
+    )
+    .catch(err => res.status(500).json({error: err}))
+
+  });
+
+/***************************
+ ******* Delete User *******
+ ***************************/
+// Allows an admin to hard delete a user
+router.delete("/:userID", validateAdmin, (req, res) => {
+
+    const query = {where: {
+        userID: {[Op.eq]: req.params.userID}
+    }};
+
+    User.destroy(query)
+    .then(() => res.status(200).send("User successfully deleted."))
+    .catch((err) => res.status(500).json({error: err}));
+
+  });
 
 module.exports = router;
