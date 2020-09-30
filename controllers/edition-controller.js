@@ -230,7 +230,19 @@ router.post('/', validateAdmin, (req, res) => {
     })
     .catch((err) => {
         console.log("edition-controller post / err", err);
-        res.status(500).json({recordAdded: false, message: "Edition not successfully created.", error: err});
+        // console.log("edition-controller post / err.name", err.name);
+        // console.log("edition-controller post / err.errors[0].message", err.errors[0].message);
+
+        let errorMessages = "";
+        for (let i = 0; i < err.errors.length; i++) {
+            //console.log("edition-controller post / err.errors[i].message", err.errors[i].message);
+            if (i > 1) {
+                errorMessages = errorMessages + ", ";
+            };
+            errorMessages = errorMessages + err.errors[i].message;
+        };
+
+        res.status(500).json({recordAdded: false, message: "Edition not successfully created.", errorMessages: errorMessages, error: err});
     });
     
 });
@@ -291,7 +303,19 @@ router.put("/:editionID", validateAdmin, (req, res) => {
     })
     .catch((err) => {
         console.log("edition-controller put /:editionID err", err);
-        res.status(500).json({recordUpdated: false, message: "Edition not successfully updated.", error: err});
+        // console.log("edition-controller put /:editionID  err.name", err.name);
+        // console.log("edition-controller put /:editionID  err.errors[0].message", err.errors[0].message);
+
+        let errorMessages = "";
+        for (let i = 0; i < err.errors.length; i++) {
+            //console.log("edition-controller put /:editionID  err.errors[i].message", err.errors[i].message);
+            if (i > 1) {
+                errorMessages = errorMessages + ", ";
+            };
+            errorMessages = errorMessages + err.errors[i].message;
+        };
+
+        res.status(500).json({recordUpdated: false, message: "Edition not successfully updated.", errorMessages: errorMessages, error: err});
     });
 
   });

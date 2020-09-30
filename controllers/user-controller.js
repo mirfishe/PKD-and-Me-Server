@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
 
+const emailRegExp = /^([0-9a-zA-Z]([-\.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
+
 /* ***********************************
  *** User Registration ***************
 *********************************** */
@@ -18,33 +20,53 @@ router.post("/register", (req, res) => {
         password:   bcrypt.hashSync(req.body.user.password)
       };
 
-    User.create(createUser)
-    .then(
-        createSuccess = (user) => {
-            let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
-            res.json({
-                // Need to return all the properties of the user to the browser?
-                // user:   user,
-                userID:   user.userID,
-                firstName:   user.firstName,
-                lastName:   user.lastName,
-                email:   user.email,
-                updatedBy:  user.updatedBy,
-                admin:  user.admin,
-                active:  user.active,
-                recordAdded: true,
-                message:    "User successfully created.",
-                sessionToken:   token
-            });
-        },
-        createError = (err) => {
-            console.log("user-controller post /register createError err", err);
-            res.status(500).json({recordAdded: false, message: "User not successfully registered.", error: err});
+    if(req.body.user.email.match(emailRegExp)) {
+
+        User.create(createUser)
+        .then(
+            createSuccess = (user) => {
+                let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
+                res.json({
+                    // Need to return all the properties of the user to the browser?
+                    // user:   user,
+                    userID:   user.userID,
+                    firstName:   user.firstName,
+                    lastName:   user.lastName,
+                    email:   user.email,
+                    updatedBy:  user.updatedBy,
+                    admin:  user.admin,
+                    active:  user.active,
+                    isLoggedIn: true,
+                    recordAdded: true,
+                    message:    "User successfully created.",
+                    sessionToken:   token
+                });
+            },
+            createError = (err) => {
+                // console.log("user-controller post /register createError err", err);
+                // console.log("user-controller post /register createError err.name", err.name);
+                // console.log("user-controller post /register createError err.errors[0].message", err.errors[0].message);
+
+                let errorMessages = "";
+                for (let i = 0; i < err.errors.length; i++) {
+                    //console.log("user-controller post /register createError err.errors[i].message", err.errors[i].message);
+                    if (i > 1) {
+                        errorMessages = errorMessages + ", ";
+                    };
+                    errorMessages = errorMessages + err.errors[i].message;
+                };
+
+                res.status(500).json({recordAdded: false, isLoggedIn: false, message: "User not successfully registered.", errorMessages: errorMessages, error: err});
+            })
+        .catch(err => {
+            console.log("user-controller post /register err", err);
+            res.status(500).json({recordAdded: false, isLoggedIn: false, message: "User not successfully registered.", error: err});
         })
-    .catch(err => {
-        console.log("user-controller post /register err", err);
-        res.status(500).json({recordAdded: false, message: "User not successfully registered.", error: err});
-    })
+
+    } else {
+        res.status(200).json({recordAdded: false, isLoggedIn: false, message: "Please provide a valid email address."});
+    };
+
 });
 
 /* ***********************************
@@ -76,27 +98,29 @@ router.post("/login", (req, res) => {
                             updatedBy:  user.updatedBy,
                             admin:  user.admin,
                             active:  user.active,
+                            isLoggedIn: true,
+                            resultsFound: true,
                             message:    "Successfully authenticated user.",
                             sessionToken:   token
                         });
                     } else {
                         console.log("user-controller post /login Login failed. 401");
-                        res.status(401).json({error: "Login failed."});
+                        res.status(401).json({resultsFound: false, isLoggedIn: false, message: "Login failed.", error: "Login failed."});
                     };
                 })
             } else {
                 // console.log("user-controller post /login Failed to authenticate. 401");
-                res.status(401).json({error: "Failed to authenticate."});
+                res.status(401).json({resultsFound: false, isLoggedIn: false, message: "Failed to authenticate.", error: "Failed to authenticate."});
             };
         },
         err => {
             console.log("user-controller post /login Failed to process. 501 err", err);
-            res.status(501).send({error: "Failed to process."})
+            res.status(501).send({resultsFound: false, isLoggedIn: false, message: "Failed to process.", error: "Failed to process."})
         }
     )
     .catch(err => {
         console.log("user-controller post /login err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({resultsFound: false, isLoggedIn: false, message: "Login failed.", error: err});
     })
 });
 
@@ -233,31 +257,49 @@ router.put("/:userID", validateAdmin, (req, res) => {
         userID: {[Op.eq]: req.params.userID}
     }};
 
-    User.update(updateUser, query)
-    // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
-    .then((user) => {
-        if (user > 0) {
-            res.status(200).json({
-            // Need to return all the properties of the user to the browser?
-            // user:   user,
-            userID:   user.userID,
-            firstName:   user.firstName,
-            lastName:   user.lastName,
-            email:   user.email,
-            updatedBy:  user.updatedBy,
-            admin:  user.admin,
-            active:  user.active,
-            recordUpdated: true,
-            message: user + " user record(s) successfully updated."
-            });
-        } else {
-            res.status(200).json({recordUpdated: false, message: user + " user record(s) successfully updated."});
-        };
-    })
-    .catch((err) => {
-        console.log("user-controller put /:userID err", err);
-        res.status(500).json({recordUpdated: false, message: "User not successfully updated.", error: err});
-    });
+    if(req.body.user.email.match(emailRegExp)) {
+
+        User.update(updateUser, query)
+        // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
+        .then((user) => {
+            if (user > 0) {
+                res.status(200).json({
+                // Need to return all the properties of the user to the browser?
+                // user:   user,
+                userID:   user.userID,
+                firstName:   user.firstName,
+                lastName:   user.lastName,
+                email:   user.email,
+                updatedBy:  user.updatedBy,
+                admin:  user.admin,
+                active:  user.active,
+                recordUpdated: true,
+                message: user + " user record(s) successfully updated."
+                });
+            } else {
+                res.status(200).json({recordUpdated: false, message: user + " user record(s) successfully updated."});
+            };
+        })
+        .catch((err) => {
+            console.log("user-controller put /:userID err", err);
+            // console.log("user-controller put /:userID err.name", err.name);
+            // console.log("user-controller put /:userID err.errors[0].message", err.errors[0].message);
+
+            let errorMessages = "";
+            for (let i = 0; i < err.errors.length; i++) {
+                //console.log("user-controller put /:userID err.errors[i].message", err.errors[i].message);
+                if (i > 1) {
+                    errorMessages = errorMessages + ", ";
+                };
+                errorMessages = errorMessages + err.errors[i].message;
+            };
+
+            res.status(500).json({recordUpdated: false, message: "User not successfully updated.", errorMessages: errorMessages, error: err});
+        });
+
+    } else {
+        res.status(200).json({recordUpdated: false, message: "Please provide a valid email address."});
+    };
 
   });
 
@@ -281,38 +323,57 @@ router.put("/", validateSession, (req, res) => {
         userID: {[Op.eq]: req.user.userID}
     }};
 
-    User.update(updateUser, query)
-    .then(
-        createSuccess = (user) => {
-            if (user > 0) {
-                let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
-                res.json({
-                    // Need to return all the properties of the user to the browser?
-                    // user:   user,
-                    userID:   user.userID,
-                    firstName:   user.firstName,
-                    lastName:   user.lastName,
-                    email:   user.email,
-                    updatedBy:  user.updatedBy,
-                    admin:  user.admin,
-                    active:  user.active,
-                    recordUpdated: true,
-                    message: user + " user record(s) successfully updated.",
-                    sessionToken:   token
-                });
-            } else {
-                res.status(200).json({recordUpdated: false, message: user + " user record(s) successfully updated."});
+    if(req.body.user.email.match(emailRegExp)) {
+
+        User.update(updateUser, query)
+        .then(
+            updateSuccess = (user) => {
+                if (user > 0) {
+                    let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
+                    res.json({
+                        // Need to return all the properties of the user to the browser?
+                        // user:   user,
+                        userID:   user.userID,
+                        firstName:   user.firstName,
+                        lastName:   user.lastName,
+                        email:   user.email,
+                        updatedBy:  user.updatedBy,
+                        admin:  user.admin,
+                        active:  user.active,
+                        isLoggedIn: true,
+                        recordUpdated: true,
+                        message: user + " user record(s) successfully updated.",
+                        sessionToken:   token
+                    });
+                } else {
+                    res.status(200).json({recordUpdated: false, isLoggedIn: true, message: user + " user record(s) successfully updated."});
+                };
+            },
+            updateError = (err) => {
+                console.log("user-controller put / err", err);
+            // console.log("user-controller put / err.name", err.name);
+            // console.log("user-controller put / err.errors[0].message", err.errors[0].message);
+
+            let errorMessages = "";
+            for (let i = 0; i < err.errors.length; i++) {
+                //console.log("user-controller put / err.errors[i].message", err.errors[i].message);
+                if (i > 1) {
+                    errorMessages = errorMessages + ", ";
+                };
+                errorMessages = errorMessages + err.errors[i].message;
             };
-        },
-        createError = (err) => {
-            console.log("user-controller put err", err);
+
+            res.status(500).json({recordUpdated: false, message: "User not successfully updated.", errorMessages: errorMessages, error: err});
+            }
+        )
+        .catch((err) => {
+            console.log("user-controller put / err", err);
             res.status(500).json({recordUpdated: false, message: "User not successfully updated.", error: err});
-        }
-    )
-    .catch((err) => {
-        console.log("user-controller put err", err);
-        res.status(500).json({recordUpdated: false, message: "User not successfully updated.", error: err});
-    });
+        });
+
+    } else {
+        res.status(200).json({recordUpdated: false, message: "Please provide a valid email address."});
+    };
 
   });
 

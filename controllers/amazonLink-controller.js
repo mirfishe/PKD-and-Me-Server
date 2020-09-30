@@ -112,7 +112,19 @@ router.post("/", validateAdmin, (req, res) => {
       })
       .catch((err) => {
         console.log("amazonLink-controller post / err", err);
-        res.status(500).json({recordAdded: false, message: "Amazon link not successfully created.", error: err});
+        // console.log("amazonLink-controller post / err.name", err.name);
+        // console.log("amazonLink-controller post / err.errors[0].message", err.errors[0].message);
+
+        let errorMessages = "";
+        for (let i = 0; i < err.errors.length; i++) {
+            //console.log("amazonLink-controller post / err.errors[i].message", err.errors[i].message);
+            if (i > 1) {
+                errorMessages = errorMessages + ", ";
+            };
+            errorMessages = errorMessages + err.errors[i].message;
+        };
+
+        res.status(500).json({recordAdded: false, message: "Amazon link not successfully created.", errorMessages: errorMessages, error: err});
     });
 
 });
@@ -163,7 +175,19 @@ router.put("/:amazonLinkID", validateAdmin, (req, res) => {
     })
     .catch((err) => {
         console.log("amazonLink-controller put /:amazonLinkID err", err);
-        res.status(500).json({recordUpdated: false, message: "Amazon link not successfully updated.", error: err});
+        // console.log("amazonLink-controller put /:amazonLinkID err.name", err.name);
+        // console.log("amazonLink-controller put /:amazonLinkID err.errors[0].message", err.errors[0].message);
+
+        let errorMessages = "";
+        for (let i = 0; i < err.errors.length; i++) {
+            //console.log("amazonLink-controller put /:amazonLinkID err.errors[i].message", err.errors[i].message);
+            if (i > 1) {
+                errorMessages = errorMessages + ", ";
+            };
+            errorMessages = errorMessages + err.errors[i].message;
+        };
+
+        res.status(500).json({recordUpdated: false, message: "Amazon link not successfully updated.", errorMessages: errorMessages, error: err});
     });
 
   });

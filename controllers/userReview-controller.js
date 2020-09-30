@@ -5,6 +5,39 @@ const Sequelize = require('sequelize');
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
 
+// Function doesn't work because it needs to wait on the results of the query
+// function hasReviewedTitle (userID, titleID) {
+
+//     const query = {where: {
+//         [Op.and]: [
+//         {userID: {[Op.eq]: userID}},
+//         {titleID: {[Op.eq]: titleID}},
+//         {active: {[Op.eq]: true}}
+//         ]
+//     }};
+
+//     UserReview.findAll(query)
+//     .then((userReviews) => {
+//         if (userReviews.length > 0) {
+//             // console.log("userReview-controller get /user/:userID/title/:titleID userReviews", userReviews);
+//             // res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user reviews."});
+//             // console.log("userReview-controller hasReviewedTitle", true);
+//             return {hasReviewedTitle: true, resultsFound: true, message: "Successfully retrieved user reviews."};
+//         } else {
+//             // console.log("userReview-controller get /user/:userID/title/:titleID No Results");
+//             // res.status(200).json({resultsFound: false, message: "No user reviews found."});
+//             // console.log("userReview-controller hasReviewedTitle", false);
+//             return {hasReviewedTitle: false, resultsFound: false, message: "No user reviews found."};
+//         };
+//     })
+//     .catch((err) => {
+//         console.log("userReview-controller hasReviewedTitle err", err);
+//         // res.status(500).json({resultsFound: false, message: "No user reviews found.", error: err});
+//         return {hasReviewedTitle: false, resultsFound: false, message: "An error occurred.", error: err};
+//     });
+
+// };
+
 /******************************
  ***** Get User Reviews *********
  ******************************/
@@ -147,11 +180,24 @@ router.get("/sum/:titleID", (req, res) => {
     }};
 
     UserReview.sum("rating", query)
-    .then((userReview) => {
-        // console.log("userReview-controller get /sum/:titleID userReview", userReview);
-        res.status(200).json({
-        userReviewCount:    userReview,
-        message:    "Successfully retrieved user review sum."});
+    .then((userRatingSum) => {
+        if (!isNaN(userRatingSum)) {
+            // console.log("userReview-controller get /sum/:titleID userRatingSum", userRatingSum);
+            res.status(200).json({
+                userRatingSum:    userRatingSum,
+                resultsFound: true,
+                message:    "Successfully retrieved user review sum."
+            });
+        } else {
+            // console.log("userReview-controller get /sum/:titleID userRatingSum", userRatingSum);
+            // res.status(200).json({resultsFound: false, message: "There are no user ratings."});
+            res.status(200).json({
+                userRatingSum:    0,
+                // resultsFound: true,
+                resultsFound: false,
+                message:    "There are no user ratings."
+            });
+        };
     })
     .catch((err) => {
         console.log("userReview-controller get /sum/:titleID err", err);
@@ -287,6 +333,45 @@ router.get("/user/:userID", (req, res) => {
     })
     .catch((err) => {
         console.log("userReview-controller get /user/:userID err", err);
+        res.status(500).json({resultsFound: false, message: "No user reviews found.", error: err});
+    });
+
+});
+
+/**************************************
+ ***** Get User Reviews By UserID and TitleID *****
+***************************************/
+router.get("/user/:userID/title/:titleID", (req, res) => {
+
+    // Function doesn't work because it needs to wait on the results of the query
+    // console.log("hasReviewedTitle", hasReviewedTitle(req.params.userID, req.params.titleID));
+
+    const query = {where: {
+        [Op.and]: [
+        {userID: {[Op.eq]: req.params.userID}},
+        {titleID: {[Op.eq]: req.params.titleID}},
+        {active: {[Op.eq]: true}}
+        ]
+    }};
+
+    const orderBy = {order: 
+        [["updatedAt", "DESC"]]
+    };
+
+    UserReview.findAll(query, orderBy)
+    .then((userReviews) => {
+        if (userReviews.length > 0) {
+            // console.log("userReview-controller get /user/:userID/title/:titleID userReviews", userReviews);
+            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user reviews."});
+        } else {
+            // console.log("userReview-controller get /user/:userID/title/:titleID No Results");
+            // res.status(200).send("No user reviews found.");
+            // res.status(200).send({resultsFound: false, message: "No user reviews found."})
+            res.status(200).json({resultsFound: false, message: "No user reviews found."});
+        };
+    })
+    .catch((err) => {
+        console.log("userReview-controller get /user/:userID/title/:titleID err", err);
         res.status(500).json({resultsFound: false, message: "No user reviews found.", error: err});
     });
 
