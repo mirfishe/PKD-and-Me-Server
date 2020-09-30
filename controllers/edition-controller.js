@@ -21,12 +21,19 @@ router.get("/", (req, res) => {
    
     Edition.findAll(query, orderBy)
     .then((editions) => {
-        // console.log("edition-controller get / editions", editions);
-        res.status(200).json({editions: editions, message: "Successfully retrieved editions."});
+        if (editions.length > 0) {
+            // console.log("edition-controller get / editions", editions);
+            res.status(200).json({editions: editions, resultsFound: true, message: "Successfully retrieved editions."});
+        } else {
+            // console.log("edition-controller get / No Results");
+            // res.status(200).send("No editions found.");
+            // res.status(200).send({resultsFound: false, message: "No editions found."})
+            res.status(200).json({resultsFound: false, message: "No editions found."});
+        };
     })
     .catch((err) => {
         console.log("edition-controller get / err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({resultsFound: false, message: "No editions found.", error: err});
     });
 
 });
@@ -40,30 +47,39 @@ router.get("/:editionID", (req, res) => {
         editionID: {[Op.eq]: req.params.editionID}
     }};
 
-    Edition.findOne(query)
-    .then((edition) => {
-        // console.log("edition-controller get /:editionID edition", edition);
-        res.status(200).json({
-        editionID:  edition.editionID,
-        titleID:    edition.titleID,
-        mediaID:    edition.mediaID,
-        amazonLinkID:   edition.amazonLinkID,
-        publicationDate:  edition.publicationDate,
-        imageName:  edition.imageName,
-        ASIN:              edition.ASIN,
-        textLinkShort:     edition.textLinkShort,
-        textLinkFull:     edition.textLinkFull,
-        imageLinkSmall:     edition.imageLinkSmall,
-        imageLinkMedium:     edition.imageLinkMedium,
-        imageLinkLarge:     edition.imageLinkLarge,
-        textImageLink:     edition.textImageLink,
-        active:     edition.active,
-        message:    'Successfully retrieved edition.'
-        });
+    // Edition.findOne(query)
+    Edition.findAll(query)
+    .then((editions) => {
+        if (editions.length > 0) {
+            // console.log("edition-controller get /:editionID editions", editions);
+            res.status(200).json({editions: editions, resultsFound: true, message: "Successfully retrieved editions."});
+            // res.status(200).json({
+            // editionID:  edition.editionID,
+            // titleID:    edition.titleID,
+            // mediaID:    edition.mediaID,
+            // amazonLinkID:   edition.amazonLinkID,
+            // publicationDate:  edition.publicationDate,
+            // imageName:  edition.imageName,
+            // ASIN:              edition.ASIN,
+            // textLinkShort:     edition.textLinkShort,
+            // textLinkFull:     edition.textLinkFull,
+            // imageLinkSmall:     edition.imageLinkSmall,
+            // imageLinkMedium:     edition.imageLinkMedium,
+            // imageLinkLarge:     edition.imageLinkLarge,
+            // textImageLink:     edition.textImageLink,
+            // active:     edition.active,
+            // message:    'Successfully retrieved edition.'
+            // });
+        } else {
+            // console.log("edition-controller get /:editionID No Results");
+            // res.status(200).send("No editions found.");
+            // res.status(200).send({resultsFound: false, message: "No editions found."})
+            res.status(200).json({resultsFound: false, message: "No editions found."});
+        };
     })
         .catch((err) => {
             console.log("edition-controller get /:editionID err", err);
-            res.status(500).json({error: err});
+            res.status(500).json({resultsFound: false, message: "No editions found.", error: err});
         });
 
 });
@@ -86,12 +102,19 @@ router.get("/title/:titleID", (req, res) => {
 
     Edition.findAll(query, orderBy)
     .then((editions) => {
-        // console.log("edition-controller get /title/:titleID editions", editions);
-        res.status(200).json({editions: editions, message: "Successfully retrieved editions."});
+        if (editions.length > 0) {
+            // console.log("edition-controller get /title/:titleID editions", editions);
+            res.status(200).json({editions: editions, resultsFound: true, message: "Successfully retrieved editions."});
+        } else {
+            // console.log("edition-controller get /title/:titleID No Results");
+            // res.status(200).send("No editions found.");
+            // res.status(200).send({resultsFound: false, message: "No editions found."})
+            res.status(200).json({resultsFound: false, message: "No editions found."});
+        };
     })
     .catch((err) => {
         console.log("edition-controller get /title/:titleID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({resultsFound: false, message: "No editions found.", error: err});
     });
 
 });
@@ -114,12 +137,19 @@ router.get("/media/:mediaID", (req, res) => {
 
     Edition.findAll(query, orderBy)
     .then((editions) => {
-        // console.log("edition-controller get /media/:mediaID editions", editions);
-        res.status(200).json({editions: editions, message: "Successfully retrieved editions."});
+        if (editions.length > 0) {
+            // console.log("edition-controller get /media/:mediaID editions", editions);
+            res.status(200).json({editions: editions, resultsFound: true, message: "Successfully retrieved editions."});
+        } else {
+            // console.log("edition-controller get /media/:mediaID No Results");
+            // res.status(200).send("No editions found.");
+            // res.status(200).send({resultsFound: false, message: "No editions found."})
+            res.status(200).json({resultsFound: false, message: "No editions found."});
+        };
     })
     .catch((err) => {
         console.log("edition-controller get /media/:mediaID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({resultsFound: false, message: "No editions found.", error: err});
     });
 
 });
@@ -150,7 +180,7 @@ router.get("/media/:mediaID", (req, res) => {
 //     })
 //     .catch((err) => {
 //         console.log("edition-controller get /category/:categoryIDerr", err);
-//         res.status(500).json({error: err});
+//         res.status(500).json({resultsFound: false, message: "No editions found.", error: err});
 //     });
 
 // });
@@ -194,12 +224,13 @@ router.post('/', validateAdmin, (req, res) => {
         imageLinkLarge:     edition.imageLinkLarge,
         textImageLink:     edition.textImageLink,
         active:     edition.active,
+        recordAdded: true,
         message:    'Edition successfully created.'
         });
     })
     .catch((err) => {
         console.log("edition-controller post / err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordAdded: false, message: "Edition not successfully created.", error: err});
     });
     
 });
@@ -233,27 +264,34 @@ router.put("/:editionID", validateAdmin, (req, res) => {
     Edition.update(updateEdition, query)
     // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
     // .then((edition) => res.status(200).json({message: edition + " edition record(s) successfully updated."}))
-    .then((edition) => res.status(200).json({
-        editionID:    req.params.editionID,
-        titleID:    req.body.edition.titleID,
-        mediaID:    req.body.edition.mediaID,
-        amazonLinkID:   req.body.edition.amazonLinkID,
-        publicationDate:  req.body.edition.publicationDate,
-        imageName:  req.body.edition.imageName,
-        ASIN:              req.body.edition.ASIN,
-        textLinkShort:     req.body.edition.textLinkShort,
-        textLinkFull:     req.body.edition.textLinkFull,
-        imageLinkSmall:     req.body.edition.imageLinkSmall,
-        imageLinkMedium:     req.body.edition.imageLinkMedium,
-        imageLinkLarge:     req.body.edition.imageLinkLarge,
-        textImageLink:     req.body.edition.textImageLink,
-        active:     req.body.edition.active,
-        // message:    'Edition successfully updated.'
-        message: edition + " edition record(s) successfully updated."
-    }))
+    .then((edition) => {
+        if (edition > 0) {
+            res.status(200).json({
+            editionID:    req.params.editionID,
+            titleID:    req.body.edition.titleID,
+            mediaID:    req.body.edition.mediaID,
+            amazonLinkID:   req.body.edition.amazonLinkID,
+            publicationDate:  req.body.edition.publicationDate,
+            imageName:  req.body.edition.imageName,
+            ASIN:              req.body.edition.ASIN,
+            textLinkShort:     req.body.edition.textLinkShort,
+            textLinkFull:     req.body.edition.textLinkFull,
+            imageLinkSmall:     req.body.edition.imageLinkSmall,
+            imageLinkMedium:     req.body.edition.imageLinkMedium,
+            imageLinkLarge:     req.body.edition.imageLinkLarge,
+            textImageLink:     req.body.edition.textImageLink,
+            active:     req.body.edition.active,
+            recordUpdated: true,
+            // message:    'Edition successfully updated.'
+            message: edition + " edition record(s) successfully updated."
+            });
+        } else {
+            res.status(200).json({recordUpdated: false, message: edition + " edition record(s) successfully updated."});
+        };
+    })
     .catch((err) => {
         console.log("edition-controller put /:editionID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordUpdated: false, message: "Edition not successfully updated.", error: err});
     });
 
   });
@@ -269,10 +307,10 @@ router.delete("/:editionID", validateAdmin, (req, res) => {
     }};
 
     Edition.destroy(query)
-    .then(() => res.status(200).send("Edition successfully deleted."))
+    .then(() => res.status(200).json({recordDeleted: true, message: "Edition successfully deleted."}))
     .catch((err) => {
         console.log("edition-controller delete /:editionID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordDeleted: false, message: "Edition not successfully deleted.", error: err});
     });
 
   });

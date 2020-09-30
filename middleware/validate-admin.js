@@ -20,7 +20,10 @@ const validateAdmin = (req, res, next) => {
             }})
             .then(user => {
                 // console.log("validateAdmin user", user);
-                if (!user) throw "Unauthorized."; // "err";
+                // if (!user) throw {isAdmin: false, message: "Unauthorized."} // "Unauthorized."; // "err";
+                if (!user) {
+                    return res.status(401).json({isAdmin: false, message: "Unauthorized."})
+                };
                 // Need to return all the properties of the user?
                 // req.user = user;
                 req.user = {userID: user.userID};
@@ -31,7 +34,8 @@ const validateAdmin = (req, res, next) => {
         } else {
             // console.log("validateAdmin req.errors = err");
             req.errors = err;
-            return res.status(401).send("Unauthorized.")
+            // return res.status(401).send({isAdmin: false, message: "Unauthorized."})
+            return res.status(401).json({isAdmin: false, message: "Unauthorized."})
         };
 
     });

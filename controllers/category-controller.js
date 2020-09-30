@@ -19,18 +19,19 @@ router.get("/", (req, res) => {
     
     Category.findAll(query, orderBy)
     .then((categories) => {
-        // console.log("category-controller get / categories", categories);
-        res.status(200).json({categories: categories, message: "Successfully retrieved categories."});
+        if (categories.length > 0) {
+            // console.log("category-controller get / categories", categories);
+            res.status(200).json({categories: categories, resultsFound: true, message: "Successfully retrieved categories."});
+        } else {
+            // console.log("category-controller get / No Results");
+            // res.status(200).send("No categories found.");
+            // res.status(200).send({resultsFound: false, message: "No categories found."})
+            res.status(200).json({resultsFound: false, message: "No categories found."});
+        };
     })
-    //   .then((categories) => res.status(200).json({
-    //     category:   category.category,
-    //     sortID:     category.sortID,
-    //     active:     category.active,
-    //     message:    "Successfully retrieved categories."
-    // }))
     .catch((err) => {
         console.log("category-controller get / err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({resultsFound: false, message: "No categories found.", error: err});
     });
 
 });
@@ -44,19 +45,28 @@ router.get("/:categoryID", (req, res) => {
         categoryID: {[Op.eq]: req.params.categoryID}
     }};
 
-    Category.findOne(query)
-    .then((category) => {
-        // console.log("category-controller get /:categoryID category", category);
-        res.status(200).json({
-        category:   category.category,
-        sortID:     category.sortID,
-        active:     category.active,
-        message:    "Successfully retrieved category information."
-        });
+    // Category.findOne(query)
+    Category.findAll(query)
+    .then((categories) => {
+        if (categories.length > 0) {
+            // console.log("category-controller get /:categoryID categories", categories);
+            res.status(200).json({categories: categories, resultsFound: true, message: "Successfully retrieved categories."});
+            // res.status(200).json({
+            // category:   categories.category,
+            // sortID:     categories.sortID,
+            // active:     categories.active,
+            // message:    "Successfully retrieved category information."
+            // });
+        } else {
+            // console.log("category-controller get /:categoryID No Results");
+            // res.status(200).send("No categories found.");
+            // res.status(200).send({resultsFound: false, message: "No categories found."})
+            res.status(200).json({resultsFound: false, message: "No categories found."});
+        };
     })
     .catch((err) => {
         console.log("category-controller get /:categoryID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({resultsFound: false, message: "No categories found.", error: err});
     });
 
 });
@@ -104,12 +114,13 @@ router.post("/", validateAdmin, (req, res) => {
         category:   category.category,
         sortID:     category.sortID,
         active:     category.active,
+        recordAdded: true,
         message:    "Category successfully created."
         });
     })
     .catch((err) => {
         console.log("category-controller post / err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordAdded: false, message: "Category not successfully created.", error: err});
     });
 
 });
@@ -133,17 +144,24 @@ router.put("/:categoryID", validateAdmin, (req, res) => {
     Category.update(updateCategory, query)
     // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
     // .then((category) => res.status(200).json({message: category + " category record(s) successfully updated."}))
-    .then((category) => res.status(200).json({
-        categoryID:   req.params.categoryID,
-        category:   category.category,
-        sortID:     category.sortID,
-        active:     category.active,
-        // message:    "Category successfully updated."
-        message:    category + " category record(s) successfully updated."
-    }))
+    .then((category) => {
+        if (category > 0) {
+            res.status(200).json({
+            categoryID:   req.params.categoryID,
+            category:   category.category,
+            sortID:     category.sortID,
+            active:     category.active,
+            recordUpdated: true,
+            // message:    "Category successfully updated."
+            message:    category + " category record(s) successfully updated."
+            });
+        } else {
+            res.status(200).json({recordUpdated: false, message:    category + " category record(s) successfully updated."});
+        };
+    })
     .catch((err) => {
         console.log("category-controller put /:categoryID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordUpdated: false, message: "Category not successfully updated.", error: err});
     });
 
   });
@@ -159,10 +177,10 @@ router.delete("/:categoryID", validateAdmin, (req, res) => {
     }};
 
     Category.destroy(query)
-    .then(() => res.status(200).send("Category successfully deleted."))
+    .then(() => res.status(200).json({recordDeleted: true, message: "Category successfully deleted."}))
     .catch((err) => {
         console.log("category-controller delete /:categoryID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordDeleted: false, message: "Category not successfully deleted.", error: err});
     });
 
   });

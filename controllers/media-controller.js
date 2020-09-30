@@ -19,12 +19,19 @@ router.get("/", (req, res) => {
     
     Media.findAll(query, orderBy)
     .then((media) => {
-        // console.log("media-controller get / media", media);
-        res.status(200).json({media: media, message: "Successfully retrieved media."});
+        if (media.length > 0) {
+            // console.log("media-controller get / media", media);
+            res.status(200).json({media: media, resultsFound: true, message: "Successfully retrieved media."});
+        } else {
+            // console.log("media-controller get / No Results");
+            // res.status(200).send("No media found.");
+            // res.status(200).send({resultsFound: false, message: "No media found."})
+            res.status(200).json({resultsFound: false, message: "No media found."});
+        };
     })
     .catch((err) => {
         console.log("media-controller get / err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({resultsFound: false, message: "No media found.", error: err});
     });
 
 });
@@ -38,20 +45,32 @@ router.get("/:mediaID", (req, res) => {
         mediaID: {[Op.eq]: req.params.mediaID}
     }};
 
-    Media.findOne(query)
+    // Media.findOne(query)
+    Media.findAll(query)
     .then((media) => {
         // console.log("media-controller get /:mediaID media", media);
-        res.status(200).json({
-        media:   media.media,
-        sortID:     media.sortID,
-        active:     media.active,
-        message:    "Successfully retrieved media information."
-        });
+        // If statement doesn't get the value to check because the code goes to the .catch block when the results are null using findOne.
+        // if (media === null) {
+        if (media.length > 0) {
+            // console.log("media-controller get /:mediaID media", media);
+            res.status(200).json({media: media, resultsFound: true, message: "Successfully retrieved media."});
+            // res.status(200).json({
+            //     media:   media.media,
+            //     sortID:     media.sortID,
+            //     active:     media.active,
+            //     message:    "Successfully retrieved media information."
+            //     });
+        } else {
+            // console.log("media-controller get /:mediaID No Results");
+            // res.status(200).send("No media found.");
+            // res.status(200).send({resultsFound: false, message: "No media found."})
+            res.status(200).json({resultsFound: false, message: "No media found."});
+        };
     })
-        .catch((err) => {
-            console.log("media-controller get /:mediaID err", err);
-            res.status(500).json({error: err});
-        });
+    .catch((err) => {
+        console.log("media-controller get /:mediaID err", err);
+        res.status(500).json({resultsFound: false, message: "No media found.", error: err});
+    });
 
 });
 
@@ -93,18 +112,19 @@ router.post("/", validateAdmin, (req, res) => {
     })
     // .then((media) => res.status(200).json({media: media, message: "Media successfully created."}))
     .then((media) => {
-        // console.log("media-controller post / media", media);
+        console.log("media-controller post / media", media);
         res.status(200).json({
         mediaID:    media.mediaID,
         media:      media.media,
         sortID:     media.sortID,
         active:     media.active,
+        recordAdded: true,
         message:    "Media successfully created."
         });
     })
     .catch((err) => {
         console.log("media-controller post / err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordAdded: false, message: "Media not successfully created.", error: err});
     });
 
 });
@@ -128,17 +148,24 @@ router.put("/:mediaID", validateAdmin, (req, res) => {
     Media.update(updateMedia, query)
     // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
     // .then((media) => res.status(200).json({message: media + " media record(s) successfully updated."}))
-    .then((media) => res.status(200).json({
-        mediaID:    req.params.mediaID,
-        media:      req.body.media.media,
-        sortID:     req.body.media.sortID,
-        active:     req.body.media.active,
-        // message:    "Media successfully updated."
-        message:    media + " media record(s) successfully updated."
-    }))
+    .then((media) => {
+        if (media > 0) {
+            res.status(200).json({
+            mediaID:    req.params.mediaID,
+            media:      req.body.media.media,
+            sortID:     req.body.media.sortID,
+            active:     req.body.media.active,
+            recordUpdated: true,
+            // message:    "Media successfully updated."
+            message:    media + " media record(s) successfully updated."
+            });
+        } else {
+            res.status(200).json({recordUpdated: false, message: media + " media record(s) successfully updated."});
+        };
+    })
     .catch((err) => {
         console.log("media-controller put /:mediaID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordUpdated: false, message: "Media not successfully updated.", error: err});
     });
 
   });
@@ -154,10 +181,10 @@ router.delete("/:mediaID", validateAdmin, (req, res) => {
     }};
 
     Media.destroy(query)
-    .then(() => res.status(200).send("Media successfully deleted."))
+    .then(() => res.status(200).json({recordDeleted: true, message: "Media successfully deleted."}))
     .catch((err) => {
         console.log("media-controller delete /:mediaID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordDeleted: false, message: "Media not successfully deleted.", error: err});
     });
 
   });

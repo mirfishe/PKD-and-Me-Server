@@ -28,12 +28,19 @@ router.get("/", (req, res) => {
    
     Title.findAll(query, orderBy)
       .then((titles) => {
-        // console.log("title-controller get / titles", titles);
-        res.status(200).json({titles: titles, message: "Successfully retrieved titles."});
+        if (titles.length > 0) {
+            // console.log("title-controller get / titles", titles);
+            res.status(200).json({titles: titles, resultsFound: true, message: "Successfully retrieved titles."});
+        } else {
+            // console.log("title-controller get / No Results");
+            // res.status(200).send("No titles found.");
+            // res.status(200).send({resultsFound: false, message: "No titles found."})
+            res.status(200).json({resultsFound: false, message: "No titles found."});
+        };
     })
     .catch((err) => {
         console.log("title-controller get / err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({resultsFound: false, message: "No titles found.", error: err});
     });
 
 });
@@ -56,27 +63,36 @@ router.get("/:titleID", (req, res) => {
         titleID: {[Op.eq]: req.params.titleID}
     }};
 
-    Title.findOne(query)
-    .then((title) => {
-        // console.log("title-controller get /:titleID title", title);
-        res.status(200).json({
-        titleID:   title.titleID,
-        titleName:     title.titleName,
-        titleSort:  title.titleSort,
-        authorFirstName:   title.authorFirstName,
-        authorLastName:     title.authorLastName,
-        publicationDate:  title.publicationDate,
-        imageName:   title.imageName,
-        categoryID:   title.categoryID,
-        shortDescription:     title.shortDescription,
-        urlPKDweb:  title.urlPKDweb,
-        active:     title.active,
-        message:    "Successfully retrieved title."
-        });
+    // Title.findOne(query)
+    Title.findAll(query)
+    .then((titles) => {
+        if (titles.length > 0) {
+            // console.log("title-controller get /:titleID title", title);
+            // res.status(200).json({
+            // titleID:   title.titleID,
+            // titleName:     title.titleName,
+            // titleSort:  title.titleSort,
+            // authorFirstName:   title.authorFirstName,
+            // authorLastName:     title.authorLastName,
+            // publicationDate:  title.publicationDate,
+            // imageName:   title.imageName,
+            // categoryID:   title.categoryID,
+            // shortDescription:     title.shortDescription,
+            // urlPKDweb:  title.urlPKDweb,
+            // active:     title.active,
+            // message:    "Successfully retrieved title."
+            // });
+            res.status(200).json({titles: titles, resultsFound: true, message: "Successfully retrieved titles."});
+        } else {
+            // console.log("title-controller get /:titleID No Results");
+            // res.status(200).send("No titles found.");
+            // res.status(200).send({resultsFound: false, message: "No titles found."})
+            res.status(200).json({resultsFound: false, message: "No titles found."});
+        };
     })
         .catch((err) => {
             console.log("title-controller get /:titleID err", err);
-            res.status(500).json({error: err});
+            res.status(500).json({resultsFound: false, message: "No titles found.", error: err});
         });
 
 });
@@ -116,7 +132,7 @@ router.get("/:titleID", (req, res) => {
 //     })
 //         .catch((err) => {
 //             console.log("title-controller get /media/:mediaID err", err);
-//             res.status(500).json({error: err});
+//             res.status(500).json({resultsFound: false, message: "No titles found.", error: err});
 //         });
 
 // });
@@ -148,12 +164,19 @@ router.get("/category/:categoryID", (req, res) => {
 
     Title.findAll(query, orderBy)
     .then((titles) => {
-        // console.log("title-controller get /category/:categoryID" titles", titles);
-        res.status(200).json({titles: titles, message: "Successfully retrieved titles."});
+        if (titles.length > 0) {
+            // console.log("title-controller get /category/:categoryID titles", titles);
+            res.status(200).json({titles: titles, resultsFound: true, message: "Successfully retrieved titles."});
+        } else {
+            // console.log("title-controller get /category/:categoryID No Results");
+            // res.status(200).send("No titles found.");
+            // res.status(200).send({resultsFound: false, message: "No titles found."})
+            res.status(200).json({resultsFound: false, message: "No titles found."});
+        };
     })
         .catch((err) => {
             console.log("title-controller get /category/:categoryID err", err);
-            res.status(500).json({error: err});
+            res.status(500).json({resultsFound: false, message: "No titles found.", error: err});
         });
 
 });
@@ -190,12 +213,13 @@ router.post("/", validateAdmin, (req, res) => {
         shortDescription:     title.shortDescription,
         urlPKDweb:  title.urlPKDweb,
         active:     title.active,
+        recordAdded: true,
         message:    "Title successfully created."
         });
     })
     .catch((err) => {
         console.log("title-controller post / err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordAdded: false, message: "Title not successfully created.", error: err});
     });
 
 });
@@ -226,24 +250,31 @@ router.put("/:titleID", validateAdmin, (req, res) => {
     Title.update(updateTitle, query)
     // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
     // .then((title) => res.status(200).json({message: title + " title record(s) successfully updated."}))
-    .then((title) => res.status(200).json({
-        titleID:        req.params.titleID,
-        titleName:     req.body.title.titleName,
-        titleSort:      req.body.title.titleName.toLowerCase().replace(/^(an?|the) (.*)$/i, '$2, $1'),
-        authorFirstName:   req.body.title.authorFirstName,
-        authorLastName:     req.body.title.authorLastName,
-        publicationDate:  req.body.title.publicationDate,
-        imageName:   req.body.title.imageName,
-        categoryID:   req.body.title.categoryID,
-        shortDescription:     req.body.title.shortDescription,
-        urlPKDweb:  req.body.title.urlPKDweb,
-        active:     req.body.title.active,
-        // message:    "Title successfully updated."
-        message: title + " title record(s) successfully updated."
-    }))
+    .then((title) => {
+        if (title > 0) {
+            res.status(200).json({
+            titleID:        req.params.titleID,
+            titleName:     req.body.title.titleName,
+            titleSort:      req.body.title.titleName.toLowerCase().replace(/^(an?|the) (.*)$/i, '$2, $1'),
+            authorFirstName:   req.body.title.authorFirstName,
+            authorLastName:     req.body.title.authorLastName,
+            publicationDate:  req.body.title.publicationDate,
+            imageName:   req.body.title.imageName,
+            categoryID:   req.body.title.categoryID,
+            shortDescription:     req.body.title.shortDescription,
+            urlPKDweb:  req.body.title.urlPKDweb,
+            active:     req.body.title.active,
+            recordUpdated: true,
+            // message:    "Title successfully updated."
+            message: title + " title record(s) successfully updated."
+            });
+        } else {
+            res.status(200).json({recordUpdated: false, message: title + " title record(s) successfully updated."});
+        };
+    })
     .catch((err) => {
         console.log("title-controller put /:titleID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordUpdated: false, message: "Title not successfully updated.", error: err});
     });
 
   });
@@ -259,10 +290,10 @@ router.delete("/:titleID", validateAdmin, (req, res) => {
     }};
 
     Title.destroy(query)
-    .then(() => res.status(200).send("Title successfully deleted."))
+    .then(() => res.status(200).json({recordDeleted: true, message: "Title successfully deleted."}))
     .catch((err) => {
         console.log("title-controller delete /:titleID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordDeleted: false, message: "Title not successfully deleted.", error: err});
     });
 
   });

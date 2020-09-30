@@ -32,15 +32,18 @@ router.post("/register", (req, res) => {
                 updatedBy:  user.updatedBy,
                 admin:  user.admin,
                 active:  user.active,
+                recordAdded: true,
                 message:    "User successfully created.",
                 sessionToken:   token
             });
         },
-        createError = (err) => res.status(500).json(err)
-    )
+        createError = (err) => {
+            console.log("user-controller post /register createError err", err);
+            res.status(500).json({recordAdded: false, message: "User not successfully registered.", error: err});
+        })
     .catch(err => {
         console.log("user-controller post /register err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordAdded: false, message: "User not successfully registered.", error: err});
     })
 });
 
@@ -77,14 +80,19 @@ router.post("/login", (req, res) => {
                             sessionToken:   token
                         });
                     } else {
+                        console.log("user-controller post /login Login failed. 401");
                         res.status(401).json({error: "Login failed."});
                     };
                 })
             } else {
+                // console.log("user-controller post /login Failed to authenticate. 401");
                 res.status(401).json({error: "Failed to authenticate."});
             };
         },
-        err => res.status(501).send({error: "Failed to process."})
+        err => {
+            console.log("user-controller post /login Failed to process. 501 err", err);
+            res.status(501).send({error: "Failed to process."})
+        }
     )
     .catch(err => {
         console.log("user-controller post /login err", err);
@@ -104,12 +112,19 @@ router.get("/admin", validateAdmin, (req, res) => {
     
     User.findAll(orderBy)
       .then((users) => {
-        // console.log("user-controller get /admin users", users);
-        res.status(200).json({users: users, message: "Successfully retrieved users."});
+        if (users.length > 0) {
+            // console.log("user-controller get /admin users", users);
+            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved users."});
+        } else {
+            // console.log("user-controller get /admin No Results");
+            // res.status(200).send("No users found.");
+            // res.status(200).send({resultsFound: false, message: "No users found."})
+            res.status(200).json({resultsFound: false, message: "No users found."});
+        };
     })
       .catch((err) => {
         console.log("user-controller get /admin err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({resultsFound: false, message: "No users found.", error: err});
     });
 
 });
@@ -124,25 +139,34 @@ router.get("/", validateSession, (req, res) => {
         userID: {[Op.eq]: req.user.userID}
     }};
 
-    User.findOne(query)
-    .then((user) => {
-        // console.log("user-controller get /:userID user", user);
-        res.status(200).json({
-            // Need to return all the properties of the user to the browser?
-            // user:   user,
-            userID:   user.userID,
-            firstName:   user.firstName,
-            lastName:   user.lastName,
-            email:   user.email,
-            updatedBy:  user.updatedBy,
-            admin:  user.admin,
-            active:  user.active,
-            message:    "Successfully retrieved user information."
-        });
+    // User.findOne(query)
+    User.findAll(query)
+    .then((users) => {
+        if (users.length > 0) {
+            // console.log("user-controller get / user", user);
+            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved users."});
+            // res.status(200).json({
+            //     // Need to return all the properties of the user to the browser?
+            //     // user:   user,
+            //     userID:   user.userID,
+            //     firstName:   user.firstName,
+            //     lastName:   user.lastName,
+            //     email:   user.email,
+            //     updatedBy:  user.updatedBy,
+            //     admin:  user.admin,
+            //     active:  user.active,
+            //     message:    "Successfully retrieved user information."
+            // });
+        } else {
+            // console.log("user-controller get / No Results");
+            // res.status(200).send("No users found.");
+            // res.status(200).send({resultsFound: false, message: "No users found."})
+            res.status(200).json({resultsFound: false, message: "No users found."});
+        };
     })
         .catch((err) => {
             console.log("user-controller get / err", err);
-            res.status(500).json({error: err});
+            res.status(500).json({resultsFound: false, message: "No users found.", error: err});
         });
 
 });
@@ -157,25 +181,34 @@ router.get("/:userID", validateAdmin, (req, res) => {
         userID: {[Op.eq]: req.params.userID}
     }};
 
-    User.findOne(query)
-    .then((user) => {
-        // console.log("user-controller get /:userID user", user);
-        res.status(200).json({
-            // Need to return all the properties of the user to the browser?
-            // user:   user,
-            userID:   user.userID,
-            firstName:   user.firstName,
-            lastName:   user.lastName,
-            email:   user.email,
-            updatedBy:  user.updatedBy,
-            admin:  user.admin,
-            active:  user.active,
-            message:    "Successfully retrieved user information."
-        });
+    // User.findOne(query)
+    User.findAll(query)
+    .then((users) => {
+        if (users.length > 0) {
+            // console.log("user-controller get /:userID user", user);
+            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved users."});
+            // res.status(200).json({
+            //     // Need to return all the properties of the user to the browser?
+            //     // user:   user,
+            //     userID:   user.userID,
+            //     firstName:   user.firstName,
+            //     lastName:   user.lastName,
+            //     email:   user.email,
+            //     updatedBy:  user.updatedBy,
+            //     admin:  user.admin,
+            //     active:  user.active,
+            //     message:    "Successfully retrieved user information."
+            // });
+        } else {
+            // console.log("user-controller get /:userID No Results");
+            // res.status(200).send("No users found.");
+            // res.status(200).send({resultsFound: false, message: "No users found."})
+            res.status(200).json({resultsFound: false, message: "No users found."});
+        };
     })
         .catch((err) => {
             console.log("user-controller get /:userID err", err);
-            res.status(500).json({error: err});
+            res.status(500).json({resultsFound: false, message: "No users found.", error: err});
         });
 
 });
@@ -202,21 +235,28 @@ router.put("/:userID", validateAdmin, (req, res) => {
 
     User.update(updateUser, query)
     // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
-    .then((user) => res.status(200).json({
-        // Need to return all the properties of the user to the browser?
-        // user:   user,
-        userID:   user.userID,
-        firstName:   user.firstName,
-        lastName:   user.lastName,
-        email:   user.email,
-        updatedBy:  user.updatedBy,
-        admin:  user.admin,
-        active:  user.active,
-        message:    "User successfully updated."
-    }))
+    .then((user) => {
+        if (user > 0) {
+            res.status(200).json({
+            // Need to return all the properties of the user to the browser?
+            // user:   user,
+            userID:   user.userID,
+            firstName:   user.firstName,
+            lastName:   user.lastName,
+            email:   user.email,
+            updatedBy:  user.updatedBy,
+            admin:  user.admin,
+            active:  user.active,
+            recordUpdated: true,
+            message: user + " user record(s) successfully updated."
+            });
+        } else {
+            res.status(200).json({recordUpdated: false, message: user + " user record(s) successfully updated."});
+        };
+    })
     .catch((err) => {
         console.log("user-controller put /:userID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordUpdated: false, message: "User not successfully updated.", error: err});
     });
 
   });
@@ -244,26 +284,34 @@ router.put("/", validateSession, (req, res) => {
     User.update(updateUser, query)
     .then(
         createSuccess = (user) => {
-            let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
-            res.json({
-                // Need to return all the properties of the user to the browser?
-                // user:   user,
-                userID:   user.userID,
-                firstName:   user.firstName,
-                lastName:   user.lastName,
-                email:   user.email,
-                updatedBy:  user.updatedBy,
-                admin:  user.admin,
-                active:  user.active,
-                message:    "User successfully updated.",
-                sessionToken:   token
-            });
+            if (user > 0) {
+                let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
+                res.json({
+                    // Need to return all the properties of the user to the browser?
+                    // user:   user,
+                    userID:   user.userID,
+                    firstName:   user.firstName,
+                    lastName:   user.lastName,
+                    email:   user.email,
+                    updatedBy:  user.updatedBy,
+                    admin:  user.admin,
+                    active:  user.active,
+                    recordUpdated: true,
+                    message: user + " user record(s) successfully updated.",
+                    sessionToken:   token
+                });
+            } else {
+                res.status(200).json({recordUpdated: false, message: user + " user record(s) successfully updated."});
+            };
         },
-        createError = (err) => res.status(500).json(err)
+        createError = (err) => {
+            console.log("user-controller put err", err);
+            res.status(500).json({recordUpdated: false, message: "User not successfully updated.", error: err});
+        }
     )
     .catch((err) => {
         console.log("user-controller put err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordUpdated: false, message: "User not successfully updated.", error: err});
     });
 
   });
@@ -279,10 +327,10 @@ router.delete("/:userID", validateAdmin, (req, res) => {
     }};
 
     User.destroy(query)
-    .then(() => res.status(200).send("User successfully deleted."))
+    .then(() => res.status(200).json({recordDeleted: true, message: "User successfully deleted."}))
     .catch((err) => {
         console.log("user-controller delete /:userID err", err);
-        res.status(500).json({error: err});
+        res.status(500).json({recordDeleted: false, message: "User not successfully deleted.", error: err});
     });
 
   });

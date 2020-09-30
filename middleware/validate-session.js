@@ -17,7 +17,10 @@ const validateSession = (req, res, next) => {
                 ]
             }})
             .then(user => {
-                if (!user) throw "Unauthorized."; // "err";
+                // if (!user) throw "Unauthorized."; // "err";
+                if (!user) {
+                    return res.status(401).json({isLoggedIn: false, message: "Unauthorized."})
+                };
                 // Need to return all the properties of the user?
                 // req.user = user;
                 req.user = {userID: user.userID};
@@ -26,7 +29,8 @@ const validateSession = (req, res, next) => {
             .catch(err => next(err))
         } else {
             req.errors = err;
-            return res.status(401).send("Unauthorized.")
+            // return res.status(401).send("Unauthorized.")
+            return res.status(401).json({isLoggedIn: false, message: "Unauthorized."})
         };
 
     });
