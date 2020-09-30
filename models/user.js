@@ -25,8 +25,7 @@ module.exports = (sequelize, DataTypes) => {
   },
   updatedBy: {
     type: DataTypes.INTEGER,
-    defaultValue: 0,
-    allowNull: false
+    allowNull: true
   },
   admin: {
     type: DataTypes.BOOLEAN,

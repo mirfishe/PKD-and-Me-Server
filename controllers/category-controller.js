@@ -1,5 +1,6 @@
-const router = require('express').Router();
-const Category = require('../db').import('../models/category');
+const router = require("express").Router();
+const Category = require("../db").import("../models/category");
+const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
 
@@ -13,17 +14,25 @@ router.get("/", (req, res) => {
     }};
 
     const orderBy = {order: 
-        [["sortID", 'DESC']]
+        [["sortID", "DESC"]]
     };
     
     Category.findAll(query, orderBy)
-      .then((categories) => res.status(200).json({
-        category:   category.category,
-        sortID:     category.sortID,
-        active:     category.active,
-        message:    'Successfully retrieved categories.'
-    }))
-      .catch((err) => res.status(500).json({error: err}));
+    .then((categories) => {
+        if (categories.length > 0) {
+            // console.log("category-controller get / categories", categories);
+            res.status(200).json({categories: categories, resultsFound: true, message: "Successfully retrieved categories."});
+        } else {
+            // console.log("category-controller get / No Results");
+            // res.status(200).send("No categories found.");
+            // res.status(200).send({resultsFound: false, message: "No categories found."})
+            res.status(200).json({resultsFound: false, message: "No categories found."});
+        };
+    })
+    .catch((err) => {
+        console.log("category-controller get / err", err);
+        res.status(500).json({resultsFound: false, message: "No categories found.", error: err});
+    });
 
 });
   
@@ -36,14 +45,29 @@ router.get("/:categoryID", (req, res) => {
         categoryID: {[Op.eq]: req.params.categoryID}
     }};
 
-    Category.findOne(query)
-    .then((category) => res.status(200).json({
-        category:   category.category,
-        sortID:     category.sortID,
-        active:     category.active,
-        message:    'Successfully retrieved category information.'
-        }))
-    .catch((err) => res.status(500).json({error: err}));
+    // Category.findOne(query)
+    Category.findAll(query)
+    .then((categories) => {
+        if (categories.length > 0) {
+            // console.log("category-controller get /:categoryID categories", categories);
+            res.status(200).json({categories: categories, resultsFound: true, message: "Successfully retrieved categories."});
+            // res.status(200).json({
+            // category:   categories.category,
+            // sortID:     categories.sortID,
+            // active:     categories.active,
+            // message:    "Successfully retrieved category information."
+            // });
+        } else {
+            // console.log("category-controller get /:categoryID No Results");
+            // res.status(200).send("No categories found.");
+            // res.status(200).send({resultsFound: false, message: "No categories found."})
+            res.status(200).json({resultsFound: false, message: "No categories found."});
+        };
+    })
+    .catch((err) => {
+        console.log("category-controller get /:categoryID err", err);
+        res.status(500).json({resultsFound: false, message: "No categories found.", error: err});
+    });
 
 });
 
@@ -51,32 +75,54 @@ router.get("/:categoryID", (req, res) => {
  *** Add Category ***************
 *********************************/
 // Allows an admin to add a new category
-router.post('/', (req, res) => {
+router.post("/", validateAdmin, (req, res) => {
 
-    const createCategory = {
-        category:   req.body.category.category,
-        active:     req.body.category.active
-      };
+    // Don't need this anymore; was trying to fix scoping issues
+    //let newSortID = 0;
 
-    Category.max('sortID')
+    // Moved this inside the function for scoping issues with newSortID
+    // const createCategory = {
+    //     category:   req.body.category.category,
+    //     sortID:     newSortID
+    //   };
+
+    Category.max("sortID")
     .then((maxSortID) => {
-        // console.log("maxSortID", maxSortID);
+          // console.log("category-controller maxSortID", maxSortID);
         if (isNaN(maxSortID)) {
+            // newSortID = 1;
             return 1;
-        } else {
+          } else {
+            // newSortID = maxSortID + 1;
             return maxSortID + 1;
         };
     })
     .then(newSortID => {
-        Category.create(createCategory)
+        // console.log("category-controller newSortID", newSortID);
+
+        const createCategory = {
+            category:   req.body.category.category,
+            sortID:     newSortID
+        };
+
+        return Category.create(createCategory);
     })
-    .then((category) => res.status(200).json({
+    // .then((category) => res.status(200).json({category: category, message: "Category successfully created."}))
+    .then((category) => {
+        // console.log("category-controller post / category", category);
+        res.status(200).json({
         category:   category.category,
-        sortID:     newSortID,
+        sortID:     category.sortID,
         active:     category.active,
-        message:    'Category successfully created.'
-    }))
-    .catch(err => res.status(500).json({error: err}))
+        recordAdded: true,
+        message:    "Category successfully created."
+        });
+    })
+    .catch((err) => {
+        console.log("category-controller post / err", err);
+        res.status(500).json({recordAdded: false, message: "Category not successfully created.", error: err});
+    });
+
 });
 
 /***************************
@@ -89,20 +135,34 @@ router.put("/:categoryID", validateAdmin, (req, res) => {
         category:   req.body.category.category,
         sortID:   req.body.category.sortID,
         active:     req.body.category.active
-      };
+    };
 
-      const query = {where: {
+    const query = {where: {
         categoryID: {[Op.eq]: req.params.categoryID}
     }};
 
     Category.update(updateCategory, query)
-    .then((category) => res.status(200).json({
-        category:   category.category,
-        sortID:     category.sortID,
-        active:     category.active,
-        message:    'Category successfully updated.'
-    }))
-    .catch((err) => res.status(500).json({error: err}));
+    // Doesn't return the values of the updated record; the value passed to the function is the number of records updated.
+    // .then((category) => res.status(200).json({message: category + " category record(s) successfully updated."}))
+    .then((category) => {
+        if (category > 0) {
+            res.status(200).json({
+            categoryID:   req.params.categoryID,
+            category:   category.category,
+            sortID:     category.sortID,
+            active:     category.active,
+            recordUpdated: true,
+            // message:    "Category successfully updated."
+            message:    category + " category record(s) successfully updated."
+            });
+        } else {
+            res.status(200).json({recordUpdated: false, message:    category + " category record(s) successfully updated."});
+        };
+    })
+    .catch((err) => {
+        console.log("category-controller put /:categoryID err", err);
+        res.status(500).json({recordUpdated: false, message: "Category not successfully updated.", error: err});
+    });
 
   });
 
@@ -117,8 +177,11 @@ router.delete("/:categoryID", validateAdmin, (req, res) => {
     }};
 
     Category.destroy(query)
-    .then(() => res.status(200).send("Category successfully deleted."))
-    .catch((err) => res.status(500).json({error: err}));
+    .then(() => res.status(200).json({recordDeleted: true, message: "Category successfully deleted."}))
+    .catch((err) => {
+        console.log("category-controller delete /:categoryID err", err);
+        res.status(500).json({recordDeleted: false, message: "Category not successfully deleted.", error: err});
+    });
 
   });
 
