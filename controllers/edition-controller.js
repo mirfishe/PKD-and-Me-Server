@@ -13,13 +13,9 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }};
-
-    const orderBy = {order: 
-        [["publicationDate", 'DESC']]
-    };
+    }, order: [["publicationDate", 'DESC']]};
    
-    Edition.findAll(query, orderBy)
+    Edition.findAll(query)
     .then((editions) => {
         if (editions.length > 0) {
             // console.log("edition-controller get / editions", editions);
@@ -94,13 +90,9 @@ router.get("/title/:titleID", (req, res) => {
             {titleID: {[Op.eq]: req.params.titleID}},
             {active: {[Op.eq]: true}}
             ]
-    }};
+    }, order: [["publicationDate", 'DESC']]};
 
-    const orderBy = {order: 
-        [["publicationDate", 'DESC']]
-    };
-
-    Edition.findAll(query, orderBy)
+    Edition.findAll(query)
     .then((editions) => {
         if (editions.length > 0) {
             // console.log("edition-controller get /title/:titleID editions", editions);
@@ -129,13 +121,9 @@ router.get("/media/:mediaID", (req, res) => {
             {mediaID: {[Op.eq]: req.params.mediaID}},
             {active: {[Op.eq]: true}}
             ]
-    }};
+    }, order: [["publicationDate", 'DESC']]};
 
-    const orderBy = {order: 
-        [["publicationDate", 'DESC']]
-    };
-
-    Edition.findAll(query, orderBy)
+    Edition.findAll(query)
     .then((editions) => {
         if (editions.length > 0) {
             // console.log("edition-controller get /media/:mediaID editions", editions);
@@ -167,13 +155,9 @@ router.get("/media/:mediaID", (req, res) => {
 //             {categoryID: {[Op.eq]: req.params.categoryID}},
 //             {active: {[Op.eq]: true}}
 //             ]
-//     }};
+//     }, order: [["publicationDate", 'DESC']]};
 
-//     const orderBy = {order: 
-//         [["publicationDate", 'DESC']]
-//     };
-
-//     Edition.findAll(query, orderBy)
+//     Edition.findAll(query)
 //     .then((editions) => {
 //         // console.log("edition-controller get /category/:categoryID editions", editions);
 //         res.status(200).json({editions: editions, message: "Successfully retrieved editions."});

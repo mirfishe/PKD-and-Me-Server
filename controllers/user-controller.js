@@ -130,11 +130,9 @@ router.post("/login", (req, res) => {
 // Allows an admin to view all the users
 router.get("/admin", validateAdmin, (req, res) => {
 
-    const orderBy = {order: 
-        [["lastName", "DESC"], ["firstName", "DESC"]]
-    };
+    const query = {order: [["lastName", "DESC"], ["firstName", "DESC"]]};
     
-    User.findAll(orderBy)
+    User.findAll(query)
       .then((users) => {
         if (users.length > 0) {
             // console.log("user-controller get /admin users", users);

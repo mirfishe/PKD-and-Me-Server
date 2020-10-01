@@ -11,13 +11,9 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }};
-
-    const orderBy = {order: 
-        [["sortID", "DESC"]]
-    };
+    }, order: [["sortID", "ASC"]]};
     
-    Media.findAll(query, orderBy)
+    Media.findAll(query)
     .then((media) => {
         if (media.length > 0) {
             // console.log("media-controller get / media", media);

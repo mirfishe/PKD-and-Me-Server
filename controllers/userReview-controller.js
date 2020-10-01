@@ -45,13 +45,9 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }};
-
-    const orderBy = {order: 
-        [["updatedAt", "DESC"]]
-    };
+    }, order: [["updatedAt", "DESC"]]};
    
-    UserReview.findAll(query, orderBy)
+    UserReview.findAll(query)
     .then((userReviews) => {
         if (userReviews.length > 0) {
             // console.log("userReview-controller get / userReviews", userReviews);
@@ -170,60 +166,8 @@ router.get("/:reviewID", (req, res) => {
  ***** Get User Review Rating Sum By TitleID *****
 ***************************************/
 // Gets the sum of ratings for the title
-router.get("/sum/:titleID", (req, res) => {
-
-    const query = {where: {
-        [Op.and]: [
-        {titleID: {[Op.eq]: req.params.titleID}},
-        {active: {[Op.eq]: true}}
-        ]
-    }};
-
-    UserReview.sum("rating", query)
-    .then((userRatingSum) => {
-        if (!isNaN(userRatingSum)) {
-            // console.log("userReview-controller get /sum/:titleID userRatingSum", userRatingSum);
-            res.status(200).json({
-                userRatingSum:    userRatingSum,
-                resultsFound: true,
-                message:    "Successfully retrieved user review sum."
-            });
-        } else {
-            // console.log("userReview-controller get /sum/:titleID userRatingSum", userRatingSum);
-            // res.status(200).json({resultsFound: false, message: "There are no user ratings."});
-            res.status(200).json({
-                userRatingSum:    0,
-                // resultsFound: true,
-                resultsFound: false,
-                message:    "There are no user ratings."
-            });
-        };
-    })
-    .catch((err) => {
-        console.log("userReview-controller get /sum/:titleID err", err);
-        res.status(500).json({resultsFound: false, message: "Did not successfully retrieved user review sum.", error: err});
-    });
-
-});
-
-/**************************************
- ***** Get User Review Rating By TitleID *****
-***************************************/
-// Gets the sum and count of ratings for the title
-// Not working with raw SQL query or findAll
-// router.get("/rating/:titleID", (req, res) => {
-
-//     const attributes = {
-//         attributes: [
-//         // "reviewID", "userID", "updatedBy", "titleID", "read", "dateRead", "rating", "shortReview", "longReview", "active", 
-//         [Sequelize.fn("count", Sequelize.col("reviewID")), "userReviewCount"],
-//         [Sequelize.fn("sum", Sequelize.col("rating")), "userReviewSum"]
-//         ]
-//     };
-
-//     const groupBy = {
-//         group: ["rating"]
-//     };
+// Don't need since the rating endpoint is working
+// router.get("/sum/:titleID", (req, res) => {
 
 //     const query = {where: {
 //         [Op.and]: [
@@ -232,22 +176,69 @@ router.get("/sum/:titleID", (req, res) => {
 //         ]
 //     }};
 
-//     const querySQL = "SELECT COUNT(\"rating\") AS \"userReviewCount\", SUM(\"rating\") AS \"userReviewSum\" FROM \"userReviews\" WHERE \"titleID\" = 3 AND \"active\" = true GROUP By rating";
-
-//     // UserReview.findAll(attributes, groupBy, query)
-//     Sequelize.query(querySQL)
-//     .then((userReview) => {
-//         // console.log("userReview-controller get /rating/:titleID userReview", userReview);
-//         res.status(200).json({
-//         userReviewCount:    userReview,
-//         message:    "Successfully retrieved user review sum."});
+//     UserReview.sum("rating", query)
+//     .then((userRatingSum) => {
+//         if (!isNaN(userRatingSum)) {
+//             // console.log("userReview-controller get /sum/:titleID userRatingSum", userRatingSum);
+//             res.status(200).json({
+//                 userRatingSum:    userRatingSum,
+//                 resultsFound: true,
+//                 message:    "Successfully retrieved user review sum."
+//             });
+//         } else {
+//             // console.log("userReview-controller get /sum/:titleID userRatingSum", userRatingSum);
+//             // res.status(200).json({resultsFound: false, message: "There are no user ratings."});
+//             res.status(200).json({
+//                 userRatingSum:    0,
+//                 // resultsFound: true,
+//                 resultsFound: false,
+//                 message:    "There are no user ratings."
+//             });
+//         };
 //     })
 //     .catch((err) => {
-//         console.log("userReview-controller get /rating/:titleID err", err);
-//         res.status(500).json({resultsFound: false, message: "No user reviews found.", error: err});
+//         console.log("userReview-controller get /sum/:titleID err", err);
+//         res.status(500).json({resultsFound: false, message: "Did not successfully retrieved user review sum.", error: err});
 //     });
 
 // });
+
+/**************************************
+ ***** Get User Review Rating By TitleID *****
+***************************************/
+// Gets the sum and count of ratings for the title
+router.get("/rating/:titleID", (req, res) => {
+
+    const query = {where: {
+        [Op.and]: [
+        {titleID: {[Op.eq]: req.params.titleID}},
+        {active: {[Op.eq]: true}}
+        ]
+    }, group: ["rating"]
+    , attributes: [
+        [Sequelize.fn("count", Sequelize.col("reviewID")), "userReviewCount"],
+        [Sequelize.fn("sum", Sequelize.col("rating")), "userReviewSum"]
+        ]
+    };
+
+    UserReview.findAll(query)
+    .then((userReviews) => {
+        if (userReviews.length > 0) {
+            // console.log("userReview-controller get /rating/:titleID userReviews", userReviews);
+            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user reviews."});
+        } else {
+            // console.log("userReview-controller get /rating/:titleID  No Results");
+            // res.status(200).send("No user reviews found.");
+            // res.status(200).send({resultsFound: false, message: "No user reviews found."})
+            res.status(200).json({resultsFound: false, message: "No user reviews found."});
+        };
+    })
+    .catch((err) => {
+        console.log("userReview-controller get /rating/:titleID err", err);
+        res.status(500).json({resultsFound: false, message: "No user reviews found.", error: err});
+    });
+
+});
 
 /**************************************
  ***** Get User Reviews By TitleID *****
@@ -277,24 +268,23 @@ router.get("/title/:titleID", (req, res) => {
         {titleID: {[Op.eq]: req.params.titleID}},
         {active: {[Op.eq]: true}}
         ]
-    }};
+    }, order: [["updatedAt", "DESC"]]};
 
-    const orderBy = {order: 
-        [["updatedAt", "DESC"]]
-    };
-
-    UserReview.findAndCountAll(query, orderBy)
-    // UserReview.findAll(attributes, query, groupBy, orderBy)
+    // Removed findAndCountAll because the rating endpoiont is working
+    // UserReview.findAndCountAll(query)
+    UserReview.findAll(query)
     .then((userReviews) => {
-        if (userReviews.length > 0) {
         // console.log("userReview-controller get /title/:titleID userReviews", userReviews);
-        res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user reviews."});
-    } else {
-        // console.log("userReview-controller get /title/:titleID No Results");
-        // res.status(200).send("No user reviews found.");
-        // res.status(200).send({resultsFound: false, message: "No user reviews found."})
-        res.status(200).json({resultsFound: false, message: "No user reviews found."});
-    };
+        // if (userReviews.rows.length > 0) {
+        if (userReviews.length > 0) {
+            // console.log("userReview-controller get /title/:titleID userReviews", userReviews);
+            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user reviews."});
+        } else {
+            // console.log("userReview-controller get /title/:titleID No Results");
+            // res.status(200).send("No user reviews found.");
+            // res.status(200).send({resultsFound: false, message: "No user reviews found."})
+            res.status(200).json({resultsFound: false, message: "No user reviews found."});
+        };
     })
     .catch((err) => {
         console.log("userReview-controller get /title/:titleID err", err);
@@ -313,13 +303,9 @@ router.get("/user/:userID", (req, res) => {
         {userID: {[Op.eq]: req.params.userID}},
         {active: {[Op.eq]: true}}
         ]
-    }};
+    }, order: [["updatedAt", "DESC"]]};
 
-    const orderBy = {order: 
-        [["updatedAt", "DESC"]]
-    };
-
-    UserReview.findAll(query, orderBy)
+    UserReview.findAll(query)
     .then((userReviews) => {
         if (userReviews.length > 0) {
             // console.log("userReview-controller get /user/:userID" userReviews", userReviews);
@@ -352,13 +338,9 @@ router.get("/user/:userID/title/:titleID", (req, res) => {
         {titleID: {[Op.eq]: req.params.titleID}},
         {active: {[Op.eq]: true}}
         ]
-    }};
+    }, order: [["updatedAt", "DESC"]]};
 
-    const orderBy = {order: 
-        [["updatedAt", "DESC"]]
-    };
-
-    UserReview.findAll(query, orderBy)
+    UserReview.findAll(query)
     .then((userReviews) => {
         if (userReviews.length > 0) {
             // console.log("userReview-controller get /user/:userID/title/:titleID userReviews", userReviews);

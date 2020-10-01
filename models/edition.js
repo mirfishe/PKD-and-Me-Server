@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     ASIN: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: true
     },
     textLinkShort: {
