@@ -11,13 +11,9 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }};
-  
-    const orderBy = {order: 
-        [["updatedAt", "DESC"]]
-    };
+    }, order: [["updatedAt", "DESC"]]};
 
-    AmazonLink.findAll(query, orderBy)
+    AmazonLink.findAll(query)
     .then((links) => {
         if (links.length > 0) {
             // console.log("amazonLink-controller get / links", links);

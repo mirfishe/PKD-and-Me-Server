@@ -11,13 +11,9 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }};
-
-    const orderBy = {order: 
-        [["sortID", "DESC"]]
-    };
+    }, order: [["sortID", "ASC"]]};
     
-    Category.findAll(query, orderBy)
+    Category.findAll(query)
     .then((categories) => {
         if (categories.length > 0) {
             // console.log("category-controller get / categories", categories);

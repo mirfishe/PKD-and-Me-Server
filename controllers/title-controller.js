@@ -20,13 +20,9 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }};
-
-    const orderBy = {order: 
-        [["titleSort", "DESC"]]
-    };
+    }, order: [["titleSort", "ASC"]]};
    
-    Title.findAll(query, orderBy)
+    Title.findAll(query)
       .then((titles) => {
         if (titles.length > 0) {
             // console.log("title-controller get / titles", titles);
@@ -119,13 +115,9 @@ router.get("/:titleID", (req, res) => {
 //             {mediaID: {[Op.eq]: req.params.mediaID}},
 //             {active: {[Op.eq]: true}}
 //             ]
-//     }};
+//     }, order: [["titleSort", "DESC"]]};
 
-//     const orderBy = {order: 
-//         [["titleSort", "DESC"]]
-//     };
-
-//     Title.findAll(query, orderBy)
+//     Title.findAll(query)
 //     .then((titles) => {
 //         // console.log("title-controller get /media/:mediaID" titles", titles);
 //         res.status(200).json({titles: titles, message: "Successfully retrieved titles."});
@@ -156,13 +148,9 @@ router.get("/category/:categoryID", (req, res) => {
             {categoryID: {[Op.eq]: req.params.categoryID}},
             {active: {[Op.eq]: true}}
             ]
-    }};
+    }, order: [["titleSort", "ASC"]]};
 
-    const orderBy = {order: 
-        [["titleSort", "DESC"]]
-    };
-
-    Title.findAll(query, orderBy)
+    Title.findAll(query)
     .then((titles) => {
         if (titles.length > 0) {
             // console.log("title-controller get /category/:categoryID titles", titles);
