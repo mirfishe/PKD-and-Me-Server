@@ -37,6 +37,7 @@ router.post("/register", (req, res) => {
                     admin:  user.admin,
                     active:  user.active,
                     isLoggedIn: true,
+                    isAdmin: user.admin,
                     recordAdded: true,
                     message:    "User successfully created.",
                     sessionToken:   token
@@ -56,15 +57,15 @@ router.post("/register", (req, res) => {
                     errorMessages = errorMessages + err.errors[i].message;
                 };
 
-                res.status(500).json({recordAdded: false, isLoggedIn: false, message: "User not successfully registered.", errorMessages: errorMessages, error: err});
+                res.status(500).json({recordAdded: false, isLoggedIn: false, isAdmin: false, message: "User not successfully registered.", errorMessages: errorMessages, error: err});
             })
         .catch(err => {
             console.log("user-controller post /register err", err);
-            res.status(500).json({recordAdded: false, isLoggedIn: false, message: "User not successfully registered.", error: err});
+            res.status(500).json({recordAdded: false, isLoggedIn: false, isAdmin: false, message: "User not successfully registered.", error: err});
         })
 
     } else {
-        res.status(200).json({recordAdded: false, isLoggedIn: false, message: "Please provide a valid email address."});
+        res.status(200).json({recordAdded: false, isLoggedIn: false, isAdmin: false, message: "Please provide a valid email address."});
     };
 
 });
@@ -99,28 +100,29 @@ router.post("/login", (req, res) => {
                             admin:  user.admin,
                             active:  user.active,
                             isLoggedIn: true,
+                            isAdmin: user.admin,
                             resultsFound: true,
                             message:    "Successfully authenticated user.",
                             sessionToken:   token
                         });
                     } else {
                         console.log("user-controller post /login Login failed. 401");
-                        res.status(401).json({resultsFound: false, isLoggedIn: false, message: "Login failed.", error: "Login failed."});
+                        res.status(401).json({resultsFound: false, isLoggedIn: false, isAdmin: false, message: "Login failed.", error: "Login failed."});
                     };
                 })
             } else {
                 // console.log("user-controller post /login Failed to authenticate. 401");
-                res.status(401).json({resultsFound: false, isLoggedIn: false, message: "Failed to authenticate.", error: "Failed to authenticate."});
+                res.status(401).json({resultsFound: false, isLoggedIn: false, isAdmin: false, message: "Failed to authenticate.", error: "Failed to authenticate."});
             };
         },
         err => {
             console.log("user-controller post /login Failed to process. 501 err", err);
-            res.status(501).send({resultsFound: false, isLoggedIn: false, message: "Failed to process.", error: "Failed to process."})
+            res.status(501).send({resultsFound: false, isLoggedIn: false, isAdmin: false, message: "Failed to process.", error: "Failed to process."})
         }
     )
     .catch(err => {
         console.log("user-controller post /login err", err);
-        res.status(500).json({resultsFound: false, isLoggedIn: false, message: "Login failed.", error: err});
+        res.status(500).json({resultsFound: false, isLoggedIn: false, isAdmin: false, message: "Login failed.", error: err});
     })
 });
 
