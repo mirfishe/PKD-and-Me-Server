@@ -12,6 +12,10 @@ INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values (
 INSERT INTO categories ("category", "sortID", "createdAt", "updatedAt") values ('Game', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM categories) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM categories) END), NOW(), NOW());
 
 
+
+
+
+
 INSERT INTO media ("media", "sortID", "createdAt", "updatedAt") values ('Paperback', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM media) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM media) END), NOW(), NOW());
 INSERT INTO media ("media", "sortID", "createdAt", "updatedAt") values ('Hardback', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM media) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM media) END), NOW(), NOW());
 INSERT INTO media ("media", "sortID", "createdAt", "updatedAt") values ('Kindle', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM media) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM media) END), NOW(), NOW());
@@ -28,4 +32,3 @@ INSERT INTO media ("media", "sortID", "createdAt", "updatedAt") values ('Documen
 INSERT INTO media ("media", "sortID", "createdAt", "updatedAt") values ('Music CD', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM media) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM media) END), NOW(), NOW());
 INSERT INTO media ("media", "sortID", "createdAt", "updatedAt") values ('Music Download', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM media) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM media) END), NOW(), NOW());
 INSERT INTO media ("media", "sortID", "createdAt", "updatedAt") values ('Game', (SELECT CASE WHEN (SELECT COUNT("sortID") FROM media) = 0 THEN 1 ELSE (SELECT MAX("sortID") + 1 FROM media) END), NOW(), NOW());
-
