@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Edition = require('../db').import('../models/edition');
-const AmazonLink = require('../db').import('../models/amazonLink');
+// const Media = require("../db").import("../models/media");
+// const AmazonLink = require('../db').import('../models/amazonLink');
 const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
@@ -13,7 +14,7 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }, order: [["publicationDate", 'DESC']]};
+    }, include: {all: true, nested: true}, order: [["publicationDate", 'DESC']]};
    
     Edition.findAll(query)
     .then((editions) => {
@@ -41,7 +42,7 @@ router.get("/:editionID", (req, res) => {
 
     const query = {where: {
         editionID: {[Op.eq]: req.params.editionID}
-    }};
+    }, include: {all: true, nested: true}};
 
     // Edition.findOne(query)
     Edition.findAll(query)
@@ -90,7 +91,7 @@ router.get("/title/:titleID", (req, res) => {
             {titleID: {[Op.eq]: req.params.titleID}},
             {active: {[Op.eq]: true}}
             ]
-    }, order: [["publicationDate", 'DESC']]};
+    }, include: {all: true, nested: true}, order: [["publicationDate", 'DESC']]};
 
     Edition.findAll(query)
     .then((editions) => {
@@ -121,7 +122,7 @@ router.get("/media/:mediaID", (req, res) => {
             {mediaID: {[Op.eq]: req.params.mediaID}},
             {active: {[Op.eq]: true}}
             ]
-    }, order: [["publicationDate", 'DESC']]};
+    }, include: {all: true, nested: true}, order: [["publicationDate", 'DESC']]};
 
     Edition.findAll(query)
     .then((editions) => {

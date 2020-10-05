@@ -1,5 +1,9 @@
 const router = require("express").Router();
 const Title = require("../db").import("../models/title");
+// const Category = require("../db").import("../models/category");
+// const Edition = require('../db').import('../models/edition');
+// const Media = require("../db").import("../models/media");
+// const UserReview = require("../db").import("../models/userReview");
 const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
@@ -20,7 +24,8 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }, order: [["titleSort", "ASC"]]};
+    // }, include: [Category, Edition, UserReview], order: [["titleSort", "ASC"]]};
+    }, include: {all: true, nested: true}, order: [["titleSort", "ASC"]]};
    
     Title.findAll(query)
       .then((titles) => {
@@ -57,7 +62,7 @@ router.get("/:titleID", (req, res) => {
 
     const query = {where: {
         titleID: {[Op.eq]: req.params.titleID}
-    }};
+    }, include: {all: true, nested: true}};
 
     // Title.findOne(query)
     Title.findAll(query)
@@ -148,7 +153,7 @@ router.get("/category/:categoryID", (req, res) => {
             {categoryID: {[Op.eq]: req.params.categoryID}},
             {active: {[Op.eq]: true}}
             ]
-    }, order: [["titleSort", "ASC"]]};
+    }, include: {all: true, nested: true}, order: [["titleSort", "ASC"]]};
 
     Title.findAll(query)
     .then((titles) => {

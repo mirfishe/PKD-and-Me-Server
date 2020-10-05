@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const UserReview = require("../db").import("../models/userReview");
+// const Title = require("../db").import("../models/title");
 const {Op} = require("sequelize");
 const Sequelize = require('sequelize');
 const validateSession = require("../middleware/validate-session");
@@ -45,7 +46,7 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }, order: [["updatedAt", "DESC"]]};
+    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
    
     UserReview.findAll(query)
     .then((userReviews) => {
@@ -73,7 +74,7 @@ router.get("/:reviewID", (req, res) => {
 
     const query = {where: {
         reviewID: {[Op.eq]: req.params.reviewID}
-    }};
+    }, include: {all: true, nested: true}};
 
     // UserReview.findOne(query)
     UserReview.findAll(query)
@@ -268,7 +269,7 @@ router.get("/title/:titleID", (req, res) => {
         {titleID: {[Op.eq]: req.params.titleID}},
         {active: {[Op.eq]: true}}
         ]
-    }, order: [["updatedAt", "DESC"]]};
+    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
 
     // Removed findAndCountAll because the rating endpoiont is working
     // UserReview.findAndCountAll(query)
@@ -303,7 +304,7 @@ router.get("/user/:userID", (req, res) => {
         {userID: {[Op.eq]: req.params.userID}},
         {active: {[Op.eq]: true}}
         ]
-    }, order: [["updatedAt", "DESC"]]};
+    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
 
     UserReview.findAll(query)
     .then((userReviews) => {
@@ -338,7 +339,7 @@ router.get("/user/:userID/title/:titleID", (req, res) => {
         {titleID: {[Op.eq]: req.params.titleID}},
         {active: {[Op.eq]: true}}
         ]
-    }, order: [["updatedAt", "DESC"]]};
+    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
 
     UserReview.findAll(query)
     .then((userReviews) => {

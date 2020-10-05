@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }, order: [["updatedAt", "DESC"]]};
+    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
 
     AmazonLink.findAll(query)
     .then((links) => {
@@ -39,7 +39,7 @@ router.get("/:amazonLinkID", (req, res) => {
 
     const query = {where: {
         amazonLinkID: {[Op.eq]: req.params.amazonLinkID}
-    }};
+    }, include: {all: true, nested: true}};
 
     // AmazonLink.findOne(query)
     AmazonLink.findAll(query)

@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
+    // }, include: {all: true, nested: true}, order: [["sortID", "ASC"]]};
     }, order: [["sortID", "ASC"]]};
     
     Category.findAll(query)
@@ -39,6 +40,7 @@ router.get("/:categoryID", (req, res) => {
 
     const query = {where: {
         categoryID: {[Op.eq]: req.params.categoryID}
+    // }, include: {all: true, nested: true}};
     }};
 
     // Category.findOne(query)
