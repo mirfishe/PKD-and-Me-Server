@@ -48,7 +48,7 @@ router.get("/:categoryID", (req, res) => {
     .then((categories) => {
         if (categories.length > 0) {
             // console.log("category-controller get /:categoryID categories", categories);
-            res.status(200).json({categories: categories, resultsFound: true, message: "Successfully retrieved categories."});
+            res.status(200).json({categories: categories, resultsFound: true, message: "Successfully retrieved category."});
             // res.status(200).json({
             // category:   categories.category,
             // sortID:     categories.sortID,

@@ -46,7 +46,7 @@ router.get("/:amazonLinkID", (req, res) => {
     .then((links) => {
         if (links.length > 0) {
             // console.log("amazonLink-controller get /:amazonLinkID link", link);
-            res.status(200).json({links: links, resultsFound: true, message: "Successfully retrieved Amazon links."});
+            res.status(200).json({links: links, resultsFound: true, message: "Successfully retrieved Amazon link."});
             // res.status(200).json({
             // amazonLinkID:     link.amazonLinkID,
             // ASIN:              link.ASIN,

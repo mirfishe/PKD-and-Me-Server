@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const Title = require("../db").import("../models/title");
-// const Category = require("../db").import("../models/category");
-// const Edition = require('../db').import('../models/edition');
-// const Media = require("../db").import("../models/media");
-// const UserReview = require("../db").import("../models/userReview");
+const Category = require("../db").import("../models/category");
+const Edition = require('../db').import('../models/edition');
+const Media = require("../db").import("../models/media");
+const User = require("../db").import("../models/user");
+const UserReview = require("../db").import("../models/userReview");
 const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
@@ -25,7 +26,32 @@ router.get("/", (req, res) => {
     const query = {where: {
         active: {[Op.eq]: true}
     // }, include: [Category, Edition, UserReview], order: [["titleSort", "ASC"]]};
-    }, include: {all: true, nested: true}, order: [["titleSort", "ASC"]]};
+    // }, include: {all: true, nested: true}, order: [["titleSort", "ASC"]]};
+    }, include: [
+        {model: Edition,
+            include: [
+                {model: Media, where: {
+                    active: {[Op.eq]: true}
+                }}],
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: UserReview,
+            include: [
+                {model: User, where: {
+                    active: {[Op.eq]: true}
+                }}],
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: Category,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ]};
    
     Title.findAll(query)
       .then((titles) => {
@@ -62,7 +88,32 @@ router.get("/:titleID", (req, res) => {
 
     const query = {where: {
         titleID: {[Op.eq]: req.params.titleID}
-    }, include: {all: true, nested: true}};
+    // }, include: {all: true, nested: true}};
+    }, include: [
+        {model: Edition,
+            include: [
+                {model: Media, where: {
+                    active: {[Op.eq]: true}
+                }}],
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: UserReview,
+            include: [
+                {model: User, where: {
+                    active: {[Op.eq]: true}
+                }}],
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: Category,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ]};
 
     // Title.findOne(query)
     Title.findAll(query)
@@ -83,7 +134,7 @@ router.get("/:titleID", (req, res) => {
             // active:     title.active,
             // message:    "Successfully retrieved title."
             // });
-            res.status(200).json({titles: titles, resultsFound: true, message: "Successfully retrieved titles."});
+            res.status(200).json({titles: titles, resultsFound: true, message: "Successfully retrieved title."});
         } else {
             // console.log("title-controller get /:titleID No Results");
             // res.status(200).send("No titles found.");
@@ -153,7 +204,32 @@ router.get("/category/:categoryID", (req, res) => {
             {categoryID: {[Op.eq]: req.params.categoryID}},
             {active: {[Op.eq]: true}}
             ]
-    }, include: {all: true, nested: true}, order: [["titleSort", "ASC"]]};
+    // }, include: {all: true, nested: true}, order: [["titleSort", "ASC"]]};
+    }, include: [
+        {model: Edition,
+            include: [
+                {model: Media, where: {
+                    active: {[Op.eq]: true}
+                }}],
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: UserReview,
+            include: [
+                {model: User, where: {
+                    active: {[Op.eq]: true}
+                }}],
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: Category,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ]};
 
     Title.findAll(query)
     .then((titles) => {

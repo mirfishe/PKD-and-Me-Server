@@ -51,7 +51,7 @@ router.get("/:mediaID", (req, res) => {
         // if (media === null) {
         if (media.length > 0) {
             // console.log("media-controller get /:mediaID media", media);
-            res.status(200).json({media: media, resultsFound: true, message: "Successfully retrieved media."});
+            res.status(200).json({media: media, resultsFound: true, message: "Successfully retrieved media item."});
             // res.status(200).json({
             //     media:   media.media,
             //     sortID:     media.sortID,

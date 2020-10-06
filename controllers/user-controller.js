@@ -170,7 +170,7 @@ router.get("/", validateSession, (req, res) => {
     .then((users) => {
         if (users.length > 0) {
             // console.log("user-controller get / user", user);
-            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved users."});
+            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved user."});
             // res.status(200).json({
             //     // Need to return all the properties of the user to the browser?
             //     // user:   user,
@@ -213,7 +213,7 @@ router.get("/:userID", validateAdmin, (req, res) => {
     .then((users) => {
         if (users.length > 0) {
             // console.log("user-controller get /:userID user", user);
-            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved users."});
+            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved user."});
             // res.status(200).json({
             //     // Need to return all the properties of the user to the browser?
             //     // user:   user,

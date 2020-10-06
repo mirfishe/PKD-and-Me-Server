@@ -81,7 +81,7 @@ router.get("/:reviewID", (req, res) => {
     .then((userReviews) => {
         if (userReviews.length > 0) {
             // console.log("userReview-controller get /:reviewID userReviews", userReviews);
-            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user reviews."});
+            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user review."});
             // res.status(200).json({
             // reviewID:   userReview.reviewID,
             // userID:     userReview.userID,

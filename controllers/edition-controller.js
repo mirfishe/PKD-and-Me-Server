@@ -49,7 +49,7 @@ router.get("/:editionID", (req, res) => {
     .then((editions) => {
         if (editions.length > 0) {
             // console.log("edition-controller get /:editionID editions", editions);
-            res.status(200).json({editions: editions, resultsFound: true, message: "Successfully retrieved editions."});
+            res.status(200).json({editions: editions, resultsFound: true, message: "Successfully retrieved edition."});
             // res.status(200).json({
             // editionID:  edition.editionID,
             // titleID:    edition.titleID,
