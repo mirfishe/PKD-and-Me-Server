@@ -28,18 +28,28 @@ router.get("/", (req, res) => {
     // }, include: [Category, Edition, UserReview], order: [["titleSort", "ASC"]]};
     // }, include: {all: true, nested: true}, order: [["titleSort", "ASC"]]};
     }, include: [
+        // {model: UserReview,
+        //     right: true,
+        //     required: false,
+        //     include: [
+        //         {model: User, 
+        //         right: true,
+        //         required: false,
+        //         where: {
+        //             active: {[Op.eq]: true}
+        //         }}],
+        //     where: {
+        //         active: {[Op.eq]: true}
+        //     }
+        // },
         {model: Edition,
+            right: true,
+            required: false,
             include: [
-                {model: Media, where: {
-                    active: {[Op.eq]: true}
-                }}],
-            where: {
-                active: {[Op.eq]: true}
-            }
-        },
-        {model: UserReview,
-            include: [
-                {model: User, where: {
+                {model: Media, 
+                right: true,
+                required: false,
+                where: {
                     active: {[Op.eq]: true}
                 }}],
             where: {
@@ -47,11 +57,14 @@ router.get("/", (req, res) => {
             }
         },
         {model: Category,
+            right: true,
+            required: false,
             where: {
                 active: {[Op.eq]: true}
             }
         }
-    ]};
+    ], 
+    order: [["titleSort", "ASC"]]};
    
     Title.findAll(query)
       .then((titles) => {
@@ -90,18 +103,28 @@ router.get("/:titleID", (req, res) => {
         titleID: {[Op.eq]: req.params.titleID}
     // }, include: {all: true, nested: true}};
     }, include: [
+        // {model: UserReview,
+        //     right: true,
+        //     required: false,
+        //     include: [
+        //         {model: User, 
+        //         right: true,
+        //         required: false,
+        //         where: {
+        //             active: {[Op.eq]: true}
+        //         }}],
+        //     where: {
+        //         active: {[Op.eq]: true}
+        //     }
+        // },
         {model: Edition,
+            right: true,
+            required: false,
             include: [
-                {model: Media, where: {
-                    active: {[Op.eq]: true}
-                }}],
-            where: {
-                active: {[Op.eq]: true}
-            }
-        },
-        {model: UserReview,
-            include: [
-                {model: User, where: {
+                {model: Media,
+                right: true,
+                required: false,
+                where: {
                     active: {[Op.eq]: true}
                 }}],
             where: {
@@ -109,6 +132,8 @@ router.get("/:titleID", (req, res) => {
             }
         },
         {model: Category,
+            right: true,
+            required: false,
             where: {
                 active: {[Op.eq]: true}
             }
@@ -206,18 +231,28 @@ router.get("/category/:categoryID", (req, res) => {
             ]
     // }, include: {all: true, nested: true}, order: [["titleSort", "ASC"]]};
     }, include: [
+        // {model: UserReview,
+        //     right: true,
+        //     required: false,
+        //     include: [
+        //         {model: User, 
+        //         right: true,
+        //         required: false,
+        //         where: {
+        //             active: {[Op.eq]: true}
+        //         }}],
+        //     where: {
+        //         active: {[Op.eq]: true}
+        //     }
+        // },
         {model: Edition,
+            right: true,
+            required: false,
             include: [
-                {model: Media, where: {
-                    active: {[Op.eq]: true}
-                }}],
-            where: {
-                active: {[Op.eq]: true}
-            }
-        },
-        {model: UserReview,
-            include: [
-                {model: User, where: {
+                {model: Media, 
+                right: true,
+                required: false,
+                where: {
                     active: {[Op.eq]: true}
                 }}],
             where: {
@@ -225,11 +260,14 @@ router.get("/category/:categoryID", (req, res) => {
             }
         },
         {model: Category,
+            right: true,
+            required: false,
             where: {
                 active: {[Op.eq]: true}
             }
         }
-    ]};
+    ], 
+    order: [["titleSort", "ASC"]]};
 
     Title.findAll(query)
     .then((titles) => {
