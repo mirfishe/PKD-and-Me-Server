@@ -26,103 +26,103 @@ const Title = sequelize.import('./models/title');
 const Category = sequelize.import('./models/category');
 const Media = sequelize.import('./models/media');
 const Edition = sequelize.import('./models/edition');
-const AmazonLink = sequelize.import('./models/amazonLink');
+// const AmazonLink = sequelize.import('./models/amazonLink');
 
 
 User.hasOne(User, {
   foreignKey: 'updatedBy',
-  sourceKey: 'userID',
-  as: 'usersUpdated'
+  sourceKey: 'userID'
+  // as: 'usersUpdated'
 });
 User.belongsTo(User, {
   foreignKey: 'updatedBy',
-  sourceKey: 'userID',
-  as: 'updatedUsers'
+  sourceKey: 'userID'
+  // as: 'updatedUsers'
 });
 
 
 User.hasMany(UserReview, {
-    foreignKey: 'userID',
-    sourceKey: 'userID',
-    as: 'usersReviews'
-  });
+  foreignKey: 'userID',
+  sourceKey: 'userID'
+  // as: 'usersReviews'
+});
 UserReview.belongsTo(User, {
-    foreignKey: 'userID',
-    sourceKey: 'userID',
-    as: 'reviewsUsers'
-  });
+  foreignKey: 'userID',
+  sourceKey: 'userID'
+  // as: 'reviewsUsers'
+});
 
 
 User.hasMany(UserReview, {
-    foreignKey: 'updatedBy',
-    sourceKey: 'userID',
-    as: 'usersReviewUpdated'
-  });
+  foreignKey: 'updatedBy',
+  sourceKey: 'userID'
+  // as: 'usersReviewUpdated'
+});
 UserReview.belongsTo(User, {
-    foreignKey: 'updatedBy',
-    sourceKey: 'userID',
-    as: 'reviewUpdatedUsers'
-  });
+  foreignKey: 'updatedBy',
+  sourceKey: 'userID'
+  // as: 'reviewUpdatedUsers'
+});
 
   
-  Title.hasMany(UserReview, {
-    foreignKey: 'titleID',
-    sourceKey: 'titleID',
-    as: 'titlesReviews'
-    });
+Title.hasMany(UserReview, {
+  foreignKey: 'titleID',
+  sourceKey: 'titleID'
+  // as: 'titlesReviews'
+  });
 UserReview.belongsTo(Title, {
-    foreignKey: 'titleID',
-    sourceKey: 'titleID',
-    as: 'reviewsTitles'
-    });
+  foreignKey: 'titleID',
+  sourceKey: 'titleID'
+  // as: 'reviewsTitles'
+  });
 
 
 Category.hasMany(Title, {
-    foreignKey: 'categoryID',
-    sourceKey: 'categoryID',
-    as: 'categoryTitles'
-    });
+  foreignKey: 'categoryID',
+  sourceKey: 'categoryID'
+  // as: 'categoryTitles'
+  });
 Title.belongsTo(Category, {
-    foreignKey: 'categoryID',
-    sourceKey: 'categoryID',
-    as: 'titlesCategories'
-    });
+  foreignKey: 'categoryID',
+  sourceKey: 'categoryID'
+  // as: 'titlesCategories'
+  });
 
 
 Title.hasMany(Edition, {
-    foreignKey: 'titleID',
-    sourceKey: 'titleID',
-    as: 'titlesEditions'
-  });
-  Edition.belongsTo(Title, {
-    foreignKey: 'titleID',
-    sourceKey: 'titleID',
-    as: 'editionsTitles'
-  });
+  foreignKey: 'titleID',
+  sourceKey: 'titleID'
+  // as: 'titlesEditions'
+});
+Edition.belongsTo(Title, {
+  foreignKey: 'titleID',
+  sourceKey: 'titleID'
+  // as: 'editionsTitles'
+});
 
 
-  Media.hasMany(Edition, {
-    foreignKey: 'mediaID',
-    sourceKey: 'mediaID',
-    as: 'mediaEditions'
-  });
-  Edition.belongsTo(Media, {
-    foreignKey: 'mediaID',
-    sourceKey: 'mediaID',
-    as: 'editionsMedia'
-  });
+Media.hasMany(Edition, {
+  foreignKey: 'mediaID',
+  sourceKey: 'mediaID'
+  // as: 'mediaEditions'
+});
+Edition.belongsTo(Media, {
+  foreignKey: 'mediaID',
+  sourceKey: 'mediaID'
+  // as: 'editionsMedia'
+});
 
 
-  AmazonLink.hasMany(Edition, {
-    foreignKey: 'amazonLinkID',
-    sourceKey: 'amazonLinkID',
-    as: 'amazonLinksEditions'
-  });
-  Edition.belongsTo(AmazonLink, {
-    foreignKey: 'amazonLinkID',
-    sourceKey: 'amazonLinkID',
-    as: 'editionsAmazonLinks'
-  });
+// AmazonLink.hasMany(Edition, {
+//   foreignKey: 'amazonLinkID',
+//   sourceKey: 'amazonLinkID'
+//   // as: 'amazonLinksEditions'
+// });
+// Edition.belongsTo(AmazonLink, {
+//   foreignKey: 'amazonLinkID',
+//   sourceKey: 'amazonLinkID'
+//   // as: 'editionsAmazonLinks'
+// });
 
 
 module.exports = sequelize;

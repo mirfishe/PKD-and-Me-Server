@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }, order: [["updatedAt", "DESC"]]};
+    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
 
     AmazonLink.findAll(query)
     .then((links) => {
@@ -39,14 +39,14 @@ router.get("/:amazonLinkID", (req, res) => {
 
     const query = {where: {
         amazonLinkID: {[Op.eq]: req.params.amazonLinkID}
-    }};
+    }, include: {all: true, nested: true}};
 
     // AmazonLink.findOne(query)
     AmazonLink.findAll(query)
     .then((links) => {
         if (links.length > 0) {
             // console.log("amazonLink-controller get /:amazonLinkID link", link);
-            res.status(200).json({links: links, resultsFound: true, message: "Successfully retrieved Amazon links."});
+            res.status(200).json({links: links, resultsFound: true, message: "Successfully retrieved Amazon link."});
             // res.status(200).json({
             // amazonLinkID:     link.amazonLinkID,
             // ASIN:              link.ASIN,

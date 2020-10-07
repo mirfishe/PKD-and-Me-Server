@@ -37,6 +37,7 @@ router.post("/register", (req, res) => {
                     admin:  user.admin,
                     active:  user.active,
                     isLoggedIn: true,
+                    isAdmin: user.admin,
                     recordAdded: true,
                     message:    "User successfully created.",
                     sessionToken:   token
@@ -56,15 +57,15 @@ router.post("/register", (req, res) => {
                     errorMessages = errorMessages + err.errors[i].message;
                 };
 
-                res.status(500).json({recordAdded: false, isLoggedIn: false, message: "User not successfully registered.", errorMessages: errorMessages, error: err});
+                res.status(500).json({recordAdded: false, isLoggedIn: false, isAdmin: false, message: "User not successfully registered.", errorMessages: errorMessages, error: err});
             })
         .catch(err => {
             console.log("user-controller post /register err", err);
-            res.status(500).json({recordAdded: false, isLoggedIn: false, message: "User not successfully registered.", error: err});
+            res.status(500).json({recordAdded: false, isLoggedIn: false, isAdmin: false, message: "User not successfully registered.", error: err});
         })
 
     } else {
-        res.status(200).json({recordAdded: false, isLoggedIn: false, message: "Please provide a valid email address."});
+        res.status(200).json({recordAdded: false, isLoggedIn: false, isAdmin: false, message: "Please provide a valid email address."});
     };
 
 });
@@ -99,28 +100,29 @@ router.post("/login", (req, res) => {
                             admin:  user.admin,
                             active:  user.active,
                             isLoggedIn: true,
+                            isAdmin: user.admin,
                             resultsFound: true,
                             message:    "Successfully authenticated user.",
                             sessionToken:   token
                         });
                     } else {
                         console.log("user-controller post /login Login failed. 401");
-                        res.status(401).json({resultsFound: false, isLoggedIn: false, message: "Login failed.", error: "Login failed."});
+                        res.status(401).json({resultsFound: false, isLoggedIn: false, isAdmin: false, message: "Login failed.", error: "Login failed."});
                     };
                 })
             } else {
                 // console.log("user-controller post /login Failed to authenticate. 401");
-                res.status(401).json({resultsFound: false, isLoggedIn: false, message: "Failed to authenticate.", error: "Failed to authenticate."});
+                res.status(401).json({resultsFound: false, isLoggedIn: false, isAdmin: false, message: "Failed to authenticate.", error: "Failed to authenticate."});
             };
         },
         err => {
             console.log("user-controller post /login Failed to process. 501 err", err);
-            res.status(501).send({resultsFound: false, isLoggedIn: false, message: "Failed to process.", error: "Failed to process."})
+            res.status(501).send({resultsFound: false, isLoggedIn: false, isAdmin: false, message: "Failed to process.", error: "Failed to process."})
         }
     )
     .catch(err => {
         console.log("user-controller post /login err", err);
-        res.status(500).json({resultsFound: false, isLoggedIn: false, message: "Login failed.", error: err});
+        res.status(500).json({resultsFound: false, isLoggedIn: false, isAdmin: false, message: "Login failed.", error: err});
     })
 });
 
@@ -130,6 +132,7 @@ router.post("/login", (req, res) => {
 // Allows an admin to view all the users
 router.get("/admin", validateAdmin, (req, res) => {
 
+    // const query = {include: {all: true, nested: true}, order: [["lastName", "DESC"], ["firstName", "DESC"]]};
     const query = {order: [["lastName", "DESC"], ["firstName", "DESC"]]};
     
     User.findAll(query)
@@ -159,6 +162,7 @@ router.get("/", validateSession, (req, res) => {
 
     const query = {where: {
         userID: {[Op.eq]: req.user.userID}
+    // }, include: {all: true, nested: true}};
     }};
 
     // User.findOne(query)
@@ -166,7 +170,7 @@ router.get("/", validateSession, (req, res) => {
     .then((users) => {
         if (users.length > 0) {
             // console.log("user-controller get / user", user);
-            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved users."});
+            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved user."});
             // res.status(200).json({
             //     // Need to return all the properties of the user to the browser?
             //     // user:   user,
@@ -201,6 +205,7 @@ router.get("/:userID", validateAdmin, (req, res) => {
 
     const query = {where: {
         userID: {[Op.eq]: req.params.userID}
+    // }, include: {all: true, nested: true}};
     }};
 
     // User.findOne(query)
@@ -208,7 +213,7 @@ router.get("/:userID", validateAdmin, (req, res) => {
     .then((users) => {
         if (users.length > 0) {
             // console.log("user-controller get /:userID user", user);
-            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved users."});
+            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved user."});
             // res.status(200).json({
             //     // Need to return all the properties of the user to the browser?
             //     // user:   user,
@@ -246,10 +251,14 @@ router.put("/:userID", validateAdmin, (req, res) => {
         firstName:  req.body.user.firstName,
         lastName:   req.body.user.lastName,
         email:      req.body.user.email,
-        password:   bcrypt.hashSync(req.body.user.password),
         updatedBy:  req.user.userID,
         active:     req.body.user.active
       };
+
+    // If the user doesn't enter a password, then it isn't updated
+    if (req.body.user.password) {
+        Object.assign(updateUser, {password:  bcrypt.hashSync(req.body.user.password)});
+    };
 
     const query = {where: {
         userID: {[Op.eq]: req.params.userID}
@@ -312,10 +321,14 @@ router.put("/", validateSession, (req, res) => {
         firstName:  req.body.user.firstName,
         lastName:   req.body.user.lastName,
         email:      req.body.user.email,
-        password:   bcrypt.hashSync(req.body.user.password),
         updatedBy:  req.user.userID,
         active:     req.body.user.active
       };
+
+    // If the user doesn't enter a password, then it isn't updated
+    if (req.body.user.password) {
+        Object.assign(updateUser, {password:  bcrypt.hashSync(req.body.user.password)});
+    };
 
     const query = {where: {
         userID: {[Op.eq]: req.user.userID}
@@ -327,7 +340,7 @@ router.put("/", validateSession, (req, res) => {
         .then(
             updateSuccess = (user) => {
                 if (user > 0) {
-                    let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
+                    // let token = jwt.sign({userID: user.userID}, process.env.JWT_SECRET, {expiresIn: "1d"});
                     res.json({
                         // Need to return all the properties of the user to the browser?
                         // user:   user,
@@ -341,7 +354,7 @@ router.put("/", validateSession, (req, res) => {
                         isLoggedIn: true,
                         recordUpdated: true,
                         message: user + " user record(s) successfully updated.",
-                        sessionToken:   token
+                        // sessionToken:   token // User gets a new sessionToken even if they haven't updated their password
                     });
                 } else {
                     res.status(200).json({recordUpdated: false, isLoggedIn: true, message: user + " user record(s) successfully updated."});
