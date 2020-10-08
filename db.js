@@ -26,7 +26,6 @@ const Title = sequelize.import('./models/title');
 const Category = sequelize.import('./models/category');
 const Media = sequelize.import('./models/media');
 const Edition = sequelize.import('./models/edition');
-// const AmazonLink = sequelize.import('./models/amazonLink');
 
 
 User.hasOne(User, {
@@ -111,18 +110,6 @@ Edition.belongsTo(Media, {
   sourceKey: 'mediaID'
   // as: 'editionsMedia'
 });
-
-
-// AmazonLink.hasMany(Edition, {
-//   foreignKey: 'amazonLinkID',
-//   sourceKey: 'amazonLinkID'
-//   // as: 'amazonLinksEditions'
-// });
-// Edition.belongsTo(AmazonLink, {
-//   foreignKey: 'amazonLinkID',
-//   sourceKey: 'amazonLinkID'
-//   // as: 'editionsAmazonLinks'
-// });
 
 
 module.exports = sequelize;
