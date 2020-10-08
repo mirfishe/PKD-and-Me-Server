@@ -14,10 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    amazonLinkID: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     publicationDate: {
       type: DataTypes.DATE,
       allowNull: true
