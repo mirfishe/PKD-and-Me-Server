@@ -341,6 +341,7 @@ router.get("/user/:userID", (req, res) => {
 /**************************************
  ***** Get User Reviews By UserID and TitleID *****
 ***************************************/
+// Don't need because the front end restricts user reviews to one per title
 router.get("/user/:userID/title/:titleID", (req, res) => {
 
     // Function doesn't work because it needs to wait on the results of the query
