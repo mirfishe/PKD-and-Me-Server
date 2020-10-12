@@ -178,7 +178,6 @@ router.post('/', validateAdmin, (req, res) => {
     const createEdition = {
         titleID:    req.body.edition.titleID,
         mediaID:    req.body.edition.mediaID,
-        amazonLinkID:   req.body.edition.amazonLinkID,
         publicationDate:  req.body.edition.publicationDate,
         imageName:  req.body.edition.imageName,
         ASIN:              req.body.edition.ASIN,
@@ -197,7 +196,6 @@ router.post('/', validateAdmin, (req, res) => {
         editionID:  edition.editionID,
         titleID:    edition.titleID,
         mediaID:    edition.mediaID,
-        amazonLinkID:   edition.amazonLinkID,
         publicationDate:  edition.publicationDate,
         imageName:  edition.imageName,
         ASIN:              edition.ASIN,
@@ -240,7 +238,6 @@ router.put("/:editionID", validateAdmin, (req, res) => {
     const updateEdition = {
         titleID:    req.body.edition.titleID,
         mediaID:    req.body.edition.mediaID,
-        amazonLinkID:   req.body.edition.amazonLinkID,
         publicationDate:  req.body.edition.publicationDate,
         imageName:  req.body.edition.imageName,
         ASIN:              req.body.edition.ASIN,
@@ -266,7 +263,6 @@ router.put("/:editionID", validateAdmin, (req, res) => {
             editionID:    req.params.editionID,
             titleID:    req.body.edition.titleID,
             mediaID:    req.body.edition.mediaID,
-            amazonLinkID:   req.body.edition.amazonLinkID,
             publicationDate:  req.body.edition.publicationDate,
             imageName:  req.body.edition.imageName,
             ASIN:              req.body.edition.ASIN,
