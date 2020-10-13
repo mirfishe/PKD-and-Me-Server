@@ -43,11 +43,11 @@ router.get("/", (req, res) => {
             }
         },
         {model: Edition,
-            right: true,
+            // right: true,
             required: false,
             include: [
                 {model: Media, 
-                right: true,
+                // right: true,
                 required: false,
                 where: {
                     active: {[Op.eq]: true}
@@ -118,11 +118,11 @@ router.get("/:titleID", (req, res) => {
             }
         },
         {model: Edition,
-            right: true,
+            // right: true,
             required: false,
             include: [
                 {model: Media,
-                right: true,
+                // right: true,
                 required: false,
                 where: {
                     active: {[Op.eq]: true}
@@ -254,11 +254,11 @@ router.get("/category/:categoryID/:sort?", (req, res) => {
             }
         },
         {model: Edition,
-            right: true,
+            // right: true,
             required: false,
             include: [
                 {model: Media, 
-                right: true,
+                // right: true,
                 required: false,
                 where: {
                     active: {[Op.eq]: true}
