@@ -13,7 +13,7 @@ const validateAdmin = require("../middleware/validate-admin");
  ***** Get Titles *********
  ******************************/
 // ADD OVERALL RATING TO GET TITLE?
-router.get("/", (req, res) => {
+router.get("/:sort?", (req, res) => {
 
     // const attributes = {
     //     attributes: [
@@ -22,6 +22,14 @@ router.get("/", (req, res) => {
     //     [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
     //     ]
     // };
+
+    let orderBy = "titleSort";
+
+    if (req.params.sort == "publicationDate") {
+        orderBy = "publicationDate";
+    } else {
+        orderBy = "titleSort";
+    };
 
     const query = {where: {
         active: {[Op.eq]: true}
@@ -64,7 +72,7 @@ router.get("/", (req, res) => {
             }
         }
     ], 
-    order: [["titleSort", "ASC"]]};
+    order: [[orderBy, "ASC"], ["titleSort", "ASC"]]};
    
     Title.findAll(query)
       .then((titles) => {
@@ -214,7 +222,7 @@ router.get("/:titleID", (req, res) => {
  ***** Get Titles By CategoryID *****
 ***************************************/
 // ADD OVERALL RATING TO GET TITLE?
-router.get("/category/:categoryID", (req, res) => {
+router.get("/category/:categoryID/:sort?", (req, res) => {
 
     // const attributes = {
     //     attributes: [
@@ -223,6 +231,14 @@ router.get("/category/:categoryID", (req, res) => {
     //     [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
     //     ]
     // };
+
+    let orderBy = "titleSort";
+
+    if (req.params.sort == "publicationDate") {
+        orderBy = "publicationDate";
+    } else {
+        orderBy = "titleSort";
+    };
 
     const query = {where: {
         [Op.and]: [
@@ -267,7 +283,7 @@ router.get("/category/:categoryID", (req, res) => {
             }
         }
     ], 
-    order: [["titleSort", "ASC"]]};
+    order: [[orderBy, "ASC"], ["titleSort", "ASC"]]};
 
     Title.findAll(query)
     .then((titles) => {
@@ -291,7 +307,7 @@ router.get("/category/:categoryID", (req, res) => {
 /**************************************
  ***** Get Titles/Checklist By CategoryID *****
 ***************************************/
-router.get("/checklist/:categoryID", validateSession, (req, res) => {
+router.get("/checklist/:categoryID/:sort?", validateSession, (req, res) => {
 
     // const attributes = {
     //     attributes: [
@@ -301,7 +317,13 @@ router.get("/checklist/:categoryID", validateSession, (req, res) => {
     //     ]
     // };
 
-    // userID:     req.user.userID,
+    let orderBy = "titleSort";
+
+    if (req.params.sort == "publicationDate") {
+        orderBy = "publicationDate";
+    } else {
+        orderBy = "titleSort";
+    };
 
     const query = {where: {
         [Op.and]: [
@@ -333,7 +355,7 @@ router.get("/checklist/:categoryID", validateSession, (req, res) => {
             }
         }
     ], 
-    order: [["titleSort", "ASC"]]};
+    order: [[orderBy, "ASC"], ["titleSort", "ASC"]]};
 
     Title.findAll(query)
     .then((titles) => {
