@@ -13,7 +13,7 @@ const validateAdmin = require("../middleware/validate-admin");
  ***** Get Titles *********
  ******************************/
 // ADD OVERALL RATING TO GET TITLE?
-router.get("/:sort?", (req, res) => {
+router.get("/", (req, res) => {
 
     // const attributes = {
     //     attributes: [
@@ -22,14 +22,6 @@ router.get("/:sort?", (req, res) => {
     //     [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
     //     ]
     // };
-
-    let orderBy = "titleSort";
-
-    if (req.params.sort == "publicationDate") {
-        orderBy = "publicationDate";
-    } else {
-        orderBy = "titleSort";
-    };
 
     const query = {where: {
         active: {[Op.eq]: true}
@@ -72,7 +64,7 @@ router.get("/:sort?", (req, res) => {
             }
         }
     ], 
-    order: [[orderBy, "ASC"], ["titleSort", "ASC"]]};
+    order: [["titleSort", "ASC"]]};
    
     Title.findAll(query)
       .then((titles) => {
