@@ -8,7 +8,6 @@ const user = require('./controllers/user-controller');
 const userReview = require('./controllers/userReview-controller');
 const title = require('./controllers/title-controller');
 const edition = require('./controllers/edition-controller');
-const amazonLink = require('./controllers/amazonLink-controller');
 const media = require('./controllers/media-controller');
 const category = require('./controllers/category-controller');
 
@@ -28,7 +27,6 @@ app.use('/user', user);
 app.use('/userreview', userReview);
 app.use('/title', title);
 app.use('/edition', edition);
-app.use('/amazon', amazonLink);
 app.use('/media', media);
 app.use('/category', category);
 

@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
+    // }, include: {all: true, nested: true}, order: [["sortID", "ASC"]]};
     }, order: [["sortID", "ASC"]]};
     
     Media.findAll(query)
@@ -39,6 +40,7 @@ router.get("/:mediaID", (req, res) => {
 
     const query = {where: {
         mediaID: {[Op.eq]: req.params.mediaID}
+    // }, include: {all: true, nested: true}};
     }};
 
     // Media.findOne(query)
@@ -49,7 +51,7 @@ router.get("/:mediaID", (req, res) => {
         // if (media === null) {
         if (media.length > 0) {
             // console.log("media-controller get /:mediaID media", media);
-            res.status(200).json({media: media, resultsFound: true, message: "Successfully retrieved media."});
+            res.status(200).json({media: media, resultsFound: true, message: "Successfully retrieved media item."});
             // res.status(200).json({
             //     media:   media.media,
             //     sortID:     media.sortID,

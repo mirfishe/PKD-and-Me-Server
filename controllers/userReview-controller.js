@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const UserReview = require("../db").import("../models/userReview");
+const User = require("../db").import("../models/user");
+// const Title = require("../db").import("../models/title");
 const {Op} = require("sequelize");
 const Sequelize = require('sequelize');
 const validateSession = require("../middleware/validate-session");
@@ -45,7 +47,7 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }, order: [["updatedAt", "DESC"]]};
+    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
    
     UserReview.findAll(query)
     .then((userReviews) => {
@@ -73,14 +75,14 @@ router.get("/:reviewID", (req, res) => {
 
     const query = {where: {
         reviewID: {[Op.eq]: req.params.reviewID}
-    }};
+    }, include: {all: true, nested: true}};
 
     // UserReview.findOne(query)
     UserReview.findAll(query)
     .then((userReviews) => {
         if (userReviews.length > 0) {
             // console.log("userReview-controller get /:reviewID userReviews", userReviews);
-            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user reviews."});
+            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user review."});
             // res.status(200).json({
             // reviewID:   userReview.reviewID,
             // userID:     userReview.userID,
@@ -212,11 +214,13 @@ router.get("/rating/:titleID", (req, res) => {
     const query = {where: {
         [Op.and]: [
         {titleID: {[Op.eq]: req.params.titleID}},
+        {rating: {[Op.ne]: 0}},
+        {rating: {[Op.not]: null}},
         {active: {[Op.eq]: true}}
         ]
-    }, group: ["rating"]
-    , attributes: [
-        [Sequelize.fn("count", Sequelize.col("reviewID")), "userReviewCount"],
+    // }, group: ["rating"]
+    }, attributes: [
+        [Sequelize.fn("count", Sequelize.col("rating")), "userReviewCount"],
         [Sequelize.fn("sum", Sequelize.col("rating")), "userReviewSum"]
         ]
     };
@@ -225,17 +229,17 @@ router.get("/rating/:titleID", (req, res) => {
     .then((userReviews) => {
         if (userReviews.length > 0) {
             // console.log("userReview-controller get /rating/:titleID userReviews", userReviews);
-            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user reviews."});
+            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user ratings."});
         } else {
             // console.log("userReview-controller get /rating/:titleID  No Results");
             // res.status(200).send("No user reviews found.");
             // res.status(200).send({resultsFound: false, message: "No user reviews found."})
-            res.status(200).json({resultsFound: false, message: "No user reviews found."});
+            res.status(200).json({resultsFound: false, message: "No user ratings found."});
         };
     })
     .catch((err) => {
         console.log("userReview-controller get /rating/:titleID err", err);
-        res.status(500).json({resultsFound: false, message: "No user reviews found.", error: err});
+        res.status(500).json({resultsFound: false, message: "No user ratings found.", error: err});
     });
 
 });
@@ -268,7 +272,17 @@ router.get("/title/:titleID", (req, res) => {
         {titleID: {[Op.eq]: req.params.titleID}},
         {active: {[Op.eq]: true}}
         ]
-    }, order: [["updatedAt", "DESC"]]};
+    // }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
+    }, include: [
+        {model: User,
+            right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ], 
+    order: [["updatedAt", "DESC"]]};
 
     // Removed findAndCountAll because the rating endpoiont is working
     // UserReview.findAndCountAll(query)
@@ -303,7 +317,7 @@ router.get("/user/:userID", (req, res) => {
         {userID: {[Op.eq]: req.params.userID}},
         {active: {[Op.eq]: true}}
         ]
-    }, order: [["updatedAt", "DESC"]]};
+    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
 
     UserReview.findAll(query)
     .then((userReviews) => {
@@ -327,6 +341,7 @@ router.get("/user/:userID", (req, res) => {
 /**************************************
  ***** Get User Reviews By UserID and TitleID *****
 ***************************************/
+// Don't need because the front end restricts user reviews to one per title
 router.get("/user/:userID/title/:titleID", (req, res) => {
 
     // Function doesn't work because it needs to wait on the results of the query
@@ -338,7 +353,7 @@ router.get("/user/:userID/title/:titleID", (req, res) => {
         {titleID: {[Op.eq]: req.params.titleID}},
         {active: {[Op.eq]: true}}
         ]
-    }, order: [["updatedAt", "DESC"]]};
+    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
 
     UserReview.findAll(query)
     .then((userReviews) => {

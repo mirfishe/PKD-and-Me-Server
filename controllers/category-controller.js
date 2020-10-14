@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Category = require("../db").import("../models/category");
+const Title = require("../db").import("../models/title");
 const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
@@ -7,11 +8,22 @@ const validateAdmin = require("../middleware/validate-admin");
 /******************************
  ***** Get Categories *********
  ******************************/
+// Only returnd categories that have titles linked to them
+// Need to return all categories that are active for the add title function
 router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
+    // }, include: {all: true, nested: true}, order: [["sortID", "ASC"]]};
     }, order: [["sortID", "ASC"]]};
+    // }, include: [
+    //     {model: Title,
+    //         where: {
+    //             active: {[Op.eq]: true}
+    //         }
+    //     }
+    // ], 
+    // order: [["sortID", "ASC"]]};
     
     Category.findAll(query)
     .then((categories) => {
@@ -39,6 +51,7 @@ router.get("/:categoryID", (req, res) => {
 
     const query = {where: {
         categoryID: {[Op.eq]: req.params.categoryID}
+    // }, include: {all: true, nested: true}};
     }};
 
     // Category.findOne(query)
@@ -46,7 +59,7 @@ router.get("/:categoryID", (req, res) => {
     .then((categories) => {
         if (categories.length > 0) {
             // console.log("category-controller get /:categoryID categories", categories);
-            res.status(200).json({categories: categories, resultsFound: true, message: "Successfully retrieved categories."});
+            res.status(200).json({categories: categories, resultsFound: true, message: "Successfully retrieved category."});
             // res.status(200).json({
             // category:   categories.category,
             // sortID:     categories.sortID,
@@ -107,6 +120,7 @@ router.post("/", validateAdmin, (req, res) => {
     .then((category) => {
         // console.log("category-controller post / category", category);
         res.status(200).json({
+        categoryID:   category.categoryID,
         category:   category.category,
         sortID:     category.sortID,
         active:     category.active,
