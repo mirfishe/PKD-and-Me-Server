@@ -139,6 +139,8 @@ router.get("/:titleID", (req, res) => {
             }
         }
     ]};
+    // https://stackoverflow.com/questions/40202540/order-by-in-nested-eager-loading-in-sequelize-not-working
+    // order: [[{model: Media, as: "medium"}, "sortID", "ASC"]]};
 
     // Title.findOne(query)
     Title.findAll(query)
