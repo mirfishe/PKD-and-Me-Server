@@ -81,6 +81,52 @@ router.get("/:editionID", (req, res) => {
 });
 
 /**************************************
+ ***** Get Edition By ASIN *****
+***************************************/
+router.get("/ASIN/:ASIN", (req, res) => {
+
+    const query = {where: {
+        ASIN: {[Op.eq]: req.params.ASIN}
+    }, include: {all: true, nested: true}};
+
+    // Edition.findOne(query)
+    Edition.findAll(query)
+    .then((editions) => {
+        if (editions.length > 0) {
+            // console.log("edition-controller get /:editionID editions", editions);
+            res.status(200).json({editions: editions, resultsFound: true, message: "Successfully retrieved edition."});
+            // res.status(200).json({
+            // editionID:  edition.editionID,
+            // titleID:    edition.titleID,
+            // mediaID:    edition.mediaID,
+            // amazonLinkID:   edition.amazonLinkID,
+            // publicationDate:  edition.publicationDate,
+            // imageName:  edition.imageName,
+            // ASIN:              edition.ASIN,
+            // textLinkShort:     edition.textLinkShort,
+            // textLinkFull:     edition.textLinkFull,
+            // imageLinkSmall:     edition.imageLinkSmall,
+            // imageLinkMedium:     edition.imageLinkMedium,
+            // imageLinkLarge:     edition.imageLinkLarge,
+            // textImageLink:     edition.textImageLink,
+            // active:     edition.active,
+            // message:    'Successfully retrieved edition.'
+            // });
+        } else {
+            // console.log("edition-controller get /:editionID No Results");
+            // res.status(200).send("No editions found.");
+            // res.status(200).send({resultsFound: false, message: "No editions found."})
+            res.status(200).json({resultsFound: false, message: "No editions found."});
+        };
+    })
+        .catch((err) => {
+            console.log("edition-controller get /:editionID err", err);
+            res.status(500).json({resultsFound: false, message: "No editions found.", error: err});
+        });
+
+});
+
+/**************************************
  ***** Get Editions By TitleID *****
 ***************************************/
 router.get("/title/:titleID", (req, res) => {
