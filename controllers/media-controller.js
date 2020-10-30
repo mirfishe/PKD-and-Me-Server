@@ -32,6 +32,33 @@ router.get("/", (req, res) => {
     });
 
 });
+
+/******************************
+ ***** Get Media Admin *********
+ ******************************/
+// Return all categories to adminster them
+router.get("/admin", validateAdmin, (req, res) => {
+
+    const query = {order: [["sortID", "ASC"]]};
+    
+    Media.findAll(query)
+    .then((media) => {
+        if (media.length > 0) {
+            // console.log("media-controller get / media", media);
+            res.status(200).json({media: media, resultsFound: true, message: "Successfully retrieved media."});
+        } else {
+            // console.log("media-controller get / No Results");
+            // res.status(200).send("No media found.");
+            // res.status(200).send({resultsFound: false, message: "No media found."})
+            res.status(200).json({resultsFound: false, message: "No media found."});
+        };
+    })
+    .catch((err) => {
+        console.log("media-controller get / err", err);
+        res.status(500).json({resultsFound: false, message: "No media found.", error: err});
+    });
+
+});
   
 /**************************************
  ***** Get Media By MediaID *****

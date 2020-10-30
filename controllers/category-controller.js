@@ -43,6 +43,33 @@ router.get("/", (req, res) => {
     });
 
 });
+
+/******************************
+ ***** Get Categories Admin *********
+ ******************************/
+// Return all categories to adminster them
+router.get("/admin", validateAdmin, (req, res) => {
+
+    const query = {order: [["sortID", "ASC"]]};
+    
+    Category.findAll(query)
+    .then((categories) => {
+        if (categories.length > 0) {
+            // console.log("category-controller get / categories", categories);
+            res.status(200).json({categories: categories, resultsFound: true, message: "Successfully retrieved categories."});
+        } else {
+            // console.log("category-controller get / No Results");
+            // res.status(200).send("No categories found.");
+            // res.status(200).send({resultsFound: false, message: "No categories found."})
+            res.status(200).json({resultsFound: false, message: "No categories found."});
+        };
+    })
+    .catch((err) => {
+        console.log("category-controller get / err", err);
+        res.status(500).json({resultsFound: false, message: "No categories found.", error: err});
+    });
+
+});
   
 /**************************************
  ***** Get Category By CategoryID *****

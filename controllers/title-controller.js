@@ -351,6 +351,67 @@ router.get("/category/:categoryID/:sort?", (req, res) => {
 });
 
 /**************************************
+ ***** Get Titles By CategoryID Admin *****
+***************************************/
+// Return all titles to adminster them
+router.get("/admin/category/:categoryID/:sort?", validateAdmin, (req, res) => {
+
+    let orderBy = "titleSort";
+
+    if (req.params.sort == "publicationDate") {
+        orderBy = "publicationDate";
+    } else {
+        orderBy = "titleSort";
+    };
+
+    const query = {where: {
+            categoryID: {[Op.eq]: req.params.categoryID}
+    }, include: [
+        {model: UserReview,
+            // right: true,
+            required: false,
+            include: [
+                {model: User, 
+                // right: true,
+                required: false
+                }]
+        },
+        {model: Edition,
+            // right: true,
+            required: false,
+            include: [
+                {model: Media, 
+                // right: true,
+                required: false
+                }]
+        },
+        {model: Category,
+            right: true,
+            required: false
+        }
+    ], 
+    order: [[orderBy, "ASC"], ["titleSort", "ASC"]]};
+
+    Title.findAll(query)
+    .then((titles) => {
+        if (titles.length > 0) {
+            // console.log("title-controller get /category/:categoryID titles", titles);
+            res.status(200).json({titles: titles, resultsFound: true, message: "Successfully retrieved titles."});
+        } else {
+            // console.log("title-controller get /category/:categoryID No Results");
+            // res.status(200).send("No titles found.");
+            // res.status(200).send({resultsFound: false, message: "No titles found."})
+            res.status(200).json({resultsFound: false, message: "No titles found."});
+        };
+    })
+        .catch((err) => {
+            console.log("title-controller get /category/:categoryID err", err);
+            res.status(500).json({resultsFound: false, message: "No titles found.", error: err});
+        });
+
+});
+
+/**************************************
  ***** Get Titles/Checklist By CategoryID *****
 ***************************************/
 router.get("/checklist/:categoryID/:sort?", validateSession, (req, res) => {
