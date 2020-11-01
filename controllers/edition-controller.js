@@ -1,10 +1,54 @@
 const router = require('express').Router();
 const Edition = require('../db').import('../models/edition');
-// const Media = require("../db").import("../models/media");
+const Media = require("../db").import("../models/media");
+const Title = require("../db").import("../models/title");
 const {Op} = require("sequelize");
 const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
 
+/******************************
+ ***** Get Edition List *********
+ ******************************/
+router.get("/list", (req, res) => {
+
+    const query = {where: {
+        active: {[Op.eq]: true}
+    }, include: [
+        {model: Title,
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: Media, 
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ], 
+    order: [["publicationDate", 'DESC']]};
+   
+    Edition.findAll(query)
+    .then((editions) => {
+        if (editions.length > 0) {
+            // console.log("edition-controller get / editions", editions);
+            res.status(200).json({editions: editions, resultsFound: true, message: "Successfully retrieved editions."});
+        } else {
+            // console.log("edition-controller get / No Results");
+            // res.status(200).send("No editions found.");
+            // res.status(200).send({resultsFound: false, message: "No editions found."})
+            res.status(200).json({resultsFound: false, message: "No editions found."});
+        };
+    })
+    .catch((err) => {
+        console.log("edition-controller get / err", err);
+        res.status(500).json({resultsFound: false, message: "No editions found.", error: err});
+    });
+
+});
 
 /******************************
  ***** Get Editions *********
@@ -13,7 +57,23 @@ router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }, include: {all: true, nested: true}, order: [["publicationDate", 'DESC']]};
+    }, include: [
+        {model: Title,
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: Media, 
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ], 
+    order: [["publicationDate", 'DESC']]};
    
     Edition.findAll(query)
     .then((editions) => {
@@ -41,7 +101,83 @@ router.get("/:editionID", (req, res) => {
 
     const query = {where: {
         editionID: {[Op.eq]: req.params.editionID}
-    }, include: {all: true, nested: true}};
+    }, include: [
+        {model: Title,
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: Media, 
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ]};
+
+    // Edition.findOne(query)
+    Edition.findAll(query)
+    .then((editions) => {
+        if (editions.length > 0) {
+            // console.log("edition-controller get /:editionID editions", editions);
+            res.status(200).json({editions: editions, resultsFound: true, message: "Successfully retrieved edition."});
+            // res.status(200).json({
+            // editionID:  edition.editionID,
+            // titleID:    edition.titleID,
+            // mediaID:    edition.mediaID,
+            // amazonLinkID:   edition.amazonLinkID,
+            // publicationDate:  edition.publicationDate,
+            // imageName:  edition.imageName,
+            // ASIN:              edition.ASIN,
+            // textLinkShort:     edition.textLinkShort,
+            // textLinkFull:     edition.textLinkFull,
+            // imageLinkSmall:     edition.imageLinkSmall,
+            // imageLinkMedium:     edition.imageLinkMedium,
+            // imageLinkLarge:     edition.imageLinkLarge,
+            // textImageLink:     edition.textImageLink,
+            // active:     edition.active,
+            // message:    'Successfully retrieved edition.'
+            // });
+        } else {
+            // console.log("edition-controller get /:editionID No Results");
+            // res.status(200).send("No editions found.");
+            // res.status(200).send({resultsFound: false, message: "No editions found."})
+            res.status(200).json({resultsFound: false, message: "No editions found."});
+        };
+    })
+        .catch((err) => {
+            console.log("edition-controller get /:editionID err", err);
+            res.status(500).json({resultsFound: false, message: "No editions found.", error: err});
+        });
+
+});
+
+/**************************************
+ ***** Get Edition By ASIN *****
+***************************************/
+router.get("/ASIN/:ASIN", (req, res) => {
+
+    const query = {where: {
+        ASIN: {[Op.eq]: req.params.ASIN}
+    }, include: [
+        {model: Title,
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: Media, 
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ]};
 
     // Edition.findOne(query)
     Edition.findAll(query)
@@ -90,7 +226,23 @@ router.get("/title/:titleID", (req, res) => {
             {titleID: {[Op.eq]: req.params.titleID}},
             {active: {[Op.eq]: true}}
             ]
-    }, include: {all: true, nested: true}, order: [["publicationDate", 'DESC']]};
+        }, include: [
+            {model: Title,
+                // right: true,
+                required: false,
+                where: {
+                    active: {[Op.eq]: true}
+                }
+            },
+            {model: Media, 
+                // right: true,
+                required: false,
+                where: {
+                    active: {[Op.eq]: true}
+                }
+            }
+        ], 
+        order: [["publicationDate", 'DESC']]};
 
     Edition.findAll(query)
     .then((editions) => {
@@ -121,7 +273,23 @@ router.get("/media/:mediaID", (req, res) => {
             {mediaID: {[Op.eq]: req.params.mediaID}},
             {active: {[Op.eq]: true}}
             ]
-    }, include: {all: true, nested: true}, order: [["publicationDate", 'DESC']]};
+        }, include: [
+            {model: Title,
+                // right: true,
+                required: false,
+                where: {
+                    active: {[Op.eq]: true}
+                }
+            },
+            {model: Media, 
+                // right: true,
+                required: false,
+                where: {
+                    active: {[Op.eq]: true}
+                }
+            }
+        ], 
+        order: [["publicationDate", 'DESC']]};
 
     Edition.findAll(query)
     .then((editions) => {

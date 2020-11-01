@@ -10,6 +10,58 @@ const validateSession = require("../middleware/validate-session");
 const validateAdmin = require("../middleware/validate-admin");
 
 /******************************
+ ***** Get Title List *********
+ ******************************/
+// Just the title data and not the related tables data
+router.get("/list", (req, res) => {
+
+    const query = {where: {
+        active: {[Op.eq]: true}
+    }, include: [
+        {model: Edition,
+            // right: true,
+            required: false,
+            include: [
+                {model: Media, 
+                // right: true,
+                required: false,
+                where: {
+                    active: {[Op.eq]: true}
+                }}],
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: Category,
+            right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ], 
+    order: [["titleSort", "ASC"]]};
+   
+    Title.findAll(query)
+      .then((titles) => {
+        if (titles.length > 0) {
+            // console.log("title-controller get / titles", titles);
+            res.status(200).json({titles: titles, resultsFound: true, message: "Successfully retrieved titles."});
+        } else {
+            // console.log("title-controller get / No Results");
+            // res.status(200).send("No titles found.");
+            // res.status(200).send({resultsFound: false, message: "No titles found."})
+            res.status(200).json({resultsFound: false, message: "No titles found."});
+        };
+    })
+    .catch((err) => {
+        console.log("title-controller get / err", err);
+        res.status(500).json({resultsFound: false, message: "No titles found.", error: err});
+    });
+
+});
+
+/******************************
  ***** Get Titles *********
  ******************************/
 // ADD OVERALL RATING TO GET TITLE?
@@ -139,6 +191,8 @@ router.get("/:titleID", (req, res) => {
             }
         }
     ]};
+    // https://stackoverflow.com/questions/40202540/order-by-in-nested-eager-loading-in-sequelize-not-working
+    // order: [[{model: Media, as: "medium"}, "sortID", "ASC"]]};
 
     // Title.findOne(query)
     Title.findAll(query)
@@ -273,6 +327,67 @@ router.get("/category/:categoryID/:sort?", (req, res) => {
             where: {
                 active: {[Op.eq]: true}
             }
+        }
+    ], 
+    order: [[orderBy, "ASC"], ["titleSort", "ASC"]]};
+
+    Title.findAll(query)
+    .then((titles) => {
+        if (titles.length > 0) {
+            // console.log("title-controller get /category/:categoryID titles", titles);
+            res.status(200).json({titles: titles, resultsFound: true, message: "Successfully retrieved titles."});
+        } else {
+            // console.log("title-controller get /category/:categoryID No Results");
+            // res.status(200).send("No titles found.");
+            // res.status(200).send({resultsFound: false, message: "No titles found."})
+            res.status(200).json({resultsFound: false, message: "No titles found."});
+        };
+    })
+        .catch((err) => {
+            console.log("title-controller get /category/:categoryID err", err);
+            res.status(500).json({resultsFound: false, message: "No titles found.", error: err});
+        });
+
+});
+
+/**************************************
+ ***** Get Titles By CategoryID Admin *****
+***************************************/
+// Return all titles to adminster them
+router.get("/admin/category/:categoryID/:sort?", validateAdmin, (req, res) => {
+
+    let orderBy = "titleSort";
+
+    if (req.params.sort == "publicationDate") {
+        orderBy = "publicationDate";
+    } else {
+        orderBy = "titleSort";
+    };
+
+    const query = {where: {
+            categoryID: {[Op.eq]: req.params.categoryID}
+    }, include: [
+        {model: UserReview,
+            // right: true,
+            required: false,
+            include: [
+                {model: User, 
+                // right: true,
+                required: false
+                }]
+        },
+        {model: Edition,
+            // right: true,
+            required: false,
+            include: [
+                {model: Media, 
+                // right: true,
+                required: false
+                }]
+        },
+        {model: Category,
+            right: true,
+            required: false
         }
     ], 
     order: [[orderBy, "ASC"], ["titleSort", "ASC"]]};
