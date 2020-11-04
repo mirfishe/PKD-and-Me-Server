@@ -14,13 +14,13 @@ router.get("/list", (req, res) => {
     const query = {where: {
         active: {[Op.eq]: true}
     }, include: [
-        {model: Title,
-            // right: true,
-            required: false,
-            where: {
-                active: {[Op.eq]: true}
-            }
-        },
+        // {model: Title,
+        //     // right: true,
+        //     required: false,
+        //     where: {
+        //         active: {[Op.eq]: true}
+        //     }
+        // },
         {model: Media, 
             // right: true,
             required: false,

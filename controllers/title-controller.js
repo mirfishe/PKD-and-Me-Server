@@ -18,20 +18,20 @@ router.get("/list", (req, res) => {
     const query = {where: {
         active: {[Op.eq]: true}
     }, include: [
-        {model: Edition,
-            // right: true,
-            required: false,
-            include: [
-                {model: Media, 
-                // right: true,
-                required: false,
-                where: {
-                    active: {[Op.eq]: true}
-                }}],
-            where: {
-                active: {[Op.eq]: true}
-            }
-        },
+        // {model: Edition,
+        //     // right: true,
+        //     required: false,
+        //     include: [
+        //         {model: Media, 
+        //         // right: true,
+        //         required: false,
+        //         where: {
+        //             active: {[Op.eq]: true}
+        //         }}],
+        //     where: {
+        //         active: {[Op.eq]: true}
+        //     }
+        // },
         {model: Category,
             right: true,
             required: false,
@@ -492,6 +492,7 @@ router.post("/", validateAdmin, (req, res) => {
     const createTitle = {
         titleName:     req.body.title.titleName,
         titleSort:      req.body.title.titleName.toLowerCase().replace(/^(an?|the) (.*)$/i, '$2, $1'),
+        titleURL:     req.body.title.titleURL,
         authorFirstName:   req.body.title.authorFirstName,
         authorLastName:     req.body.title.authorLastName,
         publicationDate:  req.body.title.publicationDate,
@@ -508,6 +509,7 @@ router.post("/", validateAdmin, (req, res) => {
         titleID:   title.titleID,
         titleName:     title.titleName,
         titleSort:  title.titleSort,
+        titleURL:  title.titleURL,
         authorFirstName:   title.authorFirstName,
         authorLastName:     title.authorLastName,
         publicationDate:  title.publicationDate,
@@ -536,6 +538,7 @@ router.put("/:titleID", validateAdmin, (req, res) => {
     const updateTitle = {
         titleName:     req.body.title.titleName,
         titleSort:      req.body.title.titleName.toLowerCase().replace(/^(an?|the) (.*)$/i, '$2, $1'),
+        titleURL:     req.body.title.titleURL,
         authorFirstName:   req.body.title.authorFirstName,
         authorLastName:     req.body.title.authorLastName,
         publicationDate:  req.body.title.publicationDate,
@@ -559,6 +562,7 @@ router.put("/:titleID", validateAdmin, (req, res) => {
             titleID:        req.params.titleID,
             titleName:     req.body.title.titleName,
             titleSort:      req.body.title.titleName.toLowerCase().replace(/^(an?|the) (.*)$/i, '$2, $1'),
+            titleURL:     req.body.title.titleURL,
             authorFirstName:   req.body.title.authorFirstName,
             authorLastName:     req.body.title.authorLastName,
             publicationDate:  req.body.title.publicationDate,
