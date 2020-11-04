@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
     },
+    titleURL: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
+    },
     authorFirstName: {
         type: DataTypes.STRING,
         allowNull: true
