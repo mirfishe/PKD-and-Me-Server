@@ -1,12 +1,13 @@
-# PKD-and-Me-server
+# PKD and Me Server
 
-# Description
+## Description
 
-# Features
+Project using Node.js to allow users to rate and review works by and related to Philip K. Dick.
 
-# Endpoints and expected output
+## Features
 
-# Deployment 
-https://github.com/mirfishe/PKD-and-Me-Client
+## Endpoints and expected output
 
-https://philipdick.com
+## Deployment 
+
+The application is deployed to [Heroku](https://pkd-and-me-server.herokuapp.com).
