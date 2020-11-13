@@ -27,6 +27,8 @@ const Category = sequelize.import('./models/category');
 const Media = sequelize.import('./models/media');
 const Edition = sequelize.import('./models/edition');
 
+// const Error = sequelize.import('./models/rrror');
+
 
 User.hasOne(User, {
   foreignKey: 'updatedBy',
