@@ -11,21 +11,20 @@ const validateAdmin = require("../middleware/validate-admin");
 // Returns all categories active or not
 router.get("/list", (req, res) => {
 
-    // const query = {/*where: {
-    //     active: {[Op.eq]: true}
-    // // }, include: {all: true, nested: true}, order: [["sortID", "ASC"]]};
-    // },*/ order: [["sortID", "ASC"]]};
-    // // }, include: [
-    // //     {model: Title,
-    // //         where: {
-    // //             active: {[Op.eq]: true}
-    // //         }
-    // //     }
-    // // ], 
-    // // order: [["sortID", "ASC"]]};
+    const query = {/*where: {
+        active: {[Op.eq]: true}
+    // }, include: {all: true, nested: true}, order: [["sortID", "ASC"]]};
+    },*/ order: [["sortID", "ASC"]]};
+    // }, include: [
+    //     {model: Title,
+    //         where: {
+    //             active: {[Op.eq]: true}
+    //         }
+    //     }
+    // ], 
+    // order: [["sortID", "ASC"]]};
     
-    // Category.findAll(query)
-    Category.findAll()
+    Category.findAll(query)
     .then((categories) => {
         if (categories.length > 0) {
             // console.log("category-controller get / categories", categories);
