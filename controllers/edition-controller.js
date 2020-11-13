@@ -9,11 +9,12 @@ const validateAdmin = require("../middleware/validate-admin");
 /******************************
  ***** Get Edition List *********
  ******************************/
+// Returns all editions active or not
 router.get("/list", (req, res) => {
 
-    const query = {where: {
+    const query = {/*where: {
         active: {[Op.eq]: true}
-    }, include: [
+    },*/ include: [
         {model: Title,
             // right: true,
             required: false,

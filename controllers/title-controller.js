@@ -12,12 +12,13 @@ const validateAdmin = require("../middleware/validate-admin");
 /******************************
  ***** Get Title List *********
  ******************************/
+// Returns all titles active or not
 // Just the title data and not the related tables data
 router.get("/list", (req, res) => {
 
-    const query = {where: {
+    const query = {/*where: {
         active: {[Op.eq]: true}
-    }, include: [
+    },*/ include: [
         // {model: Edition,
         //     // right: true,
         //     required: false,

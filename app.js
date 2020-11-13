@@ -11,6 +11,8 @@ const edition = require('./controllers/edition-controller');
 const media = require('./controllers/media-controller');
 const category = require('./controllers/category-controller');
 
+// const error = require('./controllers/error-controller');
+
 sequelize.sync();
 
 // Forces the database to drop the tables and create them with the new models
@@ -30,6 +32,7 @@ app.use('/edition', edition);
 app.use('/media', media);
 app.use('/category', category);
 
+// app.use('/error', error);
 
 
 
