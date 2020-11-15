@@ -519,6 +519,8 @@ router.post("/", validateAdmin, (req, res) => {
         shortDescription:     title.shortDescription,
         urlPKDweb:  title.urlPKDweb,
         active:     title.active,
+        createdAt:     title.createdAt,
+        updatedAt:     title.updatedAt,
         recordAdded: true,
         message:    "Title successfully created."
         });

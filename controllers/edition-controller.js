@@ -375,6 +375,8 @@ router.post('/', validateAdmin, (req, res) => {
         imageLinkLarge:     edition.imageLinkLarge,
         textImageLink:     edition.textImageLink,
         active:     edition.active,
+        createdAt:     edition.createdAt,
+        updatedAt:     edition.updatedAt,
         recordAdded: true,
         message:    'Edition successfully created.'
         });

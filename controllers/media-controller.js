@@ -160,6 +160,7 @@ router.post("/", validateAdmin, (req, res) => {
 
         const createMedia = {
             media:      req.body.media.media,
+            electronic:      req.body.media.electronic,
             sortID:     newSortID
           };
 
@@ -167,12 +168,15 @@ router.post("/", validateAdmin, (req, res) => {
     })
     // .then((media) => res.status(200).json({media: media, message: "Media successfully created."}))
     .then((media) => {
-        console.log("media-controller post / media", media);
+        // console.log("media-controller post / media", media);
         res.status(200).json({
         mediaID:    media.mediaID,
         media:      media.media,
+        electronic:      media.electronic,
         sortID:     media.sortID,
         active:     media.active,
+        createdAt:     media.createdAt,
+        updatedAt:     media.updatedAt,
         recordAdded: true,
         message:    "Media successfully created."
         });
