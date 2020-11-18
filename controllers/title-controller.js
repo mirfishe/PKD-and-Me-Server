@@ -36,9 +36,9 @@ router.get("/list", (req, res) => {
         {model: Category,
             right: true,
             required: false,
-            where: {
-                active: {[Op.eq]: true}
-            }
+            // where: {
+            //     active: {[Op.eq]: true}
+            // }
         }
     ], 
     order: [["titleSort", "ASC"]]};
@@ -519,6 +519,8 @@ router.post("/", validateAdmin, (req, res) => {
         shortDescription:     title.shortDescription,
         urlPKDweb:  title.urlPKDweb,
         active:     title.active,
+        createdAt:     title.createdAt,
+        updatedAt:     title.updatedAt,
         recordAdded: true,
         message:    "Title successfully created."
         });

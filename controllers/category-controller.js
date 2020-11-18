@@ -189,6 +189,8 @@ router.post("/", validateAdmin, (req, res) => {
         category:   category.category,
         sortID:     category.sortID,
         active:     category.active,
+        createdAt:     category.createdAt,
+        updatedAt:     category.updatedAt,
         recordAdded: true,
         message:    "Category successfully created."
         });

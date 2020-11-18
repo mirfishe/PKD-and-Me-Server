@@ -18,16 +18,16 @@ router.get("/list", (req, res) => {
         {model: Title,
             // right: true,
             required: false,
-            where: {
-                active: {[Op.eq]: true}
-            }
+            // where: {
+            //     active: {[Op.eq]: true}
+            // }
         },
         {model: Media, 
             // right: true,
             required: false,
-            where: {
-                active: {[Op.eq]: true}
-            }
+            // where: {
+            //     active: {[Op.eq]: true}
+            // }
         }
     ], 
     order: [["publicationDate", 'DESC']]};
@@ -375,6 +375,8 @@ router.post('/', validateAdmin, (req, res) => {
         imageLinkLarge:     edition.imageLinkLarge,
         textImageLink:     edition.textImageLink,
         active:     edition.active,
+        createdAt:     edition.createdAt,
+        updatedAt:     edition.updatedAt,
         recordAdded: true,
         message:    'Edition successfully created.'
         });
