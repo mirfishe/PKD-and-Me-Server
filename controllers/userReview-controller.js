@@ -567,6 +567,8 @@ router.post("/", validateSession, (req, res) => {
         shortReview:   userReview.shortReview,
         longReview:   userReview.longReview,
         active:     userReview.active,
+        createdAt:     userReview.createdAt,
+        updatedAt:     userReview.updatedAt,
         recordAdded: true,
         message:    "User review successfully created."
         });

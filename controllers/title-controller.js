@@ -86,6 +86,7 @@ router.get("/", (req, res) => {
             required: false,
             include: [
                 {model: User, 
+                attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
                 // right: true,
                 required: false,
                 where: {
@@ -161,6 +162,7 @@ router.get("/:titleID", (req, res) => {
             required: false,
             include: [
                 {model: User, 
+                attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
                 // right: true,
                 required: false,
                 where: {
@@ -299,6 +301,7 @@ router.get("/category/:categoryID/:sort?", (req, res) => {
             required: false,
             include: [
                 {model: User, 
+                attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
                 // right: true,
                 required: false,
                 where: {
@@ -373,6 +376,7 @@ router.get("/admin/category/:categoryID/:sort?", validateAdmin, (req, res) => {
             required: false,
             include: [
                 {model: User, 
+                attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
                 // right: true,
                 required: false
                 }]
@@ -445,6 +449,7 @@ router.get("/checklist/:categoryID/:sort?", validateSession, (req, res) => {
             required: false,
             include: [
                 {model: User, 
+                attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
                 // right: true,
                 required: false,
                 where: {
