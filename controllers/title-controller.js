@@ -381,15 +381,15 @@ router.get("/admin/category/:categoryID/:sort?", validateAdmin, (req, res) => {
                 required: false
                 }]
         },
-        {model: Edition,
-            // right: true,
-            required: false,
-            include: [
-                {model: Media, 
-                // right: true,
-                required: false
-                }]
-        },
+        // {model: Edition,
+        //     // right: true,
+        //     required: false,
+        //     include: [
+        //         {model: Media, 
+        //         // right: true,
+        //         required: false
+        //         }]
+        // },
         {model: Category,
             right: true,
             required: false
@@ -411,6 +411,76 @@ router.get("/admin/category/:categoryID/:sort?", validateAdmin, (req, res) => {
     })
         .catch((err) => {
             console.log("title-controller get /category/:categoryID err", err);
+            res.status(500).json({resultsFound: false, message: "No titles found.", error: err});
+        });
+
+});
+
+/**************************************
+ ***** Get Titles/Checklist *****
+***************************************/
+router.get("/checklist/list", validateSession, (req, res) => {
+
+    // const attributes = {
+    //     attributes: [
+    //     "reviewID", "userID", "updatedBy", "titleID", "read", "dateRead:   userReviews.dateRead", "rating", "shortReview", "longReview", "active", 
+    //     [sequelize.fn("count", sequelize.col("reviewID")), "userReviewCount"],
+    //     [sequelize.fn("sum", sequelize.col("reviewID")), "userReviewSum"],
+    //     ]
+    // };
+
+    let orderBy = "titleSort";
+
+    if (req.params.sort == "publicationDate") {
+        orderBy = "publicationDate";
+    } else {
+        orderBy = "titleSort";
+    };
+
+    const query = {where: {
+            active: {[Op.eq]: true}
+    // }, include: {all: true, nested: true}, order: [["titleSort", "ASC"]]};
+    }, include: [
+        {model: UserReview,
+            // right: true,
+            required: false,
+            include: [
+                {model: User, 
+                attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
+                // right: true,
+                required: false,
+                where: {
+                    active: {[Op.eq]: true}
+                }}],
+            where: {
+                userID: {[Op.eq]: req.user.userID},
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: Category,
+            right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ], 
+    order: [[orderBy, "ASC"], ["titleSort", "ASC"]]};
+
+    Title.findAll(query)
+    .then((titles) => {
+        if (titles.length > 0) {
+            // console.log("title-controller get /checklist/:categoryID titles", titles);
+            res.status(200).json({titles: titles, resultsFound: true, message: "Successfully retrieved titles."});
+        } else {
+            // console.log("title-controller get /checklist/:categoryID No Results");
+            // res.status(200).send("No titles found.");
+            // res.status(200).send({resultsFound: false, message: "No titles found."})
+            res.status(200).json({resultsFound: false, message: "No titles found."});
+        };
+    })
+        .catch((err) => {
+            console.log("title-controller get /checklist/:categoryID err", err);
             res.status(500).json({resultsFound: false, message: "No titles found.", error: err});
         });
 
