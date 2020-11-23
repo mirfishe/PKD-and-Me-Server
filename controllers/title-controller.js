@@ -637,7 +637,7 @@ router.put("/:titleID", validateAdmin, (req, res) => {
     .then((title) => {
         if (title > 0) {
             res.status(200).json({
-            titleID:        req.params.titleID,
+            titleID:        parseInt(req.params.titleID), // The parameter value is passed as a string unless converted
             titleName:     req.body.title.titleName,
             titleSort:      req.body.title.titleName.toLowerCase().replace(/^(an?|the) (.*)$/i, '$2, $1'),
             titleURL:     req.body.title.titleURL,

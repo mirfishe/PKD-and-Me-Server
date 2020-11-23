@@ -431,7 +431,7 @@ router.put("/:editionID", validateAdmin, (req, res) => {
     .then((edition) => {
         if (edition > 0) {
             res.status(200).json({
-            editionID:    req.params.editionID,
+            editionID:    parseInt(req.params.editionID), // The parameter value is passed as a string unless converted
             titleID:    req.body.edition.titleID,
             mediaID:    req.body.edition.mediaID,
             publicationDate:  req.body.edition.publicationDate,

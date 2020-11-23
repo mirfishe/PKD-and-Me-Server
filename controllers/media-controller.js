@@ -210,7 +210,7 @@ router.put("/:mediaID", validateAdmin, (req, res) => {
     .then((media) => {
         if (media > 0) {
             res.status(200).json({
-            mediaID:    req.params.mediaID,
+            mediaID:    parseInt(req.params.mediaID), // The parameter value is passed as a string unless converted
             media:      req.body.media.media,
             sortID:     req.body.media.sortID,
             active:     req.body.media.active,

@@ -45,9 +45,9 @@ const validateAdmin = require("../middleware/validate-admin");
  ******************************/
 router.get("/list", (req, res) => {
 
-    const query = {where: {
+    const query = {/*where: {
         active: {[Op.eq]: true}
-    }, include: [
+    },*/ include: [
         {model: Title,
             // right: true,
             required: false,
@@ -294,7 +294,7 @@ router.get("/rating/list", (req, res) => {
         // {titleID: {[Op.eq]: req.params.titleID}},
         {rating: {[Op.ne]: 0}},
         {rating: {[Op.not]: null}},
-        // {active: {[Op.eq]: true}}
+        {active: {[Op.eq]: true}}
         ]
     }, 
     group: ["titleID"],
@@ -611,7 +611,7 @@ router.put("/:reviewID", validateSession, (req, res) => {
     .then((userReview) => {
         if (userReview > 0) {
             res.status(200).json({
-            reviewID:     req.params.reviewID,
+            reviewID:     parseInt(req.params.reviewID), // The parameter value is passed as a string unless converted
             userID:     req.user.userID,
             updatedBy:  req.user.userID,
             titleID:    req.body.userReview.titleID,
@@ -664,7 +664,7 @@ router.put("/admin/:reviewID", validateAdmin, (req, res) => {
     .then((userReview) => {
         if (userReview > 0) {
             res.status(200).json({
-            reviewID:     req.params.reviewID,
+            reviewID:     parseInt(req.params.reviewID), // The parameter value is passed as a string unless converted
             userID:     req.user.userID,
             updatedBy:  req.user.userID,
             titleID:    req.body.userReview.titleID,

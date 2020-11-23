@@ -224,7 +224,7 @@ router.put("/:categoryID", validateAdmin, (req, res) => {
     .then((category) => {
         if (category > 0) {
             res.status(200).json({
-            categoryID:   req.params.categoryID,
+            categoryID:   parseInt(req.params.categoryID), // The parameter value is passed as a string unless converted
             category:   category.category,
             sortID:     category.sortID,
             active:     category.active,
