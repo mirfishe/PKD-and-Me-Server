@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const UserReview = require("../db").import("../models/userReview");
 const User = require("../db").import("../models/user");
-// const Title = require("../db").import("../models/title");
+const Title = require("../db").import("../models/title");
 const {Op} = require("sequelize");
 const Sequelize = require('sequelize');
 const validateSession = require("../middleware/validate-session");
@@ -41,13 +41,75 @@ const validateAdmin = require("../middleware/validate-admin");
 // };
 
 /******************************
+ ***** Get User Review List *********
+ ******************************/
+router.get("/list", (req, res) => {
+
+    const query = {/*where: {
+        active: {[Op.eq]: true}
+    },*/ include: [
+        {model: Title,
+            // right: true,
+            required: false,
+            // where: {
+            //     active: {[Op.eq]: true}
+            // }
+        },
+        {model: User, 
+            attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
+            // right: true,
+            required: false,
+            // where: {
+            //     active: {[Op.eq]: true}
+            // }
+        }
+    ], 
+    order: [["updatedAt", "DESC"]]};
+   
+    UserReview.findAll(query)
+    .then((userReviews) => {
+        if (userReviews.length > 0) {
+            // console.log("userReview-controller get / userReviews", userReviews);
+            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user reviews."});
+        } else {
+            // console.log("userReview-controller get / No Results");
+            // res.status(200).send("No user reviews found.");
+            // res.status(200).send({resultsFound: false, message: "No user reviews found."})
+            res.status(200).json({resultsFound: false, message: "No user reviews found."});
+        };
+    })
+    .catch((err) => {
+        console.log("userReview-controller get / err", err);
+        res.status(500).json({resultsFound: false, message: "No user reviews found.", error: err});
+    });
+
+});
+
+/******************************
  ***** Get User Reviews *********
  ******************************/
 router.get("/", (req, res) => {
 
     const query = {where: {
         active: {[Op.eq]: true}
-    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
+    }, include: [
+        {model: Title,
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: User, 
+            attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ], 
+    order: [["updatedAt", "DESC"]]};
    
     UserReview.findAll(query)
     .then((userReviews) => {
@@ -75,7 +137,23 @@ router.get("/:reviewID", (req, res) => {
 
     const query = {where: {
         reviewID: {[Op.eq]: req.params.reviewID}
-    }, include: {all: true, nested: true}};
+    }, include: [
+        {model: Title,
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: User, 
+            attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ]};
 
     // UserReview.findOne(query)
     UserReview.findAll(query)
@@ -206,6 +284,48 @@ router.get("/:reviewID", (req, res) => {
 // });
 
 /**************************************
+ ***** Get User Review Rating List *****
+***************************************/
+// Gets the sum and count of ratings for the title
+router.get("/rating/list", (req, res) => {
+
+    const query = {where: {
+        [Op.and]: [
+        // {titleID: {[Op.eq]: req.params.titleID}},
+        {rating: {[Op.ne]: 0}},
+        {rating: {[Op.not]: null}},
+        {active: {[Op.eq]: true}}
+        ]
+    }, 
+    group: ["titleID"],
+    attributes: [
+        // Sequelize.col("titleID"),
+        [Sequelize.col("titleID"), "titleID"],
+        [Sequelize.fn("count", Sequelize.col("rating")), "userReviewCount"],
+        [Sequelize.fn("sum", Sequelize.col("rating")), "userReviewSum"]
+        ]
+    };
+
+    UserReview.findAll(query)
+    .then((userReviews) => {
+        if (userReviews.length > 0) {
+            // console.log("userReview-controller get /rating/:titleID userReviews", userReviews);
+            res.status(200).json({userReviews: userReviews, resultsFound: true, message: "Successfully retrieved user ratings."});
+        } else {
+            // console.log("userReview-controller get /rating/:titleID  No Results");
+            // res.status(200).send("No user reviews found.");
+            // res.status(200).send({resultsFound: false, message: "No user reviews found."})
+            res.status(200).json({resultsFound: false, message: "No user ratings found."});
+        };
+    })
+    .catch((err) => {
+        console.log("userReview-controller get /rating/:titleID err", err);
+        res.status(500).json({resultsFound: false, message: "No user ratings found.", error: err});
+    });
+
+});
+
+/**************************************
  ***** Get User Review Rating By TitleID *****
 ***************************************/
 // Gets the sum and count of ratings for the title
@@ -274,8 +394,16 @@ router.get("/title/:titleID", (req, res) => {
         ]
     // }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
     }, include: [
-        {model: User,
-            right: true,
+        {model: Title,
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: User, 
+            attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
+            // right: true,
             required: false,
             where: {
                 active: {[Op.eq]: true}
@@ -317,7 +445,24 @@ router.get("/user/:userID", (req, res) => {
         {userID: {[Op.eq]: req.params.userID}},
         {active: {[Op.eq]: true}}
         ]
-    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
+    }, include: [
+        {model: Title,
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: User, 
+            attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ], 
+    order: [["updatedAt", "DESC"]]};
 
     UserReview.findAll(query)
     .then((userReviews) => {
@@ -353,7 +498,24 @@ router.get("/user/:userID/title/:titleID", (req, res) => {
         {titleID: {[Op.eq]: req.params.titleID}},
         {active: {[Op.eq]: true}}
         ]
-    }, include: {all: true, nested: true}, order: [["updatedAt", "DESC"]]};
+    }, include: [
+        {model: Title,
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        },
+        {model: User, 
+            attributes: ["userID", "firstName", "lastName", "email", "updatedBy", "admin", "active"],
+            // right: true,
+            required: false,
+            where: {
+                active: {[Op.eq]: true}
+            }
+        }
+    ], 
+    order: [["updatedAt", "DESC"]]};
 
     UserReview.findAll(query)
     .then((userReviews) => {
@@ -405,6 +567,8 @@ router.post("/", validateSession, (req, res) => {
         shortReview:   userReview.shortReview,
         longReview:   userReview.longReview,
         active:     userReview.active,
+        createdAt:     userReview.createdAt,
+        updatedAt:     userReview.updatedAt,
         recordAdded: true,
         message:    "User review successfully created."
         });
@@ -447,7 +611,7 @@ router.put("/:reviewID", validateSession, (req, res) => {
     .then((userReview) => {
         if (userReview > 0) {
             res.status(200).json({
-            reviewID:     req.params.reviewID,
+            reviewID:     parseInt(req.params.reviewID), // The parameter value is passed as a string unless converted
             userID:     req.user.userID,
             updatedBy:  req.user.userID,
             titleID:    req.body.userReview.titleID,
@@ -500,7 +664,7 @@ router.put("/admin/:reviewID", validateAdmin, (req, res) => {
     .then((userReview) => {
         if (userReview > 0) {
             res.status(200).json({
-            reviewID:     req.params.reviewID,
+            reviewID:     parseInt(req.params.reviewID), // The parameter value is passed as a string unless converted
             userID:     req.user.userID,
             updatedBy:  req.user.userID,
             titleID:    req.body.userReview.titleID,
