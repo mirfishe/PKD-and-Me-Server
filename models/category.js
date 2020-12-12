@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    categoryURL: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
+    },
     sortID: {
       type: DataTypes.INTEGER,
       allowNull: false
