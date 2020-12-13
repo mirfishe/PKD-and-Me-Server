@@ -165,24 +165,26 @@ router.get("/", validateSession, (req, res) => {
     // }, include: {all: true, nested: true}};
     }};
 
-    // User.findOne(query)
-    User.findAll(query)
-    .then((users) => {
-        if (users.length > 0) {
+    User.findOne(query)
+    // User.findAll(query)
+    .then((user) => {
+        // if (user.length > 0) {
+        if (user != null) {
             // console.log("user-controller get / user", user);
-            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved user."});
-            // res.status(200).json({
-            //     // Need to return all the properties of the user to the browser?
-            //     // user:   user,
-            //     userID:   user.userID,
-            //     firstName:   user.firstName,
-            //     lastName:   user.lastName,
-            //     email:   user.email,
-            //     updatedBy:  user.updatedBy,
-            //     admin:  user.admin,
-            //     active:  user.active,
-            //     message:    "Successfully retrieved user information."
-            // });
+            // res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved user."});
+            res.status(200).json({
+                // Need to return all the properties of the user to the browser?
+                // user:   user,
+                userID:   user.userID,
+                firstName:   user.firstName,
+                lastName:   user.lastName,
+                email:   user.email,
+                updatedBy:  user.updatedBy,
+                admin:  user.admin,
+                active:  user.active,
+                resultsFound: true,
+                message:    "Successfully retrieved user information."
+            });
         } else {
             // console.log("user-controller get / No Results");
             // res.status(200).send("No users found.");
@@ -208,24 +210,26 @@ router.get("/:userID", validateAdmin, (req, res) => {
     // }, include: {all: true, nested: true}};
     }};
 
-    // User.findOne(query)
-    User.findAll(query)
-    .then((users) => {
-        if (users.length > 0) {
+    User.findOne(query)
+    // User.findAll(query)
+    .then((user) => {
+        // if (user.length > 0) {
+        if (user != null) {
             // console.log("user-controller get /:userID user", user);
-            res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved user."});
-            // res.status(200).json({
-            //     // Need to return all the properties of the user to the browser?
-            //     // user:   user,
-            //     userID:   user.userID,
-            //     firstName:   user.firstName,
-            //     lastName:   user.lastName,
-            //     email:   user.email,
-            //     updatedBy:  user.updatedBy,
-            //     admin:  user.admin,
-            //     active:  user.active,
-            //     message:    "Successfully retrieved user information."
-            // });
+            // res.status(200).json({users: users, resultsFound: true, message: "Successfully retrieved user."});
+            res.status(200).json({
+                // Need to return all the properties of the user to the browser?
+                // user:   user,
+                userID:   user.userID,
+                firstName:   user.firstName,
+                lastName:   user.lastName,
+                email:   user.email,
+                updatedBy:  user.updatedBy,
+                admin:  user.admin,
+                active:  user.active,
+                resultsFound: true,
+                message:    "Successfully retrieved user information."
+            });
         } else {
             // console.log("user-controller get /:userID No Results");
             // res.status(200).send("No users found.");
