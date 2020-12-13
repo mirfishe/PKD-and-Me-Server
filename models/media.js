@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    // mediaURL: {
+    //   type: DataTypes.STRING,
+    //   unique: true,
+    //   allowNull: false
+    // },
     electronic: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

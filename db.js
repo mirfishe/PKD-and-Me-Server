@@ -1,8 +1,31 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect:    'postgres'
+let databaseURL = "";
+let dialectValue = "";
+
+if (process.env.DATABASE_DIALECT == "postgres") {
+  databaseURL = process.env.DATABASE_URL_POSTGRESQL;
+  dialectValue = "postgres";
+} else if (process.env.DATABASE_DIALECT == "mysql") {
+  databaseURL = process.env.DATABASE_URL_MYSQL;
+  dialectValue = "mysql";
+} else {
+  // Set to postgres by default
+  databaseURL = process.env.DATABASE_URL_POSTGRESQL;
+  dialectValue = "postgres";
+}
+
+const sequelize = new Sequelize(databaseURL, {
+  dialect:    dialectValue
 });
+
+// const sequelize = new Sequelize(process.env.DATABASE_URL_POSTGRESQL, {
+//     dialect:    'postgres'
+// });
+
+// const sequelize = new Sequelize(process.env.DATABASE_URL_MYSQL, {
+//   dialect:    'mysql'
+// });
 
 // new Sequelize(process.env.DATABASE_URL ||
 //     `postgresql://postgres:${encodeURIComponent(process.env.DATABASE_PASSWORD)}@localhost/blue-badge-project` {
@@ -16,7 +39,9 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 // });
 
 sequelize.authenticate()
-    .then(() => console.log('postgres db is connected.'))
+    // .then(() => console.log('PostgreSQL db is connected.'))
+    // .then(() => console.log('mySQL db is connected.'))
+    .then(() => console.log(dialectValue, 'db is connected.'))
     .catch(err => console.log(err));
 
 
@@ -27,7 +52,7 @@ const Category = sequelize.import('./models/category');
 const Media = sequelize.import('./models/media');
 const Edition = sequelize.import('./models/edition');
 
-// const Error = sequelize.import('./models/rrror');
+// const Error = sequelize.import('./models/error');
 
 
 User.hasOne(User, {
