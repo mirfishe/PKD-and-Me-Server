@@ -5,7 +5,7 @@
 -- Dumped from database version 12.5 (Ubuntu 12.5-1.pgdg16.04+1)
 -- Dumped by pg_dump version 13.0
 
--- Started on 2020-12-12 13:30:42 EST
+-- Started on 2020-12-24 20:35:13 EST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,11 +18,13 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+SET default_tablespace = '';
+
 SET default_table_access_method = heap;
 
 --
 -- TOC entry 205 (class 1259 OID 25070207)
--- Name: categories; Type: TABLE; Schema: public; Owner: -
+-- Name: categories; Type: TABLE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE TABLE public.categories (
@@ -35,9 +37,11 @@ CREATE TABLE public.categories (
 );
 
 
+ALTER TABLE public.categories OWNER TO vxjhybhosvemcy;
+
 --
 -- TOC entry 204 (class 1259 OID 25070205)
--- Name: categories_categoryID_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: categories_categoryID_seq; Type: SEQUENCE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE SEQUENCE public."categories_categoryID_seq"
@@ -49,10 +53,12 @@ CREATE SEQUENCE public."categories_categoryID_seq"
     CACHE 1;
 
 
+ALTER TABLE public."categories_categoryID_seq" OWNER TO vxjhybhosvemcy;
+
 --
--- TOC entry 3933 (class 0 OID 0)
+-- TOC entry 3935 (class 0 OID 0)
 -- Dependencies: 204
--- Name: categories_categoryID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: categories_categoryID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER SEQUENCE public."categories_categoryID_seq" OWNED BY public.categories."categoryID";
@@ -60,7 +66,7 @@ ALTER SEQUENCE public."categories_categoryID_seq" OWNED BY public.categories."ca
 
 --
 -- TOC entry 213 (class 1259 OID 25070274)
--- Name: editions; Type: TABLE; Schema: public; Owner: -
+-- Name: editions; Type: TABLE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE TABLE public.editions (
@@ -82,9 +88,11 @@ CREATE TABLE public.editions (
 );
 
 
+ALTER TABLE public.editions OWNER TO vxjhybhosvemcy;
+
 --
 -- TOC entry 212 (class 1259 OID 25070272)
--- Name: editions_editionID_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: editions_editionID_seq; Type: SEQUENCE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE SEQUENCE public."editions_editionID_seq"
@@ -96,10 +104,12 @@ CREATE SEQUENCE public."editions_editionID_seq"
     CACHE 1;
 
 
+ALTER TABLE public."editions_editionID_seq" OWNER TO vxjhybhosvemcy;
+
 --
--- TOC entry 3934 (class 0 OID 0)
+-- TOC entry 3936 (class 0 OID 0)
 -- Dependencies: 212
--- Name: editions_editionID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: editions_editionID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER SEQUENCE public."editions_editionID_seq" OWNED BY public.editions."editionID";
@@ -107,7 +117,7 @@ ALTER SEQUENCE public."editions_editionID_seq" OWNED BY public.editions."edition
 
 --
 -- TOC entry 211 (class 1259 OID 25070264)
--- Name: media; Type: TABLE; Schema: public; Owner: -
+-- Name: media; Type: TABLE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE TABLE public.media (
@@ -121,9 +131,11 @@ CREATE TABLE public.media (
 );
 
 
+ALTER TABLE public.media OWNER TO vxjhybhosvemcy;
+
 --
 -- TOC entry 210 (class 1259 OID 25070262)
--- Name: media_mediaID_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: media_mediaID_seq; Type: SEQUENCE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE SEQUENCE public."media_mediaID_seq"
@@ -135,10 +147,12 @@ CREATE SEQUENCE public."media_mediaID_seq"
     CACHE 1;
 
 
+ALTER TABLE public."media_mediaID_seq" OWNER TO vxjhybhosvemcy;
+
 --
--- TOC entry 3935 (class 0 OID 0)
+-- TOC entry 3937 (class 0 OID 0)
 -- Dependencies: 210
--- Name: media_mediaID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: media_mediaID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER SEQUENCE public."media_mediaID_seq" OWNED BY public.media."mediaID";
@@ -146,7 +160,7 @@ ALTER SEQUENCE public."media_mediaID_seq" OWNED BY public.media."mediaID";
 
 --
 -- TOC entry 207 (class 1259 OID 25070216)
--- Name: titles; Type: TABLE; Schema: public; Owner: -
+-- Name: titles; Type: TABLE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE TABLE public.titles (
@@ -167,9 +181,11 @@ CREATE TABLE public.titles (
 );
 
 
+ALTER TABLE public.titles OWNER TO vxjhybhosvemcy;
+
 --
 -- TOC entry 206 (class 1259 OID 25070214)
--- Name: titles_titleID_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: titles_titleID_seq; Type: SEQUENCE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE SEQUENCE public."titles_titleID_seq"
@@ -181,10 +197,12 @@ CREATE SEQUENCE public."titles_titleID_seq"
     CACHE 1;
 
 
+ALTER TABLE public."titles_titleID_seq" OWNER TO vxjhybhosvemcy;
+
 --
--- TOC entry 3936 (class 0 OID 0)
+-- TOC entry 3938 (class 0 OID 0)
 -- Dependencies: 206
--- Name: titles_titleID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: titles_titleID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER SEQUENCE public."titles_titleID_seq" OWNED BY public.titles."titleID";
@@ -192,7 +210,7 @@ ALTER SEQUENCE public."titles_titleID_seq" OWNED BY public.titles."titleID";
 
 --
 -- TOC entry 209 (class 1259 OID 25070235)
--- Name: userReviews; Type: TABLE; Schema: public; Owner: -
+-- Name: userReviews; Type: TABLE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE TABLE public."userReviews" (
@@ -211,9 +229,11 @@ CREATE TABLE public."userReviews" (
 );
 
 
+ALTER TABLE public."userReviews" OWNER TO vxjhybhosvemcy;
+
 --
 -- TOC entry 208 (class 1259 OID 25070233)
--- Name: userReviews_reviewID_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: userReviews_reviewID_seq; Type: SEQUENCE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE SEQUENCE public."userReviews_reviewID_seq"
@@ -225,10 +245,12 @@ CREATE SEQUENCE public."userReviews_reviewID_seq"
     CACHE 1;
 
 
+ALTER TABLE public."userReviews_reviewID_seq" OWNER TO vxjhybhosvemcy;
+
 --
--- TOC entry 3937 (class 0 OID 0)
+-- TOC entry 3939 (class 0 OID 0)
 -- Dependencies: 208
--- Name: userReviews_reviewID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: userReviews_reviewID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER SEQUENCE public."userReviews_reviewID_seq" OWNED BY public."userReviews"."reviewID";
@@ -236,7 +258,7 @@ ALTER SEQUENCE public."userReviews_reviewID_seq" OWNED BY public."userReviews"."
 
 --
 -- TOC entry 203 (class 1259 OID 25070187)
--- Name: users; Type: TABLE; Schema: public; Owner: -
+-- Name: users; Type: TABLE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE TABLE public.users (
@@ -253,9 +275,11 @@ CREATE TABLE public.users (
 );
 
 
+ALTER TABLE public.users OWNER TO vxjhybhosvemcy;
+
 --
 -- TOC entry 202 (class 1259 OID 25070185)
--- Name: users_userID_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: users_userID_seq; Type: SEQUENCE; Schema: public; Owner: vxjhybhosvemcy
 --
 
 CREATE SEQUENCE public."users_userID_seq"
@@ -267,10 +291,12 @@ CREATE SEQUENCE public."users_userID_seq"
     CACHE 1;
 
 
+ALTER TABLE public."users_userID_seq" OWNER TO vxjhybhosvemcy;
+
 --
--- TOC entry 3938 (class 0 OID 0)
+-- TOC entry 3940 (class 0 OID 0)
 -- Dependencies: 202
--- Name: users_userID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: users_userID_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER SEQUENCE public."users_userID_seq" OWNED BY public.users."userID";
@@ -278,7 +304,7 @@ ALTER SEQUENCE public."users_userID_seq" OWNED BY public.users."userID";
 
 --
 -- TOC entry 3740 (class 2604 OID 25070210)
--- Name: categories categoryID; Type: DEFAULT; Schema: public; Owner: -
+-- Name: categories categoryID; Type: DEFAULT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.categories ALTER COLUMN "categoryID" SET DEFAULT nextval('public."categories_categoryID_seq"'::regclass);
@@ -286,7 +312,7 @@ ALTER TABLE ONLY public.categories ALTER COLUMN "categoryID" SET DEFAULT nextval
 
 --
 -- TOC entry 3751 (class 2604 OID 25070277)
--- Name: editions editionID; Type: DEFAULT; Schema: public; Owner: -
+-- Name: editions editionID; Type: DEFAULT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions ALTER COLUMN "editionID" SET DEFAULT nextval('public."editions_editionID_seq"'::regclass);
@@ -294,7 +320,7 @@ ALTER TABLE ONLY public.editions ALTER COLUMN "editionID" SET DEFAULT nextval('p
 
 --
 -- TOC entry 3748 (class 2604 OID 25070267)
--- Name: media mediaID; Type: DEFAULT; Schema: public; Owner: -
+-- Name: media mediaID; Type: DEFAULT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.media ALTER COLUMN "mediaID" SET DEFAULT nextval('public."media_mediaID_seq"'::regclass);
@@ -302,7 +328,7 @@ ALTER TABLE ONLY public.media ALTER COLUMN "mediaID" SET DEFAULT nextval('public
 
 --
 -- TOC entry 3742 (class 2604 OID 25070219)
--- Name: titles titleID; Type: DEFAULT; Schema: public; Owner: -
+-- Name: titles titleID; Type: DEFAULT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.titles ALTER COLUMN "titleID" SET DEFAULT nextval('public."titles_titleID_seq"'::regclass);
@@ -310,7 +336,7 @@ ALTER TABLE ONLY public.titles ALTER COLUMN "titleID" SET DEFAULT nextval('publi
 
 --
 -- TOC entry 3744 (class 2604 OID 25070238)
--- Name: userReviews reviewID; Type: DEFAULT; Schema: public; Owner: -
+-- Name: userReviews reviewID; Type: DEFAULT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public."userReviews" ALTER COLUMN "reviewID" SET DEFAULT nextval('public."userReviews_reviewID_seq"'::regclass);
@@ -318,7 +344,7 @@ ALTER TABLE ONLY public."userReviews" ALTER COLUMN "reviewID" SET DEFAULT nextva
 
 --
 -- TOC entry 3737 (class 2604 OID 25070190)
--- Name: users userID; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users userID; Type: DEFAULT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN "userID" SET DEFAULT nextval('public."users_userID_seq"'::regclass);
@@ -327,7 +353,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN "userID" SET DEFAULT nextval('public.
 --
 -- TOC entry 3919 (class 0 OID 25070207)
 -- Dependencies: 205
--- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: vxjhybhosvemcy
 --
 
 INSERT INTO public.categories ("categoryID", category, "sortID", active, "createdAt", "updatedAt") VALUES (1, 'Novels', 1, true, '2020-10-19 03:10:19.256454+00', '2020-10-19 03:10:19.256454+00');
@@ -355,7 +381,7 @@ INSERT INTO public.categories ("categoryID", category, "sortID", active, "create
 --
 -- TOC entry 3927 (class 0 OID 25070274)
 -- Dependencies: 213
--- Data for Name: editions; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: editions; Type: TABLE DATA; Schema: public; Owner: vxjhybhosvemcy
 --
 
 INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (1, 1, 1, '2014-06-12 00:00:00+00', 'https://philipdick.com/images/covers/novels/TheBrokenBubble.jpg', '0575133082', 'https://amzn.to/3m0nSlx', 'https://www.amazon.com/Broken-Bubble-Philip-K-Dick/dp/0575133082/ref=as_li_ss_tl?_encoding=UTF8&qid=1526085090&sr=1-1&linkCode=ll1&tag=bulbocreat-20&linkId=507c9e5191e6ef6872eb68844dee79f0&language=en_US', '<a href=https://www.amazon.com/Broken-Bubble-Philip-K-Dick/dp/0575133082/ref=as_li_ss_il?_encoding=UTF8&qid=1526085090&sr=1-1&linkCode=li1&tag=bulbocreat-20&linkId=ab31afe52b34ac0d648381daef9abbe8&language=en_US target=_blank><img border=0 src=//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0575133082&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US ></a><img src=https://ir-na.amazon-adsystem.com/e/ir?t=bulbocreat-20&language=en_US&l=li1&o=1&a=0575133082 width=1 height=1 border=0 alt= style=border:none !important; margin:0px !important; />', '<a href=https://www.amazon.com/Broken-Bubble-Philip-K-Dick/dp/0575133082/ref=as_li_ss_il?_encoding=UTF8&qid=1526085090&sr=1-1&linkCode=li2&tag=bulbocreat-20&linkId=cba6ec815722822f5709d44a4fc2114c&language=en_US target=_blank><img border=0 src=//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0575133082&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US ></a><img src=https://ir-na.amazon-adsystem.com/e/ir?t=bulbocreat-20&language=en_US&l=li2&o=1&a=0575133082 width=1 height=1 border=0 alt= style=border:none !important; margin:0px !important; />', '<a href=https://www.amazon.com/Broken-Bubble-Philip-K-Dick/dp/0575133082/ref=as_li_ss_il?_encoding=UTF8&qid=1526085090&sr=1-1&linkCode=li3&tag=bulbocreat-20&linkId=b7a53f0e6ab9cea95881949635eca52e&language=en_US target=_blank><img border=0 src=//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0575133082&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US ></a><img src=https://ir-na.amazon-adsystem.com/e/ir?t=bulbocreat-20&language=en_US&l=li3&o=1&a=0575133082 width=1 height=1 border=0 alt= style=border:none !important; margin:0px !important; />', '<iframe style=width:120px;height:240px; marginwidth=0 marginheight=0 scrolling=no frameborder=0 src=//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=0575133082&asins=0575133082&linkId=aa31639ab29b90231d4b621238a48cca&show_border=true&link_opens_in_new_window=true></iframe>', true, '2020-10-19 03:11:32.860214+00', '2020-10-19 21:00:34.155+00');
@@ -862,12 +888,20 @@ INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate
 INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (508, 248, 12, '2017-09-21 00:00:00+00', 'https://philipdick.com/images/covers/ElectricDreamsPodcast.jpg', NULL, NULL, 'https://player.fm/series/electric-dreams-podcast', NULL, NULL, NULL, NULL, true, '2020-11-10 02:36:21.211+00', '2020-11-10 02:36:21.211+00');
 INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (149, 58, 1, '2001-04-01 00:00:00+00', NULL, '0806518561', 'https://amzn.to/2RthyX5', 'https://www.amazon.com/dp/0806518561/ref=as_li_ss_tl?&linkCode=ll1&tag=bulbocreat-20&linkId=7397cc1b45b2cfdaefd8b0569b23ee6a&language=en_US', '<a href=https://www.amazon.com/dp/0806518561/ref=as_li_ss_il?&linkCode=li1&tag=bulbocreat-20&linkId=7b927df5384bef16049bed14d647b28e&language=en_US target=_blank><img border=0 src=//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0806518561&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US ></a><img src=https://ir-na.amazon-adsystem.com/e/ir?t=bulbocreat-20&language=en_US&l=li1&o=1&a=0806518561 width=1 height=1 border=0 alt= style=border:none !important; margin:0px !important; />', '<a href=https://www.amazon.com/dp/0806518561/ref=as_li_ss_il?&linkCode=li2&tag=bulbocreat-20&linkId=21a65087464f194055b64d899993e4f6&language=en_US target=_blank><img border=0 src=//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0806518561&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US ></a><img src=https://ir-na.amazon-adsystem.com/e/ir?t=bulbocreat-20&language=en_US&l=li2&o=1&a=0806518561 width=1 height=1 border=0 alt= style=border:none !important; margin:0px !important; />', '<a href=https://www.amazon.com/dp/0806518561/ref=as_li_ss_il?&linkCode=li3&tag=bulbocreat-20&linkId=dc1655a937788e88de973ef75a799283&language=en_US target=_blank><img border=0 src=//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0806518561&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US ></a><img src=https://ir-na.amazon-adsystem.com/e/ir?t=bulbocreat-20&language=en_US&l=li3&o=1&a=0806518561 width=1 height=1 border=0 alt= style=border:none !important; margin:0px !important; />', '<iframe style=width:120px;height:240px; marginwidth=0 marginheight=0 scrolling=no frameborder=0 src=//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=0806518561&asins=0806518561&linkId=34c8a76c2ee958d958598fbf58e7d233&show_border=true&link_opens_in_new_window=true></iframe>', true, '2020-10-19 03:12:06.226791+00', '2020-11-18 17:17:43.375+00');
 INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (301, 106, 29, '2006-04-26 00:00:00+00', NULL, 'B005BYV4KA', 'https://amzn.to/37BFQae', 'https://www.amazon.com/Valis-Opera-Novel-Philip-Dick/dp/B005BYV4KA/ref=as_li_ss_tl?_encoding=UTF8&qid=1469817777&sr=1-9&linkCode=ll1&tag=bulbocreat-20&linkId=5a477d13abad8148a657ddc79be2e224&language=en_US', '<a href=https://www.amazon.com/Valis-Opera-Novel-Philip-Dick/dp/B005BYV4KA/ref=as_li_ss_il?_encoding=UTF8&qid=1469817777&sr=1-9&linkCode=li1&tag=bulbocreat-20&linkId=3afa996a1efe40926c99d01068ce42fc&language=en_US target=_blank><img border=0 src=//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B005BYV4KA&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US ></a><img src=https://ir-na.amazon-adsystem.com/e/ir?t=bulbocreat-20&language=en_US&l=li1&o=1&a=B005BYV4KA width=1 height=1 border=0 alt= style=border:none !important; margin:0px !important; />', '<a href=https://www.amazon.com/Valis-Opera-Novel-Philip-Dick/dp/B005BYV4KA/ref=as_li_ss_il?_encoding=UTF8&qid=1469817777&sr=1-9&linkCode=li2&tag=bulbocreat-20&linkId=01f3bf5e7195d1402fb0936f5fdab0bc&language=en_US target=_blank><img border=0 src=//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B005BYV4KA&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US ></a><img src=https://ir-na.amazon-adsystem.com/e/ir?t=bulbocreat-20&language=en_US&l=li2&o=1&a=B005BYV4KA width=1 height=1 border=0 alt= style=border:none !important; margin:0px !important; />', '<a href=https://www.amazon.com/Valis-Opera-Novel-Philip-Dick/dp/B005BYV4KA/ref=as_li_ss_il?_encoding=UTF8&qid=1469817777&sr=1-9&linkCode=li3&tag=bulbocreat-20&linkId=4f7c9872facdb0b4af2e0dbd7164f1b6&language=en_US target=_blank><img border=0 src=//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B005BYV4KA&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US ></a><img src=https://ir-na.amazon-adsystem.com/e/ir?t=bulbocreat-20&language=en_US&l=li3&o=1&a=B005BYV4KA width=1 height=1 border=0 alt= style=border:none !important; margin:0px !important; />', '<iframe style=width:120px;height:240px; marginwidth=0 marginheight=0 scrolling=no frameborder=0 src=//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=B005BYV4KA&asins=B005BYV4KA&linkId=6452d7732cbe388cf838dcbc20e9734b&show_border=true&link_opens_in_new_window=true></iframe>', true, '2020-10-23 15:14:06.731+00', '2020-11-28 19:45:10.742+00');
+INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (513, 251, 2, '2016-03-28 00:00:00+00', NULL, '1861715242', 'https://amzn.to/37OddX0', 'https://www.amazon.com/BLADE-RUNNER-Jeremy-Mark-Robinson-dp-1861715242/dp/1861715242/ref=as_li_ss_tl?_encoding=UTF8&me=&qid=&linkCode=ll1&tag=bulbocreat-20&linkId=36421c30eabf67c67a064c743eeffd43&language=en_US', '<a href="https://www.amazon.com/BLADE-RUNNER-Jeremy-Mark-Robinson-dp-1861715242/dp/1861715242/ref=as_li_ss_il?_encoding=UTF8&me=&qid=&linkCode=li1&tag=bulbocreat-20&linkId=d40214541177e660bc21f4196d614046&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1861715242&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/BLADE-RUNNER-Jeremy-Mark-Robinson-dp-1861715242/dp/1861715242/ref=as_li_ss_il?_encoding=UTF8&me=&qid=&linkCode=li2&tag=bulbocreat-20&linkId=5ff7770bd6984090fafc4d4aaaba5c1e&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1861715242&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/BLADE-RUNNER-Jeremy-Mark-Robinson-dp-1861715242/dp/1861715242/ref=as_li_ss_il?_encoding=UTF8&me=&qid=&linkCode=li3&tag=bulbocreat-20&linkId=7d2d8c23ad038892fb51c54e8fe78bda&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1861715242&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=1861715242&asins=1861715242&linkId=42ce7a2f3559b295e704e7b7e26f7b0e&show_border=true&link_opens_in_new_window=true"></iframe>', true, '2020-12-24 16:38:10.239+00', '2020-12-24 16:38:10.239+00');
+INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (514, 251, 1, '2016-07-18 00:00:00+00', NULL, '1861714254', 'https://amzn.to/3pnnBuB', 'https://www.amazon.com/Blade-Runner-Jeremy-Mark-Robinson-dp-1861714254/dp/1861714254/ref=as_li_ss_tl?_encoding=UTF8&me=&qid=&linkCode=ll1&tag=bulbocreat-20&linkId=b224ca37f6a64aebc79a4126fd6b2f9d&language=en_US', '<a href="https://www.amazon.com/Blade-Runner-Jeremy-Mark-Robinson-dp-1861714254/dp/1861714254/ref=as_li_ss_il?_encoding=UTF8&me=&qid=&linkCode=li1&tag=bulbocreat-20&linkId=0a535d864875ea22758f2915b607ccf9&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1861714254&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/Blade-Runner-Jeremy-Mark-Robinson-dp-1861714254/dp/1861714254/ref=as_li_ss_il?_encoding=UTF8&me=&qid=&linkCode=li2&tag=bulbocreat-20&linkId=836626b501242d9697fefe911c9548ce&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1861714254&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/Blade-Runner-Jeremy-Mark-Robinson-dp-1861714254/dp/1861714254/ref=as_li_ss_il?_encoding=UTF8&me=&qid=&linkCode=li3&tag=bulbocreat-20&linkId=648b38ffb4a452ccd930bb760e709db1&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=1861714254&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=1861714254&asins=1861714254&linkId=655d7d566e2c3b6e2656c525a5afcd67&show_border=true&link_opens_in_new_window=true"></iframe>', true, '2020-12-24 16:43:34.055+00', '2020-12-24 16:44:06.295+00');
+INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (515, 252, 1, '2015-12-30 00:00:00+00', NULL, '0997135603', 'https://amzn.to/2JgEiIH', 'https://www.amazon.com/dp/0997135603/ref=as_li_ss_tl?coliid=I1KY2DEO7CTX0M&colid=3PEW3UXRKTHBE&psc=1&ref_=lv_ov_lig_dp_it&linkCode=ll1&tag=bulbocreat-20&linkId=1d2f09ceacbaab35e16649a8374b9aee&language=en_US', '<a href="https://www.amazon.com/dp/0997135603/ref=as_li_ss_il?coliid=I1KY2DEO7CTX0M&colid=3PEW3UXRKTHBE&psc=1&ref_=lv_ov_lig_dp_it&linkCode=li1&tag=bulbocreat-20&linkId=2964c357f6c5091f970fbaacc711733d&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0997135603&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/dp/0997135603/ref=as_li_ss_il?coliid=I1KY2DEO7CTX0M&colid=3PEW3UXRKTHBE&psc=1&ref_=lv_ov_lig_dp_it&linkCode=li2&tag=bulbocreat-20&linkId=bbcef50a7e639a1ba44496eb8dce220b&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0997135603&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/dp/0997135603/ref=as_li_ss_il?coliid=I1KY2DEO7CTX0M&colid=3PEW3UXRKTHBE&psc=1&ref_=lv_ov_lig_dp_it&linkCode=li3&tag=bulbocreat-20&linkId=62bc9299cf4516ea0204c2e78ebde9a6&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0997135603&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=0997135603&asins=0997135603&linkId=38fcd297dbd460aad104136bfcf28a4f&show_border=true&link_opens_in_new_window=true"></iframe>', true, '2020-12-24 16:47:41.985+00', '2020-12-24 16:47:41.985+00');
+INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (516, 253, 1, '2016-09-15 00:00:00+00', NULL, '0990573370', 'https://amzn.to/3pm9zt7', 'https://www.amazon.com/Blot-Jonathan-Lethem/dp/0990573370/ref=as_li_ss_tl?_encoding=UTF8&coliid=I255AEELIU6ZQ0&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=ll1&tag=bulbocreat-20&linkId=875cdd7006059b2686b6579a18683963&language=en_US', '<a href="https://www.amazon.com/Blot-Jonathan-Lethem/dp/0990573370/ref=as_li_ss_il?_encoding=UTF8&coliid=I255AEELIU6ZQ0&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li1&tag=bulbocreat-20&linkId=584f1122bab3ba632677f52c358213d4&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0990573370&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/Blot-Jonathan-Lethem/dp/0990573370/ref=as_li_ss_il?_encoding=UTF8&coliid=I255AEELIU6ZQ0&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li2&tag=bulbocreat-20&linkId=586200e9c95d21a757113a72a1090c93&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0990573370&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/Blot-Jonathan-Lethem/dp/0990573370/ref=as_li_ss_il?_encoding=UTF8&coliid=I255AEELIU6ZQ0&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li3&tag=bulbocreat-20&linkId=abce6a7af5a50d8240a338aa9aa74f8a&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=0990573370&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=0990573370&asins=0990573370&linkId=05b07e03300af46907b54f3530bc69df&show_border=true&link_opens_in_new_window=true"></iframe>', true, '2020-12-24 17:19:16.271+00', '2020-12-24 17:19:16.271+00');
+INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (517, 253, 3, '2016-09-12 00:00:00+00', NULL, 'B01M0R96OL', 'https://amzn.to/3aH5yLG', 'https://www.amazon.com/Blot-Supplement-Jonathan-Lethem-ebook/dp/B01M0R96OL/ref=as_li_ss_tl?_encoding=UTF8&coliid=I255AEELIU6ZQ0&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=ll1&tag=bulbocreat-20&linkId=03cd07c21912ebc93dc97ed692ee1d56&language=en_US', '<a href="https://www.amazon.com/Blot-Supplement-Jonathan-Lethem-ebook/dp/B01M0R96OL/ref=as_li_ss_il?_encoding=UTF8&coliid=I255AEELIU6ZQ0&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li1&tag=bulbocreat-20&linkId=649fb47de3a0511c113bedb5b29845ec&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B01M0R96OL&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/Blot-Supplement-Jonathan-Lethem-ebook/dp/B01M0R96OL/ref=as_li_ss_il?_encoding=UTF8&coliid=I255AEELIU6ZQ0&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li2&tag=bulbocreat-20&linkId=f600158934470b0f49e151a3bcd6c3d1&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B01M0R96OL&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/Blot-Supplement-Jonathan-Lethem-ebook/dp/B01M0R96OL/ref=as_li_ss_il?_encoding=UTF8&coliid=I255AEELIU6ZQ0&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li3&tag=bulbocreat-20&linkId=a0f252da9da79ffd781583b816f6b18c&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B01M0R96OL&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=B01M0R96OL&asins=B01M0R96OL&linkId=81fd164f387ded045fd903dc7f69b4ce&show_border=true&link_opens_in_new_window=true"></iframe>', true, '2020-12-24 17:21:28.712+00', '2020-12-24 17:21:28.712+00');
+INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (518, 254, 3, '2019-10-22 00:00:00+00', NULL, 'B07ZHNRRGS', 'https://amzn.to/34JNP2F', 'https://www.amazon.com/dp/B07ZHNRRGS/ref=as_li_ss_tl?coliid=I3V0YCDEZ43HJC&colid=3PEW3UXRKTHBE&psc=0&ref_=lv_ov_lig_dp_it&linkCode=ll1&tag=bulbocreat-20&linkId=e89da42ba84d88b8b176b10b5e1df1e6&language=en_US', '<a href="https://www.amazon.com/dp/B07ZHNRRGS/ref=as_li_ss_il?coliid=I3V0YCDEZ43HJC&colid=3PEW3UXRKTHBE&psc=0&ref_=lv_ov_lig_dp_it&linkCode=li1&tag=bulbocreat-20&linkId=33355d61391efaca5ff719ee82d0de41&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B07ZHNRRGS&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/dp/B07ZHNRRGS/ref=as_li_ss_il?coliid=I3V0YCDEZ43HJC&colid=3PEW3UXRKTHBE&psc=0&ref_=lv_ov_lig_dp_it&linkCode=li2&tag=bulbocreat-20&linkId=104869a7631d9b7ae25974726c222aa1&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B07ZHNRRGS&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/dp/B07ZHNRRGS/ref=as_li_ss_il?coliid=I3V0YCDEZ43HJC&colid=3PEW3UXRKTHBE&psc=0&ref_=lv_ov_lig_dp_it&linkCode=li3&tag=bulbocreat-20&linkId=a73a0b95cb5167820a3914f8caaa9f06&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B07ZHNRRGS&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=B07ZHNRRGS&asins=B07ZHNRRGS&linkId=908d50b8feb5eb0b141a92c489448401&show_border=true&link_opens_in_new_window=true"></iframe>', true, '2020-12-24 17:28:33.581+00', '2020-12-24 17:30:31.011+00');
+INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (519, 255, 3, '2020-12-15 00:00:00+00', NULL, 'B08QS8LW3S', 'https://amzn.to/37Mqtv5', 'https://www.amazon.com/More-Exegesis-Philip-K-Dick-ebook/dp/B08QS8LW3S/ref=as_li_ss_tl?_encoding=UTF8&coliid=I37OIRRSTVANSD&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=ll1&tag=bulbocreat-20&linkId=f3bc9feb803d6fcdae5f9dba7351f552&language=en_US', '<a href="https://www.amazon.com/More-Exegesis-Philip-K-Dick-ebook/dp/B08QS8LW3S/ref=as_li_ss_il?_encoding=UTF8&coliid=I37OIRRSTVANSD&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li1&tag=bulbocreat-20&linkId=9e3310d7342d268a018627c63be1146a&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B08QS8LW3S&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/More-Exegesis-Philip-K-Dick-ebook/dp/B08QS8LW3S/ref=as_li_ss_il?_encoding=UTF8&coliid=I37OIRRSTVANSD&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li2&tag=bulbocreat-20&linkId=c768a8b253c0bcd2d78901f6bdde17fa&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B08QS8LW3S&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/More-Exegesis-Philip-K-Dick-ebook/dp/B08QS8LW3S/ref=as_li_ss_il?_encoding=UTF8&coliid=I37OIRRSTVANSD&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li3&tag=bulbocreat-20&linkId=129beabc3431a74517d186f065b561e3&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B08QS8LW3S&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=B08QS8LW3S&asins=B08QS8LW3S&linkId=90f26082684a07c4b08c053e18820ab2&show_border=true&link_opens_in_new_window=true"></iframe>', true, '2020-12-24 17:37:08.349+00', '2020-12-24 17:37:08.349+00');
+INSERT INTO public.editions ("editionID", "titleID", "mediaID", "publicationDate", "imageName", "ASIN", "textLinkShort", "textLinkFull", "imageLinkSmall", "imageLinkMedium", "imageLinkLarge", "textImageLink", active, "createdAt", "updatedAt") VALUES (520, 255, 1, '2020-12-16 00:00:00+00', NULL, 'B08QRKV8GW', 'https://amzn.to/3rscSkA', 'https://www.amazon.com/More-Exegesis-Philip-K-Dick/dp/B08QRKV8GW/ref=as_li_ss_tl?_encoding=UTF8&coliid=I37OIRRSTVANSD&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=ll1&tag=bulbocreat-20&linkId=8d31fa1dcc42c0ff6b79b4ee00350f1c&language=en_US', '<a href="https://www.amazon.com/More-Exegesis-Philip-K-Dick/dp/B08QRKV8GW/ref=as_li_ss_il?_encoding=UTF8&coliid=I37OIRRSTVANSD&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li1&tag=bulbocreat-20&linkId=abbb1999da573a9257849869958d01bc&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B08QRKV8GW&Format=_SL110_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/More-Exegesis-Philip-K-Dick/dp/B08QRKV8GW/ref=as_li_ss_il?_encoding=UTF8&coliid=I37OIRRSTVANSD&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li2&tag=bulbocreat-20&linkId=cc8b013867e84b593985ea0ff82c2511&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B08QRKV8GW&Format=_SL160_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<a href="https://www.amazon.com/More-Exegesis-Philip-K-Dick/dp/B08QRKV8GW/ref=as_li_ss_il?_encoding=UTF8&coliid=I37OIRRSTVANSD&colid=3PEW3UXRKTHBE&qid=&sr=&linkCode=li3&tag=bulbocreat-20&linkId=ed3d91cedce9d3709d7ec0a76227cbce&language=en_US" target="_blank"><img border="0" src="//ws-na.amazon-adsystem.com/widgets/q?_encoding=UTF8&ASIN=B08QRKV8GW&Format=_SL250_&ID=AsinImage&MarketPlace=US&ServiceVersion=20070822&WS=1&tag=bulbocreat-20&language=en_US" ></a>', '<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=bulbocreat-20&language=en_US&marketplace=amazon&region=US&placement=B08QRKV8GW&asins=B08QRKV8GW&linkId=04c0f76c91b3fb8cc2dc30c8b6ef5ba5&show_border=true&link_opens_in_new_window=true"></iframe>', true, '2020-12-24 17:50:38.661+00', '2020-12-24 17:50:38.661+00');
 
 
 --
 -- TOC entry 3925 (class 0 OID 25070264)
 -- Dependencies: 211
--- Data for Name: media; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: media; Type: TABLE DATA; Schema: public; Owner: vxjhybhosvemcy
 --
 
 INSERT INTO public.media ("mediaID", media, electronic, "sortID", active, "createdAt", "updatedAt") VALUES (1, 'Paperback', false, 1, true, '2020-10-19 03:10:19.256454+00', '2020-10-19 03:10:19.256454+00');
@@ -911,7 +945,7 @@ INSERT INTO public.media ("mediaID", media, electronic, "sortID", active, "creat
 --
 -- TOC entry 3921 (class 0 OID 25070216)
 -- Dependencies: 207
--- Data for Name: titles; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: titles; Type: TABLE DATA; Schema: public; Owner: vxjhybhosvemcy
 --
 
 INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (1, 'The Broken Bubble', 'broken bubble, the', 'The-Broken-Bubble', 'Philip K.', 'Dick', '1988-01-01 00:00:00+00', 'https://philipdick.com/images/covers/TheBrokenBubble.jpg', 1, 'Four people''s lives intertwine and collide in this early novel from one of the SF greats
@@ -1778,6 +1812,7 @@ A week after the explosions, journalist Adam Grey wakes up in the hospital. He p
 Senator Cyrus Reardon has been appointed the new President of the United States'' decimated government. A politician who isn''t generally fond of his peers, he''s faced with leading a discordant provisional Cabinet, addressing the nation''s growing panic, and trying to separate fact from fiction.
 
 Confronted with the truth behind the attacks, they--along with the world at large--are forced to reconsider conventional assumptions about human nature and possibility.', NULL, true, '2020-11-07 21:06:52.722+00', '2020-11-13 15:12:21.189+00');
+INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (252, 'Blade Runner Scene-by-Scene', 'blade runner scene-by-scene', 'Blade-Runner-Scene-by-Scene', 'John David', 'Ebert', '2015-12-30 00:00:00+00', 'https://philipdick.com/images/covers/BladeRunnerScenebyScene.jpg', 5, 'With this new book by John David Ebert, Blade Runner Scene-by-Scene, Ebert performs an archaeology of Ridley Scott''s main thematic concerns: death, origin, genesis and the quest for immortality. In doing so, he compares the film to such ancient and classic texts as The Gilgamesh Epic. Scott''s vision of the Los Angeles of 2019 is seen as a type of decaying, late stage cosmopolis; and the Replicants as slave labor manufactured to work their modern latifundia.', NULL, true, '2020-12-24 16:46:13.438+00', '2020-12-24 16:46:13.438+00');
 INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (229, 'A Kindred Spirit', 'kindred spirit, a', 'A-Kindred-Spirit', 'ej', 'Morgan', '2011-08-02 00:00:00+00', 'https://philipdick.com/images/covers/AKindredSpirit.jpg', 19, 'Philip K. Dick is dead but he’s not done. The semi-famous “sci-fi” writer, (aka the Prince of Pulp or fictionalizing philosopher) has Unfinished Business. To further complicate things, he is tangled up in the afterlife with the heretical former Episcopalian Bishop of California, James Pike. The two have finally figured out—well, everything, but need a way to convey their message to the masses.
 
 Back on earth, in 1982, a young investigative reporter, Niki Perceval, is chasing the ultimate news story—Doomsday. It’s a journey through time and space, and a search for what’s really real. As a tribute to Phil and VALIS, A Kindred Spirit blends fact and fantasy, but you don’t have to be a PKD fan to follow the fun. There’s something for everyone: adventure, computer culture, romance, and a spiritual quest; plus all the favorite phildickian themes of paranoia, info-firing pink beams, and mysterious cosmic communications. Yes, ancient aliens, Sumerian Shamans, and of course, Zadokite Zealots. It’s all in there and much more in this novel by ej Morgan.
@@ -1803,6 +1838,22 @@ INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "aut
 
 Long before Ridley Scott transformed Do Androids Dream of Electric Sheep? into Blade Runner, Philip K. Dick was banging away at his typewriter in relative obscurity, ostracized by the literary establishment. Today he is widely considered one of the most influential writers of the 20th century. These interviews reveal a man plagued by bouts of manic paranoia and failed suicide attempts; a career fuelled by alcohol, amphetamines, and mystical inspiration; and, above all, a magnificent and generous imagination at work.', NULL, true, '2020-10-28 00:13:14.55+00', '2020-11-11 17:43:18.426+00');
 INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (250, 'A Marvel Comics Super Special: Blade Runner', 'marvel comics super special: blade runner, a', 'A-Marvel-Comics-Super-Special-Blade-Runner', 'Archie Goodwin,', 'Al Williamson', '1982-01-01 00:00:00+00', 'https://philipdick.com/images/covers/AMarvelComicsSuperSpecialBladeRunner.jpg', 17, NULL, NULL, true, '2020-11-12 02:43:23.934+00', '2020-11-12 02:43:23.934+00');
+INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (251, 'Blade Runner: Pocket Guide', 'blade runner: pocket guide', 'Blade-Runner-Pocket-Guide', 'Jeremy Mark', 'Robinson', '2016-03-28 00:00:00+00', 'https://philipdick.com/images/covers/BladeRunnerPocketGuide.jpg', 5, 'BLADE RUNNER: POCKET MOVIE GUIDE REVISED AND UPDATED. HARDCOVER.
+This book is a guide to the 1982 movie made from Do Androids Dream of Electric Sheep? by Philip K. Dick - Blade Runner. A thorough exploration of Blade Runner forms the core of the book, looking at the conception, production, themes, critical reception and influence of the 1982 Warner Brothers movie in every detail.
+
+Philip Kindred Dick (1928-1982) was a key figure in 20th century science fiction, famous for embracing drugs and the counter-culture in his work. Dick''s fiction includes The Man In the High Castle, Flow My Tears, The Policeman Said, A Scanner Darkly, The Three Stigmata of Palmer Eldritch, Do Androids Dream of Electric Sheep?, Valis, The Divine Invasion, Martian Time-Slip, The Minority Report, and We Can Remember It For You Wholesale. Dick''s themes included perception and reality, drugs, state control, global capitalism, surveillance, and paranoia.
+
+On its initial release, Blade Runner grossed $27 million in the United States, placing it no. 16 in that year''s box office chart (it was released on June 25, 1982, in 1,290 theatres in the U.S.A.). 1982 was the year, of course, of E.T. The films that came in way behind Steven Spielberg''s Universal fantasy were Tootsie at no. 2, An Officer and a Gentleman third, and Rocky 3 in fourth place. Other sci-fi and fantasy flicks in 1982 included Star Trek 2, Conan the Barbarian, Mad Max 2 and The Thing. Blade Runner is often trotted out as another big, important picture that flopped on its theatrical release. That isn''t quite true, but it certainly wasn''t a hit movie by any standards. The opening weekend was pretty good, but the movie seemed to fade away rapidly after that.
+
+Many reviewers and critics came out against Blade Runner on its first release, including Roger Ebert, Pauline Kael, Sheila Benson, and Janet Maslin. ''Muddled'', ''gruesome'', ''pretentious'' and ''overheated'' were some of the words used to describe it.
+
+Since then, Blade Runner has rightly achieved cult as well as classic status. Its influence on science fiction and sci-fi cinema has been enormous (this book looks at some of the movies inspired by Blade Runner, including Ghost In the Shell, Akira, Brazil and Batman).
+
+The text has been revised for this edition.
+
+Fully illustrated, with new images for this edition. Bibliography, filmography and notes.
+
+Pocket size in a smart, laminate hardcover.', NULL, true, '2020-12-24 16:22:53+00', '2020-12-24 16:22:53+00');
 INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (233, 'Philip K. Dick High', 'philip k. dick high', 'Philip-K-Dick-High', 'David', 'Bischoff', '2000-06-01 00:00:00+00', 'https://philipdick.com/images/covers/PhilipKDickHigh.jpg', 19, 'THE HIGH SCHOOL OF THE FUTURE . . . "You''ve never wondered what the meaning of life is, have you?" asked my teacher. I shook my head. "I thought people who were depressed asked those kind of questions." "Okay. Then Quinn, I''ll have to be more direct. Middlevale isn''t Middlevale. Eisenhower isn''t truly an accredited American high school. I''m not me, and you''re not you!" "Then who are we?" "Victims!" Her finger shot in the air. "Victims of some sort of experiment! Some kind of psycho-social experiment perpetrated by scientists without principle, a government without morals!" Her dewlaps quivered with indignity. My head was spinning again. I tried to speak but I couldn''t. "These ears . . . open them up and you''ll find microchip monitors and controls. And judging by the kind of ''visions'' we''ve both seen, I''d also say you''d also find some kind of mind-cloak device, adjusted to auditory and visual aspects of our brains, normalizing the odd things that may abound in this laboratory environment." I blinked. "You mean, it''s all a joke?" "A bad one. A total farce." "You''re telling me . . . You''re saying that it''s all a set-up? But how long has this been going on, then?" "Hard to say. Part of your memories could have been programmed." "Programmed?" I stared. "Like computers."', NULL, true, '2020-11-09 15:14:14.625+00', '2020-11-09 15:14:14.625+00');
 INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (234, 'The Word of God: Or, Holy Writ Rewritten', 'word of god: or, holy writ rewritten, the', 'The-Word-Of-God-Or-Holy-Writ-Rewritten', 'Thomas M.', 'Disch', '2008-07-01 00:00:00+00', 'https://philipdick.com/images/covers/TheWordOfGodOrHolyWritRewritten.jpg', 19, 'Not since The Da Vinci Code!
 The only tome ever written by God Himself!
@@ -1828,12 +1879,15 @@ INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "aut
 INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (242, 'DickHeads Podcast', 'dickheads podcast', 'DickHeads-Podcast', NULL, NULL, '2018-04-15 00:00:00+00', 'https://philipdick.com/images/covers/DickHeadsPodcast.jpg', 18, 'Like a pink laser beam of nonsense beaming straight into your brain hole longtime Dickheads, authors David Agranoff and Anthony Trevino, break down each of Philip K. Dick''s novels in order of publication with very little help from their engineer Langhorne J Tweed. Plus: Interviews. Story Vs. Film episodes. And other bits of PKD history.', NULL, true, '2020-11-10 01:43:05.61+00', '2020-11-10 01:43:05.61+00');
 INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (243, 'We Love Dick: A Philip K. Dick Podcast', 'we love dick: a philip k. dick podcast', 'We-Love-Dick-A-Philip-K-Dick-Podcast', NULL, NULL, '2015-10-08 00:00:00+00', 'https://philipdick.com/images/covers/WeLoveDickAPhilipKDickPodcast.png', 18, 'Join Wa and Foot on their quest to read through all 124 Philip K. Dick short stories. Tangents, foul language, and overly personal anecdotes are expected.', NULL, true, '2020-11-10 01:53:12.575+00', '2020-11-10 01:55:13.999+00');
 INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (245, 'Philip K. Dick Philosophical Podcast', 'philip k. dick philosophical podcast', 'Philip-K-Dick-Philosophical-Podcast', NULL, NULL, '2011-10-28 00:00:00+00', 'https://philipdick.com/images/covers/PhilipKDickPhilosophicalPodcast.jpg', 18, 'Exploring the paranoid, hallucinatory future worlds of author Philip K. Dick. At the PKD Philosophical Podcast, we attempt to answer the important philosophical questions, like ''how tasty are martian go-birds?'', and ''why can''t androids dream of regular sheep like the rest of us?'' Each episode covers one short story, or part of a novel, starting with Philip K. Dick''s early short stories from 1952.', NULL, true, '2020-11-10 02:14:50.166+00', '2020-11-10 02:14:50.166+00');
+INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (253, 'The Blot', 'blot, the', 'The-Blot', 'Jonathan Lethem', 'Laurence A. Rickels', '2016-01-01 00:00:00+00', 'https://philipdick.com/images/covers/TheBlot.jpg', 4, 'In this supplement to Jonathan Lethem’s novel A Gambler’s Anatomy, the renowned novelist engages in a concerted transatlantic dialogue with cult theorist Laurence A. Rickels, exploring the vicissitudes of popular culture and the profound influence of Philip K. Dick on their respective lines of flight. Foregrounding the introjections between California and Germany, they address a range of ideas, subjects and figures, from B-movies, science fiction, Wile E. Coyote and the Devil to trauma theory, Freud, Hitchcock and German Expressionism. Animating their zone of interrogation is the “blot”—an algorithm of innuendo, an uncanny defamiliarization of reality and “truth” wherein the trajectories of meaning, desire and perception fold into themselves like an origami in flames.', NULL, true, '2020-12-24 17:14:47.544+00', '2020-12-24 17:20:10.207+00');
+INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (254, 'The X in Exegesis, Preview Edition: Philip K. Dick''s Religious Speculations', 'x in exegesis, preview edition: philip k. dick''s religious speculations, the', 'The-X-In-Exegesis-Preview-Edition-Philip-K-Dick-s-Religious-Speculations', 'Tessa B.', 'Dick', '2019-10-22 00:00:00+00', 'https://philipdick.com/images/covers/TheXInExegesisPreviewEditionPhilipKDicksReligiousSpeculations.jpg', 4, 'Philip K. Dick, whose stories inspired Blade Runner, Minority Report, Total Recall and many other films, experienced visions in 1974 as a sort of rescue from harassment that he had suffered for several years. His house was invaded, he was run out of town, he fled the country and he tried to kill himself. His visions of 1974 provided him with healing messages that led him on a journey of research and speculation into religion, philosophy and science that consumed the final 8 years of his life. Experts might question the nature of his visions, but the harassment that led up to them was real.', NULL, true, '2020-12-24 17:24:23.682+00', '2020-12-24 17:24:23.682+00');
+INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "authorFirstName", "authorLastName", "publicationDate", "imageName", "categoryID", "shortDescription", "urlPKDweb", active, "createdAt", "updatedAt") VALUES (255, 'More on the Exegesis of Philip K. Dick: A Work in Progress', 'more on the exegesis of philip k. dick: a work in progress', 'More-On-The-Exegesis-Of-Philip-K-Dick-A-Work-In-Progress', 'Tessa B.', 'Dick', '2020-12-15 00:00:00+00', 'https://philipdick.com/images/covers/MoreOnTheExegesisOfPhilipKDickAWorkInProgress.jpg', 4, 'Exploration of the Exegesis, with emphasis on Gnosticism and Dualism. How Philip K. Dick''s 1974 visions arose from a lifetime of experiences of and speculation about paranormal and religious matters. This work in progress will cover some of Dick''s novels, many of his speculations, and his experience of organized harassment in the early 1970s.', NULL, true, '2020-12-24 17:34:30.039+00', '2020-12-24 17:34:30.039+00');
 
 
 --
 -- TOC entry 3923 (class 0 OID 25070235)
 -- Dependencies: 209
--- Data for Name: userReviews; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: userReviews; Type: TABLE DATA; Schema: public; Owner: vxjhybhosvemcy
 --
 
 
@@ -1841,7 +1895,7 @@ INSERT INTO public.titles ("titleID", "titleName", "titleSort", "titleURL", "aut
 --
 -- TOC entry 3917 (class 0 OID 25070187)
 -- Dependencies: 203
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: vxjhybhosvemcy
 --
 
 INSERT INTO public.users ("userID", "firstName", "lastName", email, password, "updatedBy", admin, active, "createdAt", "updatedAt") VALUES (2, 'Michael', 'Fisher', 'mirfishe2@gmail.com', '$2a$10$49E0JU7vjej2tFgjTwQ3ZOgM.mAclIq3lQ.icFoA7sZW3aFGNtDP.', NULL, false, true, '2020-11-14 19:55:46.568+00', '2020-11-14 19:55:46.568+00');
@@ -1849,54 +1903,54 @@ INSERT INTO public.users ("userID", "firstName", "lastName", email, password, "u
 
 
 --
--- TOC entry 3939 (class 0 OID 0)
+-- TOC entry 3941 (class 0 OID 0)
 -- Dependencies: 204
--- Name: categories_categoryID_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: categories_categoryID_seq; Type: SEQUENCE SET; Schema: public; Owner: vxjhybhosvemcy
 --
 
 SELECT pg_catalog.setval('public."categories_categoryID_seq"', 20, true);
 
 
 --
--- TOC entry 3940 (class 0 OID 0)
+-- TOC entry 3942 (class 0 OID 0)
 -- Dependencies: 212
--- Name: editions_editionID_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: editions_editionID_seq; Type: SEQUENCE SET; Schema: public; Owner: vxjhybhosvemcy
 --
 
-SELECT pg_catalog.setval('public."editions_editionID_seq"', 512, true);
+SELECT pg_catalog.setval('public."editions_editionID_seq"', 520, true);
 
 
 --
--- TOC entry 3941 (class 0 OID 0)
+-- TOC entry 3943 (class 0 OID 0)
 -- Dependencies: 210
--- Name: media_mediaID_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: media_mediaID_seq; Type: SEQUENCE SET; Schema: public; Owner: vxjhybhosvemcy
 --
 
 SELECT pg_catalog.setval('public."media_mediaID_seq"', 36, true);
 
 
 --
--- TOC entry 3942 (class 0 OID 0)
+-- TOC entry 3944 (class 0 OID 0)
 -- Dependencies: 206
--- Name: titles_titleID_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: titles_titleID_seq; Type: SEQUENCE SET; Schema: public; Owner: vxjhybhosvemcy
 --
 
-SELECT pg_catalog.setval('public."titles_titleID_seq"', 250, true);
+SELECT pg_catalog.setval('public."titles_titleID_seq"', 255, true);
 
 
 --
--- TOC entry 3943 (class 0 OID 0)
+-- TOC entry 3945 (class 0 OID 0)
 -- Dependencies: 208
--- Name: userReviews_reviewID_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: userReviews_reviewID_seq; Type: SEQUENCE SET; Schema: public; Owner: vxjhybhosvemcy
 --
 
 SELECT pg_catalog.setval('public."userReviews_reviewID_seq"', 1, false);
 
 
 --
--- TOC entry 3944 (class 0 OID 0)
+-- TOC entry 3946 (class 0 OID 0)
 -- Dependencies: 202
--- Name: users_userID_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: users_userID_seq; Type: SEQUENCE SET; Schema: public; Owner: vxjhybhosvemcy
 --
 
 SELECT pg_catalog.setval('public."users_userID_seq"', 2, true);
@@ -1904,7 +1958,7 @@ SELECT pg_catalog.setval('public."users_userID_seq"', 2, true);
 
 --
 -- TOC entry 3758 (class 2606 OID 25070213)
--- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.categories
@@ -1913,7 +1967,7 @@ ALTER TABLE ONLY public.categories
 
 --
 -- TOC entry 3768 (class 2606 OID 25070285)
--- Name: editions editions_ASIN_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_ASIN_key; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -1922,7 +1976,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3770 (class 2606 OID 25070295)
--- Name: editions editions_imageLinkLarge_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_imageLinkLarge_key; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -1931,7 +1985,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3772 (class 2606 OID 25070293)
--- Name: editions editions_imageLinkMedium_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_imageLinkMedium_key; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -1940,7 +1994,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3774 (class 2606 OID 25070291)
--- Name: editions editions_imageLinkSmall_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_imageLinkSmall_key; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -1949,7 +2003,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3776 (class 2606 OID 25070283)
--- Name: editions editions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_pkey; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -1958,7 +2012,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3778 (class 2606 OID 25070297)
--- Name: editions editions_textImageLink_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_textImageLink_key; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -1967,7 +2021,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3780 (class 2606 OID 25070289)
--- Name: editions editions_textLinkFull_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_textLinkFull_key; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -1976,7 +2030,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3782 (class 2606 OID 25070287)
--- Name: editions editions_textLinkShort_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_textLinkShort_key; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -1985,7 +2039,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3766 (class 2606 OID 25070271)
--- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: media media_pkey; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.media
@@ -1994,7 +2048,7 @@ ALTER TABLE ONLY public.media
 
 --
 -- TOC entry 3760 (class 2606 OID 25070225)
--- Name: titles titles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: titles titles_pkey; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.titles
@@ -2003,7 +2057,7 @@ ALTER TABLE ONLY public.titles
 
 --
 -- TOC entry 3762 (class 2606 OID 25070227)
--- Name: titles titles_titleURL_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: titles titles_titleURL_key; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.titles
@@ -2012,7 +2066,7 @@ ALTER TABLE ONLY public.titles
 
 --
 -- TOC entry 3764 (class 2606 OID 25070246)
--- Name: userReviews userReviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: userReviews userReviews_pkey; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public."userReviews"
@@ -2021,7 +2075,7 @@ ALTER TABLE ONLY public."userReviews"
 
 --
 -- TOC entry 3754 (class 2606 OID 25070199)
--- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.users
@@ -2030,7 +2084,7 @@ ALTER TABLE ONLY public.users
 
 --
 -- TOC entry 3756 (class 2606 OID 25070197)
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.users
@@ -2039,7 +2093,7 @@ ALTER TABLE ONLY public.users
 
 --
 -- TOC entry 3789 (class 2606 OID 25070303)
--- Name: editions editions_mediaID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_mediaID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -2048,7 +2102,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3788 (class 2606 OID 25070298)
--- Name: editions editions_titleID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: editions editions_titleID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.editions
@@ -2057,7 +2111,7 @@ ALTER TABLE ONLY public.editions
 
 --
 -- TOC entry 3784 (class 2606 OID 25070228)
--- Name: titles titles_categoryID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: titles titles_categoryID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.titles
@@ -2066,7 +2120,7 @@ ALTER TABLE ONLY public.titles
 
 --
 -- TOC entry 3787 (class 2606 OID 25070257)
--- Name: userReviews userReviews_titleID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: userReviews userReviews_titleID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public."userReviews"
@@ -2075,7 +2129,7 @@ ALTER TABLE ONLY public."userReviews"
 
 --
 -- TOC entry 3786 (class 2606 OID 25070252)
--- Name: userReviews userReviews_updatedBy_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: userReviews userReviews_updatedBy_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public."userReviews"
@@ -2084,7 +2138,7 @@ ALTER TABLE ONLY public."userReviews"
 
 --
 -- TOC entry 3785 (class 2606 OID 25070247)
--- Name: userReviews userReviews_userID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: userReviews userReviews_userID_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public."userReviews"
@@ -2093,14 +2147,35 @@ ALTER TABLE ONLY public."userReviews"
 
 --
 -- TOC entry 3783 (class 2606 OID 25070200)
--- Name: users users_updatedBy_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_updatedBy_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vxjhybhosvemcy
 --
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT "users_updatedBy_fkey" FOREIGN KEY ("updatedBy") REFERENCES public.users("userID") ON UPDATE CASCADE ON DELETE SET NULL;
 
 
--- Completed on 2020-12-12 13:31:23 EST
+--
+-- TOC entry 3933 (class 0 OID 0)
+-- Dependencies: 3
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: vxjhybhosvemcy
+--
+
+REVOKE ALL ON SCHEMA public FROM postgres;
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+GRANT ALL ON SCHEMA public TO vxjhybhosvemcy;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- TOC entry 3934 (class 0 OID 0)
+-- Dependencies: 660
+-- Name: LANGUAGE plpgsql; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT ALL ON LANGUAGE plpgsql TO vxjhybhosvemcy;
+
+
+-- Completed on 2020-12-24 20:35:21 EST
 
 --
 -- PostgreSQL database dump complete
