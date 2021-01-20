@@ -9,6 +9,9 @@ if (process.env.DATABASE_DIALECT == "postgres") {
 } else if (process.env.DATABASE_DIALECT == "mysql") {
   databaseURL = process.env.DATABASE_URL_MYSQL;
   dialectValue = "mysql";
+} else if (process.env.DATABASE_DIALECT == "mssql") {
+  databaseURL = process.env.DATABASE_URL_SQLSERVER;
+  dialectValue = "mssql";
 } else {
   // Set to postgres by default
   databaseURL = process.env.DATABASE_URL_POSTGRESQL;
