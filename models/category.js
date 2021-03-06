@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Category = sequelize.define('category', {
+  const Category = sequelize.define('category', {
     categoryID: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -24,9 +24,9 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: true,
       allowNull: false
     }
-    }, {
-      tableName: 'categories'
-    });
-  
-    return Category;
-  };
+  }, {
+    tableName: 'categories'
+  });
+
+  return Category;
+};
