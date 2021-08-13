@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Media = sequelize.define('media', {
+  const Media = sequelize.define('media', {
     mediaID: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -29,9 +29,9 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: true,
       allowNull: false
     }
-    }, {
-      tableName: 'media'
-    });
-  
-    return Media;
-  };
+  }, {
+    tableName: 'media'
+  });
+
+  return Media;
+};

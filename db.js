@@ -9,15 +9,20 @@ if (process.env.DATABASE_DIALECT == "postgres") {
 } else if (process.env.DATABASE_DIALECT == "mysql") {
   databaseURL = process.env.DATABASE_URL_MYSQL;
   dialectValue = "mysql";
+} else if (process.env.DATABASE_DIALECT == "mssql") {
+  databaseURL = process.env.DATABASE_URL_SQLSERVER;
+  dialectValue = "mssql";
 } else {
-  // Set to postgres by default
+  // * Set to postgres by default
   databaseURL = process.env.DATABASE_URL_POSTGRESQL;
   dialectValue = "postgres";
-}
+};
+
 
 const sequelize = new Sequelize(databaseURL, {
   dialect:    dialectValue
 });
+
 
 // const sequelize = new Sequelize(process.env.DATABASE_URL_POSTGRESQL, {
 //     dialect:    'postgres'
@@ -32,11 +37,12 @@ const sequelize = new Sequelize(databaseURL, {
 //         dialect:    'postgres'
 // });
 
-// Removed because of the Heroku modules
+// * Removed because of the Heroku modules
 // const sequelize = new Sequelize(process.env.DATABASE_NAME, 'postgres', process.env.DATABASE_PASSWORD, {
 //     host:   'localhost',
 //     dialect:    'postgres'
 // });
+
 
 sequelize.authenticate()
     // .then(() => console.log('PostgreSQL db is connected.'))

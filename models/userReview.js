@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const UserReview = sequelize.define('userReview', {
+  const UserReview = sequelize.define('userReview', {
     reviewID: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     userID: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     updatedBy: {
       type: DataTypes.INTEGER,
@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     titleID: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     // own: {
     //   type: DataTypes.BOOLEAN,
@@ -34,25 +34,25 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     rating: {
-        type: DataTypes.INTEGER,
-        allowNull: true
+      type: DataTypes.INTEGER,
+      allowNull: true
     },
     shortReview: {
       type: DataTypes.STRING,
       allowNull: true
     },
     longReview: {
-        type: DataTypes.TEXT,
-        allowNull: true
+      type: DataTypes.TEXT,
+      allowNull: true
     },
     active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
       allowNull: false
     }
-    }, {
-        tableName: 'userReviews'
-      });
-  
-    return UserReview;
-  };
+  }, {
+    tableName: 'userReviews'
+  });
+
+  return UserReview;
+};

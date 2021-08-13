@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Error = sequelize.define('error', {
+  const Error = sequelize.define('error', {
     errorID: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -18,9 +18,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     }
-    }, {
-      tableName: 'errors'
-    });
-  
-    return Error;
-  };
+  }, {
+    tableName: 'errors'
+  });
+
+  return Error;
+};
