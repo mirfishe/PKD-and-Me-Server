@@ -16,12 +16,12 @@ if (process.env.DATABASE_DIALECT == "postgres") {
   // * Set to postgres by default
   databaseURL = process.env.DATABASE_URL_POSTGRESQL;
   dialectValue = "postgres";
-}
+};
 
-// * Removed to set up in Digital Ocean
-// const sequelize = new Sequelize(databaseURL, {
-//   dialect:    dialectValue
-// });
+
+const sequelize = new Sequelize(databaseURL, {
+  dialect:    dialectValue
+});
 
 
 // const sequelize = new Sequelize(process.env.DATABASE_URL_POSTGRESQL, {
@@ -43,36 +43,6 @@ if (process.env.DATABASE_DIALECT == "postgres") {
 //     dialect:    'postgres'
 // });
 
-
-// * For Digital Ocean
-// * Getting an Access Denied error
-// const sequelize = new Sequelize(process.env.DATABASE_NAME, "mrfisher", process.env.DATABASE_PASSWORD, {
-//     host:   'localhost',
-//     dialect:    dialectValue
-// });
-
-// ! Didn't work
-// const sequelize = new Sequelize(databaseURL ||
-//     `mysql://mrfisher:${encodeURIComponent(process.env.DATABASE_PASSWORD)}@localhost/pkd-and-me`, {
-//         dialect:    dialectValue
-// });
-
-const sequelize = new Sequelize(process.env.DATABASE_NAME, "mrfisher", process.env.DATABASE_PASSWORD, {
-  host: "localhost",
-  dialect: "mysql",
-  logging: function () {},
-  pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
-  },
-  dialectOptions: {
-      socketPath: "/var/run/mysqld/mysqld.sock"
-  },
-  define: {
-      paranoid: true
-  }
-});
 
 sequelize.authenticate()
     // .then(() => console.log('PostgreSQL db is connected.'))
